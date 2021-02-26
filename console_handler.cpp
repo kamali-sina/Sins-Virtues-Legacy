@@ -11,6 +11,31 @@ void _error(std::string msg){
     cprint("ERROR: " + msg, RED);
 }
 
+void slow(std::string text, float speed){
+    /*function which displays characters one at a time*/
+    for (int i = 0; i < text.length(); i++){
+        cout<<text[i];
+        std::cout.setf( std::ios_base::unitbuf ); //flushes cout
+        if (kbhit()){
+            for (int j = i+1; j < text.length(); j++){cout<<text[j];}
+            return;
+        }
+        int r = rand();
+        float x = 1 + ((float(float(r) / float(RAND_MAX)) - 0.5) * 0.5);
+        int milli = (1/(speed * x)) * 1000;
+        std::this_thread::sleep_for(std::chrono::milliseconds(milli));
+    }
+    return;
+}
+
+void dialog(std::string name , std::string text, std::string color, float speed){
+    /* prints endl automatically! */
+    cout<<colored(name, color)<<": ";
+    std::cout.setf( std::ios_base::unitbuf ); //flushes cout
+    slow(text, speed=speed);
+    cout<<endl;
+}
+
 void toturial_if_needed(string option){
     if (find(begin(TOTURIAL_OPTIONS), end(TOTURIAL_OPTIONS), option) != end(TOTURIAL_OPTIONS)){
         cprint("\n=== welcome to Sins & Virtues! ===\n", BLUE);
