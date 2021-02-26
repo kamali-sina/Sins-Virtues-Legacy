@@ -9,5 +9,6 @@
 
 int kbhit();
 char getch(void);
+void resetTermios(void);
 
 #endif

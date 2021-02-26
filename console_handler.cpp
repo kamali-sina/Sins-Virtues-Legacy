@@ -11,12 +11,22 @@ void _error(std::string msg){
     cprint("ERROR: " + msg, RED);
 }
 
+int signal = 0;
+void* wait_for_input(void* i){
+    getch();
+    signal = 1;
+    return NULL;
+}
+
 void slow(std::string text, float speed){
     /*function which displays characters one at a time*/
+    pthread_t thread;
+    signal = 0;
+    pthread_create(&thread, NULL, wait_for_input, NULL);
     for (int i = 0; i < text.length(); i++){
         cout<<text[i];
         std::cout.setf( std::ios_base::unitbuf ); //flushes cout
-        if (kbhit()){
+        if (signal){
             for (int j = i+1; j < text.length(); j++){cout<<text[j];}
             return;
         }
@@ -25,6 +35,8 @@ void slow(std::string text, float speed){
         int milli = (1/(speed * x)) * 1000;
         std::this_thread::sleep_for(std::chrono::milliseconds(milli));
     }
+    pthread_cancel(thread);
+    resetTermios();
     return;
 }
 

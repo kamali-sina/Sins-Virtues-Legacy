@@ -1,4 +1,4 @@
-CC := g++
+CC := g++ -pthread 
 
 BUILD_DIR=build
 

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <pthread.h>
 
 #include "termcolor.hpp"
 
