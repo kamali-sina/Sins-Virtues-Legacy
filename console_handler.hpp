@@ -9,6 +9,8 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <vector>
+#include <sstream>
 #include <pthread.h>
 
 #include "termcolor.hpp"
@@ -24,6 +26,8 @@
 extern std::string HELP_OPTIONS[];
 extern std::string TOTURIAL_OPTIONS[];
 
+std::string lower(std::string input);
+std::vector<std::string> split_string(std::string input, char delim);
 void _error(std::string msg);
 void slow(std::string text, float speed);
 void dialog(std::string name , std::string text, std::string color, float speed);

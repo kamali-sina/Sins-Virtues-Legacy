@@ -7,6 +7,23 @@ string TOTURIAL_OPTIONS[] =  {"-t", "--toturial"};
 string NEWGAME = "-n";
 string LOADGAME = "-l";
 
+string lower(string input){
+    std::for_each(input.begin(), input.end(), [](char & c) {
+        c = ::tolower(c);
+    });
+    return input;
+}
+
+vector<string> split_string(string input, char delim){
+    vector<string> output;
+    string part;
+    stringstream s(input);
+    while (getline(s, part, delim)) { 
+        output.push_back(part); 
+    } 
+    return output;
+}
+
 void _error(std::string msg){
     cprint("ERROR: " + msg, RED);
 }
