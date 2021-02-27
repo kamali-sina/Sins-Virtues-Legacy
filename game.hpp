@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <functional>
+#include <map>
 #include "console_handler.hpp"
 
 #define NORMAL 0
@@ -33,6 +35,7 @@ class Game{
     float enemy_time = 0.0;
     float world_time = 0.0;
     int state = NORMAL; 
+    
     //TODO: add player and map
     private:
     void process_input(std::vector<std::string> splitted_input);

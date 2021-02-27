@@ -2,6 +2,12 @@
 
 using namespace std;
 
+typedef void (Game::*handler)(std::vector<std::string>);
+
+std::map<std::string, handler> handlers;
+
+// void (Game::*pt2ConstMember)(std::vector<std::string>) = NULL;
+
 // string NORMAL_COMMANDS[] = {"move", "inventory", "use", "info", "commands", "map", "equip"};
 // string NORMAL_COMMANDS_HANDLER[] = {self.move, self.inventory, self.use, self.info, self.commands, self.pmap, self.equip};
 
@@ -14,6 +20,7 @@ string SHOP_COMMANDS[] = {"inventory", "info", "commands", "stock", "buy", "sell
 
 Game::Game(bool newgame, string path){
     cout<<"state is "<<state<<endl;
+    handlers["move"] = &Game::move;
 }
 
 Game::Game(){
@@ -36,7 +43,9 @@ void Game::move(std::vector<std::string> splitted_input){
 }
 
 void Game::process_input(vector<string> splitted_input){
-    if (splitted_input[0] == "move"){
-        this->move(splitted_input);
+    if (handlers[splitted_input[0]] != NULL){
+        (*this.*handlers["move"])(splitted_input);
+    }else{
+        _error("command not found!");
     }
 }
