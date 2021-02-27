@@ -6,6 +6,8 @@
 #include <ctime>
 #include <vector>
 #include <iomanip>
+#include <functional>
+#include <map>
 #include "console_handler.hpp"
 #include "game.hpp"
 
