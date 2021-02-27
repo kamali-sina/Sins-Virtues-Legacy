@@ -29,7 +29,6 @@ class Game{
 
 
 
-
     float player_time = 0.0;
     float enemy_time = 0.0;
     float world_time = 0.0;
