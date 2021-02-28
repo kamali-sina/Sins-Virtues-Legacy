@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Game session;
+Game session = Game();
 
 int main (int argc , char *argv[]){
     srand((unsigned) time(0));

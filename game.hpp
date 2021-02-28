@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <functional>
 #include <map>
 #include "console_handler.hpp"
@@ -13,23 +14,31 @@
 #define PROMPT 2
 #define SHOP 3
 
-extern std::string NORMAL_COMMANDS[];
-extern std::string NORMAL_COMMANDS_HANDLER[];
-extern std::string FIGHT_COMMANDS[];
-extern std::string FIGHT_COMMANDS_HANDLER[];
-extern std::string PROMPT_COMMANDS[];
-extern std::string PROMPT_COMMANDS_HANDLER[];
-extern std::string SHOP_COMMANDS[];
-extern std::string SHOP_COMMANDS_HANDLER[];
+extern std::vector<std::string> NORMAL_COMMANDS;
+extern std::vector<std::string> FIGHT_COMMANDS;
+extern std::vector<std::string> PROMPT_COMMANDS;
+extern std::vector<std::string> SHOP_COMMANDS;
 
 class Game{
     public:
     Game(bool newgame, std::string path);
     Game();
     void run();
+
+    // command handlers
     void move(std::vector<std::string> splitted_input);
-
-
+    void inventory(std::vector<std::string> splitted_input);
+    void use(std::vector<std::string> splitted_input);
+    void info(std::vector<std::string> splitted_input);
+    void commands(std::vector<std::string> splitted_input);
+    void print_map(std::vector<std::string> splitted_input);
+    void equip(std::vector<std::string> splitted_input);
+    void attack(std::vector<std::string> splitted_input);
+    void prompt_handler(std::vector<std::string> splitted_input);
+    void stock(std::vector<std::string> splitted_input);
+    void buy(std::vector<std::string> splitted_input);
+    void sell(std::vector<std::string> splitted_input);
+    void exit_to_world(std::vector<std::string> splitted_input);
 
     float player_time = 0.0;
     float enemy_time = 0.0;
@@ -39,6 +48,8 @@ class Game{
     //TODO: add player and map
     private:
     void process_input(std::vector<std::string> splitted_input);
+    void init_handlers();
+    bool is_command_valid(std::string command);
     int idiot_counter = 0;
 };
 
