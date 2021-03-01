@@ -26,18 +26,6 @@ NormalBlock::NormalBlock(bool no_chest = false){
     }
 }
 
-std::string NormalBlock::get_info(){
-    return "info";
-}
-
-std::string NormalBlock::get_string(){
-    return "string";
-}
-
-std::string NormalBlock::get_prompt(){
-    return "prompt";
-}
-
 void NormalBlock::prompt_handler(int ans){
     return;
 }

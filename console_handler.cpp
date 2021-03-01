@@ -12,6 +12,11 @@ float _random(){
     return float(float(r) / float(RAND_MAX));
 }
 
+void _sleep(float time){
+    int milli = time * 1000;
+    std::this_thread::sleep_for(std::chrono::milliseconds(milli));
+}
+
 string lower(string input){
     std::for_each(input.begin(), input.end(), [](char & c) {
         c = ::tolower(c);
