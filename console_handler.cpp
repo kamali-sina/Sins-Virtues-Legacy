@@ -7,6 +7,11 @@ string TOTURIAL_OPTIONS[] =  {"-t", "--toturial"};
 string NEWGAME = "-n";
 string LOADGAME = "-l";
 
+float _random(){
+    int r = rand();
+    return float(float(r) / float(RAND_MAX));
+}
+
 string lower(string input){
     std::for_each(input.begin(), input.end(), [](char & c) {
         c = ::tolower(c);

@@ -10,6 +10,7 @@
 #include <map>
 #include "console_handler.hpp"
 #include "game.hpp"
+#include "block.hpp"
 
 extern Game session;
 

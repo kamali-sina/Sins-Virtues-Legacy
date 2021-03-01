@@ -26,6 +26,7 @@
 extern std::string HELP_OPTIONS[];
 extern std::string TOTURIAL_OPTIONS[];
 
+float _random();
 std::string lower(std::string input);
 std::vector<std::string> split_string(std::string input, char delim);
 void _error(std::string msg);
