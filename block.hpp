@@ -6,13 +6,15 @@
 #include "item.hpp"
 #include "console_handler.hpp"
 
+//TODO: add more blocks
+
 class Block{
     public:
     Block();
-    virtual std::string get_info(){return "info_base";}
-    virtual std::string get_string(){return "string_base";}
-    virtual std::string get_prompt(){return "prompt_base";}
-    virtual std::string get_adjacent_dialog(){return "adjacent_base";}
+    virtual std::string getInfo(){return "info_base";}
+    virtual std::string getString(){return "string_base";}
+    virtual std::string getPrompt(){return "prompt_base";}
+    virtual std::string getAdjacentDialog(){return "adjacent_base";}
     virtual void prompt_handler(int ans){}
 
     std::string name;
@@ -25,26 +27,21 @@ class Block{
 class NormalBlock : public Block{
     public:
     float ITEM_CHANCE = 0.04;
-    NormalBlock(bool no_chest);
+    NormalBlock(bool no_chest=false);
     void prompt_handler(int ans);
 
-    std::string get_info(){
-        if (contains_item)
-            return "Wow there is a chest here!";
-        else
-            return "nothing special here.";
-    }
-    std::string get_string(){
-        string me = name;
-        if (contains_item)
-            me += "*";
-        return me;
-    }
-    std::string get_prompt(){return "Open the chest?(y,n)";}
-    std::string get_adjacent_dialog(){return "I can see a chest over there on the ground!";}
+    std::string getInfo();
+    bool getContainsItem(){return contains_item;}
+    std::string getString();
+    std::string getPrompt(){return "Open the chest?(y,n)";}
+    std::string getAdjacentDialog(){return "I can see a chest over there on the ground!";}
 
+    protected:
     bool contains_item;
     Item item_inside;
 };
+
+//TODO: Complete
+Block getRandomBlock();
 
 #endif
