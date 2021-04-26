@@ -9,7 +9,8 @@ Block::Block(): tags(){
     has_adjacent_dialog = false;
 }
 
-NormalBlock::NormalBlock(bool no_chest = false){
+
+NormalBlock::NormalBlock(bool no_chest){
     tags.push_back("random");
     tags.push_back("loot");
     rarity = 1;
@@ -24,6 +25,20 @@ NormalBlock::NormalBlock(bool no_chest = false){
     if (contains_item){
         item_inside = get_random_item(0);
     }
+}
+
+std::string NormalBlock::getInfo(){
+    if (contains_item)
+        return "Wow there is a chest here!";
+    else
+        return "nothing special here.";
+}
+
+std::string NormalBlock::getString(){
+    std::string me = name;
+    if (contains_item)
+        me += "*";
+    return me;
 }
 
 void NormalBlock::prompt_handler(int ans){
