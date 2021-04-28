@@ -8,6 +8,8 @@
 
 //TODO: add more blocks
 
+#define NUMBER_OF_BLOCKS 2
+
 class Block{
     public:
     Block();
@@ -38,10 +40,26 @@ class NormalBlock : public Block{
 
     protected:
     bool contains_item;
+    //Item inside is not complete yet!
     Item item_inside;
 };
 
-//TODO: Complete
+class DigableBlock : public Block{
+    public:
+    float ITEM_CHANCE = 0.85;
+    DigableBlock();
+    void prompt_handler(int ans);
+
+    std::string getInfo(){return "It looks like I can dig here with a shovel!";}
+    bool getContainsItem(){return contains_item;}
+    std::string getString(){return name;}
+
+    protected:
+    bool contains_item;
+    //TODO: Item inside is not complete yet!
+    Item item_inside;
+};
+
 Block getRandomBlock();
 
 #endif
