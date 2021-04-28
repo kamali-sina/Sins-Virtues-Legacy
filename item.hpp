@@ -13,4 +13,4 @@ class Item{
     std::string name;
 };
 
-Item get_random_item(float luck_factor);
+Item getRandomItem(float luck_factor);
