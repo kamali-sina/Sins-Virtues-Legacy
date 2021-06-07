@@ -8,6 +8,7 @@
 #include <functional>
 #include <map>
 #include "console_handler.hpp"
+#include "map.hpp"
 
 #define NORMAL 0
 #define FIGHT 1
