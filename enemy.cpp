@@ -13,7 +13,7 @@ Enemy* getEnemy(int enemy_id){
     }
 }
 
-Enemy* getRandomBlock(){
+Enemy* getRandomEnemy(float difficulty_factor){
     int enemy_id = (rand() % NUMBER_OF_ENEMIES) + 1;
     return getEnemy(enemy_id);
 }
