@@ -48,6 +48,7 @@ class Game{
     
     //TODO: add player and map
     private:
+    Map map;
     void process_input(std::vector<std::string> splitted_input);
     void init_handlers();
     bool is_command_valid(std::string command);
