@@ -10,7 +10,7 @@
 
 //TODO: add more blocks
 
-#define NUMBER_OF_BLOCKS 4
+#define NUMBER_OF_BLOCKS 5
 
 class Block{
     public:
@@ -43,8 +43,7 @@ class NormalBlock : public Block{
 
     protected:
     bool contains_item;
-    //Item inside is not complete yet!
-    Item item_inside;
+    Item* item_inside;
 };
 
 class DigableBlock : public Block{
@@ -58,8 +57,7 @@ class DigableBlock : public Block{
 
     protected:
     bool contains_item;
-    //TODO: Item inside is not complete yet!
-    Item item_inside;
+    Item* item_inside;
 };
 
 class HomeBlock : public Block{
@@ -77,16 +75,14 @@ class HomeBlock : public Block{
     protected:
     bool contains_item;
     bool contains_enemy;
-    //TODO: Item inside is not complete yet!
-    Item item_inside;
-    Enemy enemy_inside;
+    Item* item_inside;
+    Enemy* enemy_inside;
 };
 
 class ShopBlock : public Block{
     public:
     ShopBlock();
 
-    //TODO: complete these
     void prompt_handler(int ans);
     int buyItem(int index);
     int indexItem(std::string item_name);
@@ -97,7 +93,7 @@ class ShopBlock : public Block{
     std::string getAdjacentDialog(){return "I can see a shop nearby...";}
 
     protected:
-        std::vector<Item> Stock;
+    std::vector<Item> Stock;
 };
 
 class BlacksmithBlock : public Block{
@@ -112,6 +108,7 @@ class BlacksmithBlock : public Block{
     std::string getAdjacentDialog(){return "I can hear hitting on an anvil nearby.";}
 };
 
-Block getRandomBlock();
+Block *getBlock(int block_id);
+Block *getRandomBlock();
 
 #endif
