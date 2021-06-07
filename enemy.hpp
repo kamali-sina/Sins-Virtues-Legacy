@@ -6,6 +6,8 @@
 #include <iostream>
 #include "termcolor.hpp"
 
+#define NUMBER_OF_ENEMIES 3
+
 class Enemy{
     public:
     Enemy(){std::cout<<"making enemy"<<std::endl;}
@@ -67,6 +69,7 @@ class BigBob: public Enemy{
     float rarity = 4;
 };
 
+Enemy* getEnemy(int enemy_id);
 Enemy* getRandomEnemy(float difficulty_factor=0.0);
 
 #endif
