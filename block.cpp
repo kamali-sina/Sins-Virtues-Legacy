@@ -99,6 +99,14 @@ ShopBlock::ShopBlock(){
     init_stock(); 
 }
 
+void ShopBlock::prompt_handler(int ans){
+    //TODO: complete this after figuring out how to pass game
+}
+
+void ShopBlock::init_stock(){
+    //TODO: complete stock logic
+}
+
 
 BlacksmithBlock::BlacksmithBlock(){
     tags.push_back("random");
@@ -110,18 +118,24 @@ BlacksmithBlock::BlacksmithBlock(){
     has_adjacent_dialog = true; 
 }
 
+void BlacksmithBlock::prompt_handler(int ans){
+    //TODO: complete this after figuring out how to pass game
+}
 
 
-
-Block getRandomBlock(){
-    int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
+Block *getBlock(int block_id){
     switch (block_id) {
-        case 1: return NormalBlock();
-        case 2: return DigableBlock();
-        case 3: return HomeBlock();
-        case 4: return ShopBlock();
-        case 5: ;
+        case 1: return new NormalBlock();
+        case 2: return new DigableBlock();
+        case 3: return new HomeBlock();
+        case 4: return new ShopBlock();
+        case 5: return new BlacksmithBlock();
         case 6: ;
+        default: return new Block();
     }
-    return Block();
+}
+
+Block* getRandomBlock(){
+    int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
+    return getBlock(block_id);
 }
