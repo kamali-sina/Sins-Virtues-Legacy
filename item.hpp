@@ -1,10 +1,13 @@
+#ifndef _ITEM_HPP
+#define _ITEM_HPP
+
 #include <vector>
 #include <string>
 #include <iostream>
 
 class Item{
     public:
-    Item(){std::cout<<"making item"<<std::endl;}
+    Item(){;}
     int get_sellprice();
     virtual std::string get_string(){return name;}
     virtual void use(){}
@@ -13,4 +16,7 @@ class Item{
     std::string name;
 };
 
-Item getRandomItem(float luck_factor);
+Item* getRandomItem(float luck_factor=0.0);
+
+
+#endif
