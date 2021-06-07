@@ -67,6 +67,6 @@ class BigBob: public Enemy{
     float rarity = 4;
 };
 
-Enemy getRandomEnemy(float difficulty_factor);
+Enemy* getRandomEnemy(float difficulty_factor=0.0);
 
 #endif
