@@ -5,13 +5,19 @@
 using namespace std;
 
 Block::Block(): tags(){
-    name = "";
+    name = "block";
     rarity = 1;
     has_prompt = false;
     has_adjacent_dialog = false;
     color = WHITE;
 }
 
+bool Block::tagsContain(std::string tag){
+    for (int i = 0 ; i < tags.size() ; i++){
+        if (tags[i] == tag) return true;
+    }
+    return false;
+}
 
 NormalBlock::NormalBlock(bool no_chest){
     tags.push_back("random");
@@ -125,11 +131,11 @@ void BlacksmithBlock::prompt_handler(int ans){
 
 Block *getBlock(int block_id){
     switch (block_id) {
-        case 1: return new NormalBlock();
-        case 2: return new DigableBlock();
-        case 3: return new HomeBlock();
-        case 4: return new ShopBlock();
-        case 5: return new BlacksmithBlock();
+        case NORMALBLOCK: return new NormalBlock();
+        case DIGABLEBLOCK: return new DigableBlock();
+        case HOMEBLOCK: return new HomeBlock();
+        case SHOPBLOCK: return new ShopBlock();
+        case BLACKSMITHBLOCK: return new BlacksmithBlock();
         case 6: ;
         default: return new Block();
     }
