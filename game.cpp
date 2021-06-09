@@ -34,6 +34,7 @@ void Game::init_handlers(){
 }
 
 Game::Game(bool newgame, string path){
+    srand((unsigned int)time(NULL));
     init_handlers();
 }
 
