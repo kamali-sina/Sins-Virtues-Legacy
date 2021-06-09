@@ -1,11 +1,12 @@
 #include "VnS.hpp"
+#include "block.hpp"
 
 using namespace std;
 
 Game session = Game();
 
 int main (int argc , char *argv[]){
-    srand((unsigned) time(0));
+    srand((unsigned int)time(NULL));
     if (argc < 2){
         _error ("no arguments were provided.\n\nif you need help use -h or --help");
         return 0;
