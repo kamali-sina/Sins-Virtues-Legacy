@@ -11,10 +11,16 @@
 //TODO: add more blocks
 
 #define NUMBER_OF_BLOCKS 5
+#define NORMALBLOCK 1 
+#define DIGABLEBLOCK 2 
+#define HOMEBLOCK 3 
+#define SHOPBLOCK 4 
+#define BLACKSMITHBLOCK 5 
 
 class Block{
     public:
     Block();
+    bool tagsContain(std::string tag);
     virtual std::string getInfo(){return "info_base";}
     virtual std::string getString(){return colored(name, color);}
     virtual std::string getPrompt(){return "prompt_base";}
