@@ -5,7 +5,7 @@ using namespace std;
 
 Game session = Game();
 
-int main (int argc , char *argv[]){
+int main (int argc , char *argv[]) {
     srand((unsigned int)time(NULL));
     if (argc < 2){
         _error ("no arguments were provided.\n\nif you need help use -h or --help");
