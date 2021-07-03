@@ -15,14 +15,15 @@
 #define BLOCK_SPAWN_ROW 2
 #define BLOCK_SPAWN_COLUMN 3
 
-class Map{
+class Map {
   public:
     Map();
     void printFullMap();
-    void printPartialMap(int vision);
+    void printPartialMap(int vision, std::pair<int,int> location);
     bool isLocationValid(std::pair<int,int> location);
-    Block getBlockAtLocation(std::pair<int,int> location);
-    void setBlockAtLocation(std::pair<int,int> location, Block block);
+    bool isIndexValid(std::pair<int,int> indexes);
+    Block* getBlockAtLocation(std::pair<int,int> location);
+    void setBlockAtLocation(std::pair<int,int> location, Block* block);
 
   private:
     std::vector<std::vector<Block *>> map;
