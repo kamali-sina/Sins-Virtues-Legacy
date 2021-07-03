@@ -69,7 +69,7 @@ DigableBlock::DigableBlock(){
     if (contains_item){
         item_inside = getRandomItem(0);
     }
-    color = RED;
+    color = MAGENTA;
 }
 
 
@@ -119,7 +119,7 @@ BlacksmithBlock::BlacksmithBlock(){
     tags.push_back("special");
     rarity = 120;
     name = "blacksmith";
-    color = BLACK;
+    color = BLUE;
     has_prompt = true;
     has_adjacent_dialog = true; 
 }
