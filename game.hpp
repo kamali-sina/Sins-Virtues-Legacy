@@ -9,6 +9,7 @@
 #include <map>
 #include "console_handler.hpp"
 #include "map.hpp"
+#include "player.hpp"
 
 #define NORMAL 0
 #define FIGHT 1
@@ -24,6 +25,8 @@ class Game{
     public:
     Game(bool newgame, std::string path);
     Game();
+    Block* getBlockAtPlayerLocation();
+    Player* getPlayer();
     void run();
 
     // command handlers
@@ -49,6 +52,7 @@ class Game{
     //TODO: add player and map
     private:
     Map map;
+    Player *player = new Player();
     void process_input(std::vector<std::string> splitted_input);
     void init_handlers();
     bool is_command_valid(std::string command);
