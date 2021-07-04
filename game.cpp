@@ -53,6 +53,15 @@ void Game::run(){
     }
 }
 
+Block* Game::getBlockAtPlayerLocation(){
+    player->getLocation();
+    return map.getBlockAtLocation(pair<int,int>(0,0));
+}
+
+Player* Game::getPlayer(){
+    return player;
+}
+
 bool mini_valid(vector<string> command_set , string command){
     if (find(command_set.begin(), command_set.end(), command) != command_set.end()){
         return true;
