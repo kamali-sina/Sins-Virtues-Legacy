@@ -1,9 +1,35 @@
 #include "player.hpp"
 
-Player::Player(){
-    
+using namespace std;
+
+Player::Player() {
+    location = pair<int,int>(0,0);
+    hp = max_hp;
 }
 
-int Player::getDamaged(int damage){
+std::pair<int,int> Player::getLocation() {
+    return location;
+}
 
+int Player::getDamaged(int damage) {
+    hp -= damage;
+    if (hp <= 0) {
+        cout<<"YOU DIED!"<<endl;
+        exit(0);
+    }
+    return hp;
+}
+
+void Player::addItem(Item* item){
+    inventory.push_back(item);
+    foundItemDialog(item->getName());
+}
+
+int Player::refillHP() {
+    hp = max_hp; 
+    return hp;
+}
+int Player::heal(int amount) {
+    hp += amount; 
+    return hp;
 }
