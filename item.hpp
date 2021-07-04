@@ -8,12 +8,15 @@
 class Item{
     public:
     Item(){;}
-    int get_sellprice();
-    virtual std::string get_string(){return name;}
+    int getSellprice();
+    std::string getName(){ return name; }
+    virtual std::string getString(){ return name; }
     virtual void use(){}
+
+    protected:
     std::vector<std::string> tags;
     float rarity;
-    std::string name;
+    std::string name = "item";
 };
 
 Item* getRandomItem(float luck_factor=0.0);
