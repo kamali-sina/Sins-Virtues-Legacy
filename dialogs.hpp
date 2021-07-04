@@ -4,36 +4,40 @@
 #include <iostream>
 #include "console_handler.hpp"
 
-void intro_cutscene();
+void introCutscene();
 
-void out_of_bounds_dialog();
+void outOfBoundsDialog();
 
-void dont_have_items_dialog();
+void dontHaveItemsDialog();
 
-void item_not_in_stock_dialog();
+void itemNotInStockDialog();
 
-void not_enough_coins_dialog();
+void notEnoughCoinsDialog();
 
-void welcome_to_shop_dialog();
+void welcomeToShopDialog();
 
-void cant_use_item_dialog();
+void cantUseItemDialog();
 
-void cant_dig_here_dialog();
+void cantDigHereDialog();
 
-void found_item_dialog(std::string item_name);
+void foundItemDialog(std::string item_name);
 
-void didnt_find_item_dialog();
+void didntFindItemDialog();
 
-void new_block_reached_dialog(std::string block_name, std::string block_info);
+void newBlockReachedDialog(std::string block_name, std::string block_info);
 
-void death_dialog();
+void deathDialog();
 
-void default_kill_dialog();
+void defaultKillDialog();
 
-void cant_attack_with_item_dialog();
+void cantAttackWithItemDialog();
 
-void into_the_castle_dialog(int number_of_enemies, std::string boss_name);
+void intoTheCastleDialog(int number_of_enemies, std::string boss_name);
 
-void boss_dialog();
+void bossDialog();
+
+void noNormalblockPromptDialog();
+
+void yesNormalblockPromptDialog();
 
 #endif
