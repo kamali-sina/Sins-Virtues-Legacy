@@ -24,6 +24,7 @@ NormalBlock::NormalBlock(bool no_chest){
     tags.push_back("loot");
     tags.push_back("prompt");
     rarity = 1;
+    ID = NORMALBLOCK;
     name = "normal";
     color = WHITE;
     if (no_chest){
@@ -52,16 +53,12 @@ std::string NormalBlock::getString(){
     return me;
 }
 
-void NormalBlock::prompt_handler(int ans){
-    //TODO
-    return;
-}
-
 
 DigableBlock::DigableBlock(){
     tags.push_back("random");
     tags.push_back("loot");
     rarity = 10;
+    ID = DIGABLEBLOCK;
     name = "digable";
     contains_item = _random() < ITEM_CHANCE;
     has_prompt = false;
@@ -77,6 +74,7 @@ HomeBlock::HomeBlock(){
     tags.push_back("random");
     tags.push_back("special");
     rarity = 80;
+    ID = HOMEBLOCK;
     name = "home";
     color = GREEN;
     contains_item = _random() < ITEM_CHANCE;
@@ -89,24 +87,17 @@ HomeBlock::HomeBlock(){
     item_inside = getRandomItem(0);
 }
 
-void HomeBlock::prompt_handler(int ans){
-    //TODO: complete this after figuring out how to pass game
-}
-
 
 ShopBlock::ShopBlock(){
     tags.push_back("random");
     tags.push_back("special");
     rarity = 100;
+    ID = SHOPBLOCK;
     name = "shop";
     color = YELLOW;
     has_prompt = true;
     has_adjacent_dialog = true;
     init_stock(); 
-}
-
-void ShopBlock::prompt_handler(int ans){
-    //TODO: complete this after figuring out how to pass game
 }
 
 void ShopBlock::init_stock(){
@@ -118,14 +109,11 @@ BlacksmithBlock::BlacksmithBlock(){
     tags.push_back("random");
     tags.push_back("special");
     rarity = 120;
+    ID = BLACKSMITHBLOCK;
     name = "blacksmith";
     color = BLUE;
     has_prompt = true;
     has_adjacent_dialog = true; 
-}
-
-void BlacksmithBlock::prompt_handler(int ans){
-    //TODO: complete this after figuring out how to pass game
 }
 
 
@@ -140,7 +128,7 @@ Block *getBlock(int block_id){
         default: return new Block();
     }
 }
-
+//TODO: fix random function to account for rarity
 Block* getRandomBlock(){
     int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
     return getBlock(block_id);
