@@ -12,8 +12,7 @@
 #define MAPSIZE 21
 #define BLOCK_ID 0
 #define BLOCK_SPAWN_NUMBER 1
-#define BLOCK_SPAWN_ROW 2
-#define BLOCK_SPAWN_COLUMN 3
+#define BLOCK_SPAWN_DISTANCE 2
 
 class Map {
   public:
@@ -30,7 +29,8 @@ class Map {
     void initMap(); //all map is Block
     void spawnSpecialBlocks(); //Special ones are created
     void spawnOneSpecialBlock(int init_vector[]); //it needs inputs!
-    void spawnRandomBlockAtIndex(std::pair<int,int> index);
+    bool spawnRandomBlockAtIndex(std::pair<int,int> index);
+    bool isIndexValidForBlock(std::pair<int,int> index, int block_ID);
     void completeMap(); //Complete rest of the map!
     std::pair<int,int> locationToIndex(std::pair<int,int> location);
     std::pair<int,int> indexToLocation(std::pair<int,int> index);
