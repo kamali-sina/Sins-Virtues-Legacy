@@ -9,11 +9,11 @@ using namespace std;
 
 int MAPINIT_VECTOR[NUMBER_OF_BLOCKS][4] =
 {
-    {NORMALBLOCK, 0, 0 ,0},
-    {DIGABLEBLOCK, 3, 0, 0},
-    {HOMEBLOCK, 2, 3, 3},
-    {SHOPBLOCK, 2, 4, 4},
-    {BLACKSMITHBLOCK, 1, 4, 4},
+    {NORMALBLOCK, 0, 0},
+    {DIGABLEBLOCK, 3, 0},
+    {HOMEBLOCK, 2, 6},
+    {SHOPBLOCK, 2, 8},
+    {BLACKSMITHBLOCK, 1, 8},
 };
 
 Map::Map() {
@@ -35,19 +35,36 @@ void Map::initMap() {
 
 void Map::spawnSpecialBlocks() {
     int vector_lenght = (int)sizeof(MAPINIT_VECTOR)/(int)sizeof(MAPINIT_VECTOR[0]);
-    cout<<"spawning special blocks... lenght: "<< vector_lenght<<endl;
     for (int i = 0 ; i < vector_lenght ; i++) {
         spawnOneSpecialBlock(MAPINIT_VECTOR[i]);
     }
+}
+
+int* findInitVector(int block_ID){
+    int vector_lenght = (int)sizeof(MAPINIT_VECTOR)/(int)sizeof(MAPINIT_VECTOR[0]);
+    for (int i = 0 ; i < vector_lenght ; i++) {
+        if (MAPINIT_VECTOR[i][BLOCK_ID] == block_ID) 
+            return MAPINIT_VECTOR[i];
+    }
+    _error("Everything is fucked in findInitVector!");
+    exit(0);
+}
+
+bool Map::isIndexValidForBlock(std::pair<int,int> index, int block_ID){
+    pair<int, int> converted_location = indexToLocation(index);
+    int* init_vector = findInitVector(block_ID);
+    if (abs(converted_location.first) + abs(converted_location.second) < init_vector[BLOCK_SPAWN_DISTANCE]){
+        return false;
+    }
+    return true;
 }
 
 void Map::spawnOneSpecialBlock(int init_vector[]) {
     int i = 0; 
     while (i < init_vector[BLOCK_SPAWN_NUMBER]) {
         pair<int, int> random_indexes(rand() % MAPSIZE, rand() % MAPSIZE);
-        if (map[random_indexes.first][random_indexes.second]->name == "normal") continue;
-        pair<int, int> converted_location = indexToLocation(random_indexes);
-        if (abs(converted_location.first) < init_vector[BLOCK_SPAWN_ROW] || abs(converted_location.second) < init_vector[BLOCK_SPAWN_COLUMN]) continue;
+        if (map[random_indexes.first][random_indexes.second]->getID() != 0) continue;
+        if (!isIndexValidForBlock(random_indexes, init_vector[BLOCK_ID])) continue;
         map[random_indexes.first][random_indexes.second] = getBlock(init_vector[BLOCK_ID]);
         i++;
     }
@@ -56,16 +73,17 @@ void Map::spawnOneSpecialBlock(int init_vector[]) {
 void Map::completeMap() {
     for (int i = 0 ; i < MAPSIZE ; i++) {
         for (int j = 0 ; j < MAPSIZE ; j++) {
-            if (map[i][j]->name == "normal") continue;
+            if (map[i][j]->getID() != 0) continue;
             spawnRandomBlockAtIndex(pair<int,int>(i,j));
         }
     }
 }
 
-void Map::spawnRandomBlockAtIndex(std::pair<int,int> index) {
+bool Map::spawnRandomBlockAtIndex(std::pair<int,int> index) {
     Block* block = getRandomBlock();
-    while (!block->tagsContain("random")) block = getRandomBlock();
+    while (!block->tagsContain("random") || !isIndexValidForBlock(index, block->getID())) block = getRandomBlock();
     map[index.first][index.second] = block;
+    return true;
 }
 
 std::pair<int,int> Map::locationToIndex(std::pair<int,int> location) {
@@ -86,8 +104,8 @@ void Map::printFullMap() {
         cout<<endl;
     for (int i = 0 ; i < MAPSIZE ; i++) {
         for (int j = 0 ; j < MAPSIZE ; j++) {
-            string temp(1, map[i][j]->name[0]);
-            cout<<colored(temp, map[i][j]->color)<<" | ";
+            string temp(1, map[i][j]->getName()[0]);
+            cout<<colored(temp, map[i][j]->getColor())<<" | ";
         }
         cout<<endl;
         for (int j = 0 ; j < number_of_dashes ; j++) cout<<"-";
@@ -106,8 +124,8 @@ void Map::printPartialMap(int vision, std::pair<int,int> location) {
                 cout<<colored("X", RED)<<" | ";
                 continue;
             }
-            string temp(1, map[i][j]->name[0]);
-            cout<<colored(temp, map[i][j]->color)<<" | ";
+            string temp(1, map[i][j]->getName()[0]);
+            cout<<colored(temp, map[i][j]->getColor())<<" | ";
         }
         cout<<endl;
         for (int j = 0 ; j < number_of_dashes ; j++) cout<<"-";
