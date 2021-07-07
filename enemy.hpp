@@ -10,7 +10,7 @@
 
 class Enemy{
     public:
-    Enemy(){std::cout<<"making enemy"<<std::endl;}
+    Enemy(){ }
     virtual int get_damaged(int _damage){
         hp -= _damage;
         return hp;
@@ -31,7 +31,7 @@ class Enemy{
 class Guy: public Enemy{
     /*you can 'talk' with to end fight*/
     public:
-    Guy(){std::cout<<"making guy"<<std::endl;}
+    Guy(){ }
     std::string name = "guy";
     int hp = 1;
     int bounty = 1;
@@ -43,7 +43,7 @@ class Guy: public Enemy{
 class Wolf: public Enemy{
     /*can be given a single meat to end fight*/
     public:
-    Wolf(){std::cout<<"making wolf"<<std::endl;}
+    Wolf(){ }
 
     std::string name = "wolf";
     int hp = 4;
@@ -59,7 +59,7 @@ class Wolf: public Enemy{
 
 class BigBob: public Enemy{
     public:
-    BigBob(){std::cout<<"making big bob"<<std::endl;}
+    BigBob(){ }
 
     std::string name = "big_bob";
     int hp = 12;
