@@ -8,7 +8,13 @@
 #include "enemy.hpp"
 #include "console_handler.hpp"
 
-//TODO: add more blocks
+/*
+In case of adding a new block, add these to the following locations:
+    1- Add the defined ID under here and update number of blocks
+    2- Add the block to getRandomBlock function switch case
+    3- Add Init Vector for block to map.hpp
+    4- If needed add handler for block at handlers.hpp
+*/
 
 #define NUMBER_OF_BLOCKS 5
 #define NORMALBLOCK 1 
@@ -21,15 +27,19 @@ class Block{
     public:
     Block();
     bool tagsContain(std::string tag);
+    int getID() { return ID; }
+    std::string getName() { return name; }
+    std::string getColor() { return color; }
     void setHasPrompt(bool value) { has_prompt = value; }
     void setHasAdjacentDialog(bool value) { has_adjacent_dialog = value; }
     virtual std::string getInfo() { return "info_base"; }
     virtual std::string getString() { return colored(name, color); }
     virtual std::string getPrompt() { return "prompt_base"; }
     virtual std::string getAdjacentDialog() { return "adjacent_base"; }
-    virtual void prompt_handler(int ans) {  }
 
+    protected:
     std::string name;
+    int ID = 0;
     std::vector<std::string> tags;
     float rarity;
     bool has_prompt;
@@ -42,7 +52,6 @@ class NormalBlock : public Block{
     float ITEM_CHANCE = 1;
     NormalBlock(bool no_chest=false);
 
-    void prompt_handler(int ans);
     std::string getInfo();
     bool getContainsItem() { return contains_item; }
     void setContainsItem(bool value) { contains_item = value; }
@@ -76,7 +85,6 @@ class HomeBlock : public Block{
     float ENEMY_CHANCE = 0.6;
     HomeBlock();
 
-    void prompt_handler(int ans);
     std::string getInfo() { return "This looks like a place to rest."; }
     bool getContainsItem() { return contains_item; }
     std::string getPrompt() { return "Enter the home?(y,n)"; }
@@ -93,7 +101,6 @@ class ShopBlock : public Block{
     public:
     ShopBlock();
 
-    void prompt_handler(int ans);
     int buyItem(int index);
     int indexItem(std::string item_name);
     void init_stock();
@@ -110,8 +117,7 @@ class BlacksmithBlock : public Block{
     public:
     BlacksmithBlock();
 
-    //TODO: complete these
-    void prompt_handler(int ans);
+    //TODO: complete Logic
 
     std::string getInfo() { return "I can upgrade my weapons and dismantle the extra stuff I found here."; }
     std::string getPrompt() { return "Enter the blacksmith?(y,n)"; }
