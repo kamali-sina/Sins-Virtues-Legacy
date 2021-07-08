@@ -11,6 +11,10 @@ std::pair<int,int> Player::getLocation() {
     return location;
 }
 
+void Player::setLocation(std::pair<int,int> new_location){
+    location = new_location;
+}
+
 int Player::getDamaged(int damage) {
     hp -= damage;
     if (hp <= 0) {
