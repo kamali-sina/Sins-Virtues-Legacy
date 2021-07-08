@@ -48,5 +48,5 @@ void handleBlacksmithBlock(bool ans, Game &game) {
 }
 
 void handleDefault() {
-    _error("There was a problem running the hanndler. error: DEFAULT");
+    _error("There was a problem running the handler. error: DEFAULT");
 }
