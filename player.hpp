@@ -10,6 +10,7 @@ class Player {
     Player();
     int getDamaged(int damage);
     int getMaxHp() { return max_hp; }
+    void setLocation(std::pair<int,int> new_location);
     std::pair<int,int> getLocation();
     int refillHP();
     int heal(int amount);
