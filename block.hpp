@@ -23,7 +23,7 @@ In case of adding a new block, add these to the following locations:
 #define SHOPBLOCK 4 
 #define BLACKSMITHBLOCK 5 
 
-class Block{
+class Block {
     public:
     Block();
     bool tagsContain(std::string tag);
@@ -32,6 +32,8 @@ class Block{
     std::string getColor() { return color; }
     void setHasPrompt(bool value) { has_prompt = value; }
     void setHasAdjacentDialog(bool value) { has_adjacent_dialog = value; }
+    bool getHasPrompt() { return has_prompt; }
+    bool getHasAdjacentDialog() { return has_adjacent_dialog; }
     virtual std::string getInfo() { return "info_base"; }
     virtual std::string getString() { return colored(name, color); }
     virtual std::string getPrompt() { return "prompt_base"; }
@@ -47,7 +49,7 @@ class Block{
     std::string color = WHITE;
 };
 
-class NormalBlock : public Block{
+class NormalBlock : public Block {
     public:
     float ITEM_CHANCE = 1;
     NormalBlock(bool no_chest=false);
@@ -65,7 +67,7 @@ class NormalBlock : public Block{
     Item* item_inside;
 };
 
-class DigableBlock : public Block{
+class DigableBlock : public Block {
     public:
     float ITEM_CHANCE = 0.85;
     DigableBlock();
@@ -79,7 +81,7 @@ class DigableBlock : public Block{
     Item* item_inside;
 };
 
-class HomeBlock : public Block{
+class HomeBlock : public Block {
     public:
     float ITEM_CHANCE = 1;
     float ENEMY_CHANCE = 0.6;
@@ -97,7 +99,7 @@ class HomeBlock : public Block{
     Enemy* enemy_inside;
 };
 
-class ShopBlock : public Block{
+class ShopBlock : public Block {
     public:
     ShopBlock();
 
@@ -113,7 +115,7 @@ class ShopBlock : public Block{
     std::vector<Item> Stock;
 };
 
-class BlacksmithBlock : public Block{
+class BlacksmithBlock : public Block {
     public:
     BlacksmithBlock();
 
