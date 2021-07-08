@@ -40,4 +40,6 @@ void noNormalblockPromptDialog();
 
 void yesNormalblockPromptDialog();
 
+void showPrompt(std::string prompt, std::string block_name, std::string block_color);
+
 #endif
