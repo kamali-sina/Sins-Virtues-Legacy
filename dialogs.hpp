@@ -4,6 +4,9 @@
 #include <iostream>
 #include "console_handler.hpp"
 
+#define PLAYERNAME "You"
+#define PLAYERCOLOR YELLOW
+
 void introCutscene();
 
 void outOfBoundsDialog();

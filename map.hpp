@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <utility>
+#include <set>
 #include <stdlib.h>
 #include "block.hpp"
 #include "utilities.hpp"
@@ -23,6 +24,7 @@ class Map {
     bool isIndexValid(std::pair<int,int> indexes);
     Block* getBlockAtLocation(std::pair<int,int> location);
     void setBlockAtLocation(std::pair<int,int> location, Block* block);
+    void printAdjacentDialogs(std::pair<int,int> location);
 
   private:
     std::vector<std::vector<Block *>> map;

@@ -153,3 +153,23 @@ void Map::setBlockAtLocation(std::pair<int,int> location, Block* block) {
     pair<int,int> indexes = locationToIndex(location);
     map[indexes.first][indexes.second] = block;
 }
+
+void Map::printAdjacentDialogs(std::pair<int,int> location) {
+    set<string> dialog_set;
+    pair<int,int> indexes = locationToIndex(location);
+    for (int i = -1 ; i < 2 ; i++) {
+        for (int j = -1 ; j < 2 ; j++) {
+            if (i == 0 && j == 0) continue;
+            pair<int,int> new_indexes(indexes.first + i, indexes.second + j);
+            if (!isIndexValid(new_indexes)) continue;
+            Block* block = map[new_indexes.first][new_indexes.second];
+            if (!block->getHasAdjacentDialog()) continue;
+            string adj_dialog = block->getAdjacentDialog();
+            dialog_set.insert(adj_dialog);
+        }
+    }
+    set<string>::iterator itr;
+    for (itr = dialog_set.begin(); itr != dialog_set.end(); itr++){
+        dialog("You", *itr, YELLOW, 23);
+    }
+}

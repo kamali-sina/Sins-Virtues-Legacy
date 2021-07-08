@@ -133,7 +133,7 @@ void Game::move(std::vector<std::string> splitted_input) {
 void Game::handleNewReachedBlock() {
     Block* current_block = getBlockAtPlayerLocation();
     newBlockReachedDialog(current_block->getName(), current_block->getInfo());
-    // map.printAdjacentDialogs(player->getLocation());
+    map.printAdjacentDialogs(player->getLocation());
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
         state = PROMPT;
@@ -166,7 +166,7 @@ void Game::commands(std::vector<std::string> splitted_input) {
 }
 
 void Game::print_map(std::vector<std::string> splitted_input) {
-    map.printFullMap();
+    map.printPartialMap(2, player->getLocation());
 }
 
 void Game::equip(std::vector<std::string> splitted_input) {

@@ -51,7 +51,7 @@ class Block {
 
 class NormalBlock : public Block {
     public:
-    float ITEM_CHANCE = 1;
+    float ITEM_CHANCE = 0.06;
     NormalBlock(bool no_chest=false);
 
     std::string getInfo();
