@@ -5,7 +5,7 @@
 #include <string>
 
 template <class T>
-bool contains(std::vector<T> list, T to_be_found);
+int index_item_(std::vector<T> list, T to_be_found);
 
 
 
