@@ -3,9 +3,9 @@
 using namespace std;
 
 template <typename T>
-bool contains(std::vector<T> list, T to_be_found){
+int index_item_(std::vector<T> list, T to_be_found){
    for (int i = 0 ; i < list.size() ; i++){
-       if (list[i] == to_be_found) return true;
+       if (list[i] == to_be_found) return i;
    }
-   return false;
+   return -1;
 }
