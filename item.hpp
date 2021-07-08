@@ -7,10 +7,10 @@
 
 class Item{
     public:
-    Item(){;}
+    Item() {;}
     int getSellprice();
-    std::string getName(){ return name; }
-    virtual std::string getString(){ return name; }
+    std::string getName() { return name; }
+    virtual std::string getString() { return name; }
     virtual void use(){}
 
     protected:
