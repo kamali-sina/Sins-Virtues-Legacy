@@ -1,5 +1,7 @@
 #include "dialogs.hpp"
 
+using namespace std;
+
 void introCutscene() {
     cprint("\n======== Sins & Virtues ========", "blue");
     cprint("=== A game made by PapaSinku ===\n", YELLOW);
@@ -48,7 +50,7 @@ void didntFindItemDialog() {
 }
 
 void newBlockReachedDialog(std::string block_name, std::string block_info) {
-    std::cout<<colored("You",YELLOW) + ": reached a " + block_name + " block. " + block_info;
+    std::cout<<colored("You",YELLOW) + ": reached a " + block_name + " block. " + block_info<<endl;
 }
 
 void deathDialog() {
@@ -77,4 +79,8 @@ void noNormalblockPromptDialog() {
 
 void yesNormalblockPromptDialog() {
     dialog("You", "The chest is empty now.", YELLOW, 23);
+}
+
+void showPrompt(std::string prompt, std::string block_name, std::string block_color) {
+    dialog(block_name, prompt, block_color, 23);
 }
