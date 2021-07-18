@@ -111,7 +111,7 @@ void help_if_needed(string option){
         cprint("=== welcome to Sins & Virtues! ===\n", BLUE);
         cout<<"use the following options to play the game:\n"<<endl;
         cout<<"  "<<colored(NEWGAME,YELLOW)<<": for starting a new game. \n    can be followed by the path to save the game. saves in the current directory as default\n"<<endl;
-        // cout<<"  "<<colored(,YELLOW)<<": for resuming from a save file.\n    must be followed by the path to the save directory"<<endl;
+        // TODO: cout<<"  "<<colored(,YELLOW)<<": for resuming from a save file.\n    must be followed by the path to the save directory"<<endl;
         cout<<"  "<<colored(LOADGAME,YELLOW)<<": does not do anything currently.\n"<<endl;
         cout<<"  "<<colored(TOTURIAL_OPTIONS[0],YELLOW)<<": for learning the game. \n"<<endl;
         cout<<"  "<<colored(HELP_OPTIONS[0],YELLOW)<<": for seeing the page you are reading now. \n"<<endl;
