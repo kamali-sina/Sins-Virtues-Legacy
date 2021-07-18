@@ -54,7 +54,7 @@ void Game::run() {
         getline(cin, input);
         input = lower(input);
         vector<string> splitted_input = split_string(input, ' ');
-        process_input(splitted_input);
+        validate_input(splitted_input);
     }
 }
 
@@ -100,7 +100,7 @@ bool Game::is_command_valid(string command, int count) {
     
 }
 
-void Game::process_input(vector<string> splitted_input) {
+void Game::validate_input(vector<string> splitted_input) {
     if (splitted_input.size() == 0) {
         return;
     }
@@ -140,15 +140,6 @@ void Game::handleNewReachedBlock() {
     }
 }
 
-/*
-current_block = self.map.get(self.player.location)
-ConsoleHandler.new_block_reached_dialog(current_block)
-self.print_adjacent_dialogs()
-if (current_block.has_special_prompt):
-    slow(current_block.get_prompt() + '\n')
-    self.state = 'prompt'
-*/
-
 void Game::inventory(std::vector<std::string> splitted_input) {
     cout<<"base inventory..."<<endl;
 }
@@ -178,7 +169,11 @@ void Game::attack(std::vector<std::string> splitted_input) {
 }
 
 void Game::prompt_handler(std::vector<std::string> splitted_input) {
-    cout<<"base prompt_handler..."<<endl;
+    bool ans = false;
+    if (splitted_input[0] == "yes" || splitted_input[0] == "y"){
+        ans = true;
+    }
+    runBlockHandler(ans, *this);
     state = NORMAL;
 }
 

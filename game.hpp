@@ -55,7 +55,7 @@ class Game{
     Player *player = new Player();
     int idiot_counter = 0;
 
-    void process_input(std::vector<std::string> splitted_input);
+    void validate_input(std::vector<std::string> splitted_input);
     void init_handlers();
     bool is_command_valid(std::string command, int count);
     void handleNewReachedBlock();
