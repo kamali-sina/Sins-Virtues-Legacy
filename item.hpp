@@ -6,6 +6,14 @@
 #include <iostream>
 #include "console_handler.hpp"
 
+/* rarity system: common uncommon rare epic legendary */
+
+#define COMMON 1
+#define UNCOMMON 2
+#define RARE 3
+#define EPIC 4
+#define LEGENDARY 5
+
 /* ==================== Base Classes ==================== */
 
 class Item {
@@ -13,6 +21,8 @@ class Item {
     Item() {;}
     virtual int getSellprice();
     std::string getName() { return name; }
+    int getID() { return id; }
+    std::vector<std::string> getTags() { return tags; }
     std::string getString() { return colored(name, color); }
     std::string getColor() { return color; }
     virtual std::string getInfo() { return "infoBase"; }
@@ -23,6 +33,7 @@ class Item {
     float rarity;
     std::string name = "item";
     std::string color = WHITE;
+    int id;
 };
 
 class CoinItem : public Item {
@@ -115,8 +126,112 @@ class RangedAttackItem : public AttackItem {
     int lvl = 0;
 };
 
-/* ==================== Item Classes ==================== */
+/* ==================== UtilityItem Classes ==================== */
 
+class Shovel : public UtilityItem {
+    public:
+    Shovel();
+};
+
+
+class Compass : public UtilityItem {
+    public:
+    Compass();
+    std::string getInfo();
+};
+
+
+class Map : public UtilityItem {
+    public:
+    Map();
+};
+
+
+class Steroid : public UtilityItem {
+    public:
+    Steroid();
+};
+
+/* ==================== MeleeAttackItem Classes ==================== */
+
+class Fist : public MeleeAttackItem {
+    public:
+    Fist();
+};
+
+
+class Knife : public MeleeAttackItem {
+    public:
+    Knife();
+};
+
+
+class Sword : public MeleeAttackItem {
+    public:
+    Sword();
+};
+
+
+class Axe : public MeleeAttackItem {
+    public:
+    Axe();
+};
+
+/* ==================== RangedAttackItem Classes ==================== */
+
+class Peacemaker : public RangedAttackItem {
+    public:
+    Peacemaker();
+};
+
+/* ==================== HpItem Classes ==================== */
+
+class Apple : public HpItem {
+    public:
+    Apple();
+};
+
+
+class Celery : public HpItem {
+    public:
+    Celery();
+};
+
+
+class Meat : public HpItem {
+    public:
+    Meat();
+};
+
+/*
+TODO:
+class CoinStack(CoinItem):
+    def __init__(self):
+        self.MAX = 2
+        self.MIN = 4
+        self.rarity = 5
+        self.name = 'coin_stack'
+        self.tags = ['coin', 'random']
+        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
+
+class CoinBag(CoinItem):
+    def __init__(self):
+        self.MAX = 3
+        self.MIN = 8
+        self.rarity = 10
+        self.name = 'coin_stack'
+        self.tags = ['coin', 'random']
+        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
+
+class ScrapBox(ScrapItem):
+    def __init__(self):
+        self.MAX = 1
+        self.MIN = 3
+        self.rarity = 8
+        self.name = 'scrap_box'
+        self.tags = ['scrap', 'random']
+        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
+*/
 
 Item* getRandomItem(float luck_factor=0.0);
 

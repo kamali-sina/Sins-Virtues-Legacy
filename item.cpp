@@ -4,7 +4,7 @@ using namespace std;
 
 /* ==================== Base Classes ==================== */
 
-int Item::getSellprice(){
+int Item::getSellprice() {
     float MAX = 0.80;
     float MIN = 0.60;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
@@ -20,7 +20,7 @@ CoinItem::CoinItem() {
     assignAmount();
 }
 
-void CoinItem::assignAmount(){
+void CoinItem::assignAmount() {
     amount = (int)((max_coins - min_coins + 1) * _random()) + min_coins;
 }
 
@@ -37,7 +37,7 @@ ScrapItem::ScrapItem() {
     assignAmount();
 }
 
-void ScrapItem::assignAmount(){
+void ScrapItem::assignAmount() {
     amount = (int)((max_scraps - min_scraps + 1) * _random()) + min_scraps;
 }
 
@@ -54,7 +54,7 @@ UtilityItem::UtilityItem() {
     uses = initial_uses;
 }
 
-int UtilityItem::getSellprice(){
+int UtilityItem::getSellprice() {
     float MAX = 0.80;
     float MIN = 0.60;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
@@ -194,9 +194,140 @@ std::string RangedAttackItem::getInfo() {
     return "level: " + to_string(lvl) + ", damage: " + to_string(damage) + ", speed: " + to_string(speed) + ", type: " + type + ", misschance: " + to_string((misschance*100)) + "%";
 }
 
-/* ==================== Item Classes ==================== */
+/* ==================== UtilityItem Classes ==================== */
+
+Shovel::Shovel() {
+    initial_uses = 4;
+    rarity = COMMON;
+    tags.push_back("random");
+    tags.push_back("attack");
+    name = "shovel";
+    uses = initial_uses;
+    id = 1;
+    /*
+        TODO:
+        self.damage = 3
+        self.speed = 4
+    */
+}
 
 
-Item* getRandomItem(float luck_factor){
+Compass::Compass() {
+    initial_uses = 9999;
+    rarity = EPIC;
+    tags.push_back("random");
+    name = "compass";
+    uses = initial_uses;
+    id = 2;
+}
+
+std::string Compass::getInfo() {
+    return "infinite uses";
+}
+
+
+Map::Map() {
+    initial_uses = 3;
+    rarity = RARE;
+    tags.push_back("random");
+    name = "map";
+    uses = initial_uses;
+    id = 3;
+}
+
+
+Steroid::Steroid() {
+    initial_uses = 1;
+    rarity = EPIC;
+    tags.push_back("random");
+    name = "steroid";
+    uses = initial_uses;
+    id = 4;
+}
+
+/* ==================== MeleeAttackItem Classes ==================== */
+
+Fist::Fist() {
+    rarity = 0;
+    name = "fist";
+    damage = 1;
+    speed = 6;
+    id = 5;
+}
+
+
+Knife::Knife() {
+    rarity = UNCOMMON;
+    tags.push_back("random");
+    tags.push_back("utility");
+    name = "knife";
+    damage = 3;
+    speed = 9;
+    id = 6;
+}
+
+
+Sword::Sword() {
+    rarity = EPIC;
+    tags.push_back("random");
+    name = "sword";
+    damage = 7;
+    speed = 6;
+    id = 7;
+}
+
+
+Axe::Axe() {
+    rarity = RARE;
+    tags.push_back("random");
+    name = "sword";
+    damage = 14;
+    speed = 2;
+    id = 8;
+}
+
+/* ==================== RangedAttackItem Classes ==================== */
+
+Peacemaker::Peacemaker() {
+    rarity = EPIC;
+    tags.push_back("random");
+    name = "peacemaker";
+    damage = 6;
+    speed = 6;
+    misschance = 0.2;
+    id = 9;
+}
+
+/* ==================== HpItem Classes ==================== */
+
+Apple::Apple() {
+    rarity = COMMON;
+    tags.push_back("random");
+    name = "apple";
+    hp = 3;
+    id = 10;
+}
+
+
+Celery::Celery() {
+    rarity = RARE;
+    tags.push_back("random");
+    name = "celery";
+    hp = 11;
+    id = 11;
+} 
+
+
+Meat::Meat() {
+    rarity = UNCOMMON;
+    tags.push_back("random");
+    name = "meat";
+    hp = 6;
+    id = 12;
+} 
+
+
+
+Item* getRandomItem(float luck_factor) {
     return new Item();
 }
