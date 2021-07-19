@@ -226,7 +226,7 @@ std::string Compass::getInfo() {
 }
 
 
-Map::Map() {
+MapItem::MapItem() {
     initial_uses = 3;
     rarity = RARE;
     tags.push_back("random");
@@ -326,8 +326,65 @@ Meat::Meat() {
     id = 12;
 } 
 
+/* ==================== CoinItem Classes ==================== */
+
+CoinStack::CoinStack() {
+    rarity = UNCOMMON;
+    tags.push_back("random");
+    name = "coinstack";
+    min_coins = 2;
+    max_coins = 4;
+    assignAmount();
+    id = 13;
+}
 
 
+CoinBag::CoinBag() {
+    rarity = RARE;
+    tags.push_back("random");
+    name = "coinbag";
+    min_coins = 3;
+    max_coins = 8;
+    assignAmount();
+    id = 14;
+}
+
+/* ==================== ScrapItem Classes ==================== */
+
+ScrapBox::ScrapBox() {
+    rarity = RARE;
+    tags.push_back("random");
+    name = "scrapbox";
+    min_scraps = 1;
+    max_scraps = 3;
+    assignAmount();
+    id = 15;
+}
+
+/* ==================== Item Generation ==================== */
+
+Item *getItem(int item_id) {
+    vector<Item*> all_items;
+    all_items.push_back(new Shovel());
+    all_items.push_back(new Compass());
+    all_items.push_back(new MapItem());
+    all_items.push_back(new Steroid());
+    all_items.push_back(new Fist());
+    all_items.push_back(new Knife());
+    all_items.push_back(new Sword());
+    all_items.push_back(new Axe());
+    all_items.push_back(new Peacemaker());
+    all_items.push_back(new Apple());
+    all_items.push_back(new Celery());
+    all_items.push_back(new Meat());
+    all_items.push_back(new CoinStack());
+    all_items.push_back(new CoinBag());
+    all_items.push_back(new ScrapBox());
+    return all_items[item_id - 1];
+}
+
+//TODO: fix random function to account for rarity
 Item* getRandomItem(float luck_factor) {
-    return new Item();
+    int item_id = (rand() % ITEMCOUNT) + 1;
+    return getItem(item_id);
 }
