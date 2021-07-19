@@ -133,6 +133,23 @@ void Map::printPartialMap(int vision, std::pair<int,int> location) {
     }
 }
 
+std::string compass(std::pair<int,int> location) {
+    // TODO:
+    // vector = (self.castle_location[0] - tup[0], self.castle_location[1] - tup[1])
+    // if (vector[0] == 0 and vector[1] == 0):
+    //     return 'This is the castle block!'
+    // direction = ''
+    // if (vector[0] > 0):
+    //     direction += 'north'
+    // elif (vector[0] < 0):
+    //     direction += 'south'
+    // if (vector[1] > 0):
+    //     direction += 'east'
+    // elif (vector[1] < 0):
+    //     direction += 'west'
+    // return f'The castle is {colored(direction, "cyan")} from here'
+}
+
 bool Map::isLocationValid(std::pair<int,int> location) {
     pair<int,int> indexes = locationToIndex(location);
     return isIndexValid(indexes);
