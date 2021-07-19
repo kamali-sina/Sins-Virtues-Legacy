@@ -298,6 +298,16 @@ Peacemaker::Peacemaker() {
     id = 9;
 }
 
+Shotgun::Shotgun() {
+    rarity = LEGENDARY;
+    tags.push_back("random");
+    name = "shotgun";
+    damage = 13;
+    speed = 5;
+    misschance = 0.3;
+    id = SHOTGUN;
+}
+
 /* ==================== HpItem Classes ==================== */
 
 Apple::Apple() {
@@ -380,11 +390,38 @@ Item *getItem(int item_id) {
     all_items.push_back(new CoinStack());
     all_items.push_back(new CoinBag());
     all_items.push_back(new ScrapBox());
+    all_items.push_back(new Shotgun());
     return all_items[item_id - 1];
 }
 
-//TODO: fix random function to account for rarity
+int getRandomItemID() {
+    return (rand() % ITEMCOUNT) + 1;
+}
+
+Item* getRandomItemWithRarity(int rarity) {
+    cout<<"spawning " << rarity << " item!"<<endl;
+    int item_id = getRandomItemID();
+    Item *random_item = getItem(item_id);
+    while (random_item->getRarity() != rarity){
+        int item_id = getRandomItemID();
+        random_item = getItem(item_id);
+    }
+    return random_item;
+}
+
+int getRandomRarity() {
+    vector<int> rarities({COMMON, UNCOMMON, RARE, EPIC, LEGENDARY});
+    int sum = 0;
+    for (auto& n : rarities)
+        sum += n;
+    int guess = (rand() % sum) + 1;
+    for (auto& rarity : rarities) {
+        if (guess <= rarity) return rarity;
+        guess -= rarity;
+    }
+}
+
 Item* getRandomItem(float luck_factor) {
-    int item_id = (rand() % ITEMCOUNT) + 1;
-    return getItem(item_id);
+    int rarity = getRandomRarity();
+    return getRandomItemWithRarity(rarity);
 }

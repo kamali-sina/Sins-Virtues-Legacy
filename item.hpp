@@ -8,15 +8,16 @@
 
 /* rarity system: common uncommon rare epic legendary */
 
-#define COMMON 1
-#define UNCOMMON 2
-#define RARE 3
-#define EPIC 4
-#define LEGENDARY 5
+#define COMMON 50
+#define UNCOMMON 29
+#define RARE 15
+#define EPIC 5
+#define LEGENDARY 1
 
 /* ==================== Item Class IDs ==================== */
 
-#define ITEMCOUNT 15
+#define ITEMCOUNT 16
+
 #define SHOVEL 1
 #define COMPASS 2
 #define MAP 3
@@ -32,6 +33,7 @@
 #define COINSTACK 13
 #define COINBAG 14
 #define SCRAPBOX 15
+#define SHOTGUN 16
 
 /* ==================== Base Classes ==================== */
 
@@ -41,6 +43,7 @@ class Item {
     virtual int getSellprice();
     std::string getName() { return name; }
     int getID() { return id; }
+    int getRarity() { return rarity; }
     std::vector<std::string> getTags() { return tags; }
     std::string getString() { return colored(name, color); }
     std::string getColor() { return color; }
@@ -203,6 +206,11 @@ class Peacemaker : public RangedAttackItem {
     Peacemaker();
 };
 
+class Shotgun : public RangedAttackItem {
+    public:
+    Shotgun();
+};
+
 /* ==================== HpItem Classes ==================== */
 
 class Apple : public HpItem {
@@ -244,6 +252,7 @@ class ScrapBox : public ScrapItem {
 
 /* ==================== Item Generation ==================== */
 
+int getRandomRarity();
 Item *getItem(int item_id);
 Item* getRandomItem(float luck_factor=0.0);
 
