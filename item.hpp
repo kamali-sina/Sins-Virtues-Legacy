@@ -14,6 +14,25 @@
 #define EPIC 4
 #define LEGENDARY 5
 
+/* ==================== Item Class IDs ==================== */
+
+#define ITEMCOUNT 15
+#define SHOVEL 1
+#define COMPASS 2
+#define MAP 3
+#define STEROID 4
+#define FIST 5
+#define KNIFE 6
+#define SWORD 7
+#define AXE 8
+#define PEACEMAKER 9
+#define APPLE 10
+#define CELERY 11
+#define MEAT 12
+#define COINSTACK 13
+#define COINBAG 14
+#define SCRAPBOX 15
+
 /* ==================== Base Classes ==================== */
 
 class Item {
@@ -141,9 +160,9 @@ class Compass : public UtilityItem {
 };
 
 
-class Map : public UtilityItem {
+class MapItem : public UtilityItem {
     public:
-    Map();
+    MapItem();
 };
 
 
@@ -203,36 +222,29 @@ class Meat : public HpItem {
     Meat();
 };
 
-/*
-TODO:
-class CoinStack(CoinItem):
-    def __init__(self):
-        self.MAX = 2
-        self.MIN = 4
-        self.rarity = 5
-        self.name = 'coin_stack'
-        self.tags = ['coin', 'random']
-        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
+/* ==================== CoinItem Classes ==================== */
 
-class CoinBag(CoinItem):
-    def __init__(self):
-        self.MAX = 3
-        self.MIN = 8
-        self.rarity = 10
-        self.name = 'coin_stack'
-        self.tags = ['coin', 'random']
-        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
+class CoinStack : public CoinItem {
+    public:
+    CoinStack();
+};
 
-class ScrapBox(ScrapItem):
-    def __init__(self):
-        self.MAX = 1
-        self.MIN = 3
-        self.rarity = 8
-        self.name = 'scrap_box'
-        self.tags = ['scrap', 'random']
-        self.amount = int((self.MAX - self.MIN + 1) * random()) + self.MIN
-*/
 
+class CoinBag : public CoinItem {
+    public:
+    CoinBag();
+};
+
+/* ==================== ScrapItem Classes ==================== */
+
+class ScrapBox : public ScrapItem {
+    public:
+    ScrapBox();
+};
+
+/* ==================== Item Generation ==================== */
+
+Item *getItem(int item_id);
 Item* getRandomItem(float luck_factor=0.0);
 
 
