@@ -129,6 +129,7 @@ Block *getBlock(int block_id) {
     }
 }
 //TODO: fix random function to account for rarity
+//TODO: add Castle block
 Block* getRandomBlock() {
     int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
     return getBlock(block_id);
