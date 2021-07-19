@@ -2,13 +2,20 @@
 
 using namespace std;
 
-/* ==================== Base Classes ==================== */
+/* ==================== Base Class ==================== */
 
 int Item::getSellprice() {
     float MAX = 0.80;
     float MIN = 0.60;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
     return (int)(rarity * price_multiplier);
+}
+
+bool Item::tagsContain(std::string tag) {
+    for (int i = 0 ; i < tags.size() ; i++) {
+        if (tags[i] == tag) return true;
+    }
+    return false;
 }
 
 /* ==================== Coin ==================== */
@@ -199,7 +206,7 @@ std::string RangedAttackItem::getInfo() {
 Shovel::Shovel() {
     initial_uses = 4;
     rarity = COMMON;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     tags.push_back("attack");
     name = "shovel";
     uses = initial_uses;
@@ -215,7 +222,7 @@ Shovel::Shovel() {
 Compass::Compass() {
     initial_uses = 9999;
     rarity = EPIC;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "compass";
     uses = initial_uses;
     id = 2;
@@ -229,7 +236,7 @@ std::string Compass::getInfo() {
 MapItem::MapItem() {
     initial_uses = 3;
     rarity = RARE;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "map";
     uses = initial_uses;
     id = 3;
@@ -239,7 +246,7 @@ MapItem::MapItem() {
 Steroid::Steroid() {
     initial_uses = 1;
     rarity = EPIC;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "steroid";
     uses = initial_uses;
     id = 4;
@@ -258,7 +265,7 @@ Fist::Fist() {
 
 Knife::Knife() {
     rarity = UNCOMMON;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     tags.push_back("utility");
     name = "knife";
     damage = 3;
@@ -269,7 +276,7 @@ Knife::Knife() {
 
 Sword::Sword() {
     rarity = EPIC;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "sword";
     damage = 7;
     speed = 6;
@@ -279,7 +286,7 @@ Sword::Sword() {
 
 Axe::Axe() {
     rarity = RARE;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "sword";
     damage = 14;
     speed = 2;
@@ -290,7 +297,7 @@ Axe::Axe() {
 
 Peacemaker::Peacemaker() {
     rarity = EPIC;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "peacemaker";
     damage = 6;
     speed = 6;
@@ -300,7 +307,7 @@ Peacemaker::Peacemaker() {
 
 Shotgun::Shotgun() {
     rarity = LEGENDARY;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "shotgun";
     damage = 13;
     speed = 5;
@@ -312,7 +319,7 @@ Shotgun::Shotgun() {
 
 Apple::Apple() {
     rarity = COMMON;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "apple";
     hp = 3;
     id = 10;
@@ -321,7 +328,7 @@ Apple::Apple() {
 
 Celery::Celery() {
     rarity = RARE;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "celery";
     hp = 11;
     id = 11;
@@ -330,7 +337,7 @@ Celery::Celery() {
 
 Meat::Meat() {
     rarity = UNCOMMON;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "meat";
     hp = 6;
     id = 12;
@@ -340,7 +347,7 @@ Meat::Meat() {
 
 CoinStack::CoinStack() {
     rarity = UNCOMMON;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "coinstack";
     min_coins = 2;
     max_coins = 4;
@@ -351,7 +358,7 @@ CoinStack::CoinStack() {
 
 CoinBag::CoinBag() {
     rarity = RARE;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "coinbag";
     min_coins = 3;
     max_coins = 8;
@@ -363,7 +370,7 @@ CoinBag::CoinBag() {
 
 ScrapBox::ScrapBox() {
     rarity = RARE;
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     name = "scrapbox";
     min_scraps = 1;
     max_scraps = 3;
@@ -402,7 +409,7 @@ Item* getRandomItemWithRarity(int rarity) {
     cout<<"spawning " << rarity << " item!"<<endl;
     int item_id = getRandomItemID();
     Item *random_item = getItem(item_id);
-    while (random_item->getRarity() != rarity){
+    while (random_item->getRarity() != rarity || !random_item->tagsContain(RANDOMTAG)) {
         int item_id = getRandomItemID();
         random_item = getItem(item_id);
     }
