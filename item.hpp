@@ -16,6 +16,13 @@
 
 /* ==================== Item Class IDs ==================== */
 
+/*
+In case of adding a new item, add these to the following locations:
+    1- Add the defined ID under here and update number of items
+    2- Add the item to the end of the vector in getItem() function
+    3- If needed add handler for block at handlers.hpp
+*/
+
 #define ITEMCOUNT 16
 
 #define SHOVEL 1
@@ -37,11 +44,14 @@
 
 /* ==================== Base Classes ==================== */
 
+#define RANDOMTAG "random"
+
 class Item {
     public:
     Item() {;}
     virtual int getSellprice();
     std::string getName() { return name; }
+    bool tagsContain(std::string tag);
     int getID() { return id; }
     int getRarity() { return rarity; }
     std::vector<std::string> getTags() { return tags; }
