@@ -14,6 +14,7 @@ int MAPINIT_VECTOR[NUMBER_OF_BLOCKS][4] =
     {HOMEBLOCK, 2, 6},
     {SHOPBLOCK, 2, 8},
     {BLACKSMITHBLOCK, 1, 8},
+    {CASTLEBLOCK, 1, 17},
 };
 
 Map::Map() {
@@ -66,6 +67,7 @@ void Map::spawnOneSpecialBlock(int init_vector[]) {
         if (map[random_indexes.first][random_indexes.second]->getID() != 0) continue;
         if (!isIndexValidForBlock(random_indexes, init_vector[BLOCK_ID])) continue;
         map[random_indexes.first][random_indexes.second] = getBlock(init_vector[BLOCK_ID]);
+        if (init_vector[BLOCK_ID] == CASTLEBLOCK) map_location_index = random_indexes;
         i++;
     }
 }
