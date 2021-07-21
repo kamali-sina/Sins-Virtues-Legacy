@@ -116,6 +116,25 @@ BlacksmithBlock::BlacksmithBlock() {
     has_adjacent_dialog = true; 
 }
 
+CastleBlock::CastleBlock() {
+    number_of_enemies = (int)(_random() * max_enemy_count) + 1;
+    rarity = 9999;
+    tags.push_back("special");
+    ID = CASTLEBLOCK;
+    name = "castle";
+    color = BOLDCYAN;
+    has_prompt = true;
+    has_adjacent_dialog = false;
+    initEnemies(); 
+}
+
+void CastleBlock::initEnemies() {
+    for (int i = 0 ; i < number_of_enemies ; i++) {
+        enemies.push_back(getRandomEnemy());
+    }
+    //TODO: spawn boss
+    boss = getRandomEnemy();
+}
 
 Block *getBlock(int block_id) {
     switch (block_id) {
@@ -124,12 +143,11 @@ Block *getBlock(int block_id) {
         case HOMEBLOCK: return new HomeBlock();
         case SHOPBLOCK: return new ShopBlock();
         case BLACKSMITHBLOCK: return new BlacksmithBlock();
-        case 6: ;
+        case CASTLEBLOCK: return new CastleBlock();
         default: return new Block();
     }
 }
 //TODO: fix random function to account for rarity
-//TODO: add Castle block
 Block* getRandomBlock() {
     int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
     return getBlock(block_id);
