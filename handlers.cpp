@@ -17,6 +17,9 @@ void runBlockHandler(bool ans, Game &game) {
         case BLACKSMITHBLOCK:
             handleBlacksmithBlock(ans, game);
             break;
+        case CASTLEBLOCK:
+            handleCastleBlock(ans, game);
+            break;
         default:
             handleDefault();
     }
@@ -45,6 +48,10 @@ void handleShopBlock(bool ans, Game &game) {
 
 void handleBlacksmithBlock(bool ans, Game &game) {
     cout<<"Complete blacksmith block!"<<endl;
+}
+
+void handleCastleBlock(bool ans, Game &game) {
+    cout<<"Complete castle block!"<<endl;
 }
 
 void handleDefault() {
