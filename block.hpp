@@ -16,12 +16,13 @@ In case of adding a new block, add these to the following locations:
     4- If needed add handler for block at handlers.hpp
 */
 
-#define NUMBER_OF_BLOCKS 5
+#define NUMBER_OF_BLOCKS 6
 #define NORMALBLOCK 1 
 #define DIGABLEBLOCK 2 
 #define HOMEBLOCK 3 
 #define SHOPBLOCK 4 
 #define BLACKSMITHBLOCK 5 
+#define CASTLEBLOCK 6 
 
 class Block {
     public:
@@ -124,6 +125,20 @@ class BlacksmithBlock : public Block {
     std::string getInfo() { return "I can upgrade my weapons and dismantle the extra stuff I found here."; }
     std::string getPrompt() { return "Enter the blacksmith?(y,n)"; }
     std::string getAdjacentDialog() { return "I can hear hitting on an anvil nearby."; }
+};
+
+class CastleBlock : public Block {
+    public:
+    CastleBlock();
+    void initEnemies();
+
+    std::string getInfo() { return "A castle in the middle of nowhere?!"; }
+    std::string getPrompt() { return "There is no turning back now, get ready, have healing items, and equip your weapons. Do you want to enter the castle?(y,n)"; }
+    protected:
+    int max_enemy_count = 4;
+    int number_of_enemies; 
+    std::vector<Enemy*> enemies;
+    Enemy* boss;
 };
 
 Block *getBlock(int block_id);
