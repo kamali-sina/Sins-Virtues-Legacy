@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 
+#define STEROID_HEALTH_UPGRADE 5
 
 class Player {
     public:
@@ -11,6 +12,10 @@ class Player {
     int getDamaged(int damage);
     int getVision() { return vision; }
     int getMaxHp() { return max_hp; }
+    Item* getItemAtIndex(int index);
+    int useSteroid();
+    int removeItem(int inventory_index);
+    void useItem(int inventory_index);
     void setLocation(std::pair<int,int> new_location);
     std::pair<int,int> getLocation();
     int refillHP();
