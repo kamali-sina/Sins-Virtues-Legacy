@@ -68,7 +68,7 @@ class BigBob: public Enemy{
     public:
     BigBob(){ }
 
-    std::string name = "big_bob";
+    std::string name = "bigBob";
     int hp = 12;
     int bounty = 2;
     float speed = 3;

@@ -413,7 +413,6 @@ int getRandomItemID() {
 }
 
 Item* getRandomItemWithRarity(int rarity) {
-    cout<<"spawning " << rarity << " item!"<<endl;
     int item_id = getRandomItemID();
     Item *random_item = getItem(item_id);
     while (random_item->getRarity() != rarity || !random_item->tagsContain(RANDOMTAG)) {
@@ -433,6 +432,7 @@ int getRandomRarity() {
         if (guess <= rarity) return rarity;
         guess -= rarity;
     }
+    return LEGENDARY;
 }
 
 Item* getRandomItem(float luck_factor) {

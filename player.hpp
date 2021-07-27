@@ -14,7 +14,7 @@ class Player {
     int getMaxHp() { return max_hp; }
     Item* getItemAtIndex(int index);
     int useSteroid();
-    int removeItem(int inventory_index);
+    void removeItem(int inventory_index);
     void useItem(int inventory_index);
     void setLocation(std::pair<int,int> new_location);
     std::pair<int,int> getLocation();

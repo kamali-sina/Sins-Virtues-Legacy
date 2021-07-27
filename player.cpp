@@ -24,7 +24,7 @@ int Player::useSteroid() {
     return refillHP();;
 }
 
-int Player::removeItem(int inventory_index) {
+void Player::removeItem(int inventory_index) {
     inventory.erase(inventory.begin() + inventory_index);
 }
 
