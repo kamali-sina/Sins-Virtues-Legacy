@@ -7,8 +7,8 @@ typedef void (Game::*handler)(std::vector<std::string>);
 
 std::map<std::string, handler> handlers;
 
-vector<string> NORMAL_COMMANDS({"move", "inventory", "use", "info", "commands", "print_map", "equip"});
-vector<int> NORMAL_COMMANDS_COUNT({2, 1, 2, 1, 1, 1, 2});
+vector<string> NORMAL_COMMANDS({"move", "inventory", "use", "info", "commands", "print_map", "equip", "dev_map"});
+vector<int> NORMAL_COMMANDS_COUNT({2, 1, 2, 1, 1, 1, 2, 1});
 vector<string> FIGHT_COMMANDS({"inventory", "info", "use", "attack", "commands", "equip"});
 vector<int> FIGHT_COMMANDS_COUNT({1, 1, 2, 1, 1, 2});
 vector<string> PROMPT_COMMANDS({"yes", "no", "y", "n"});
@@ -30,6 +30,7 @@ void Game::init_handlers() {
         handlers["buy"] = &Game::buy;
         handlers["sell"] = &Game::sell;
         handlers["exit"] = &Game::exit_to_world;
+        handlers["dev_map"] = &Game::dev_map;
 
         handlers["y"] = &Game::prompt_handler;
         handlers["n"] = &Game::prompt_handler;
@@ -250,4 +251,8 @@ void Game::sell(std::vector<std::string> splitted_input) {
 
 void Game::exit_to_world(std::vector<std::string> splitted_input) {
     cout<<"base exit_to_world..."<<endl;
+}
+
+void Game::dev_map(std::vector<std::string> splitted_input) {
+    map.printFullMap();
 }

@@ -43,6 +43,7 @@ class Game{
     void stock(std::vector<std::string> splitted_input);
     void buy(std::vector<std::string> splitted_input);
     void sell(std::vector<std::string> splitted_input);
+    void dev_map(std::vector<std::string> splitted_input);
     void exit_to_world(std::vector<std::string> splitted_input);
 
     void digHere(int inventory_index);
