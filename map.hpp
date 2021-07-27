@@ -25,7 +25,6 @@ class Map {
     Block* getBlockAtLocation(std::pair<int,int> location);
     void setBlockAtLocation(std::pair<int,int> location, Block* block);
     void printAdjacentDialogs(std::pair<int,int> location);
-    //TODO:
     std::string compass(std::pair<int,int> location);
 
   private:
