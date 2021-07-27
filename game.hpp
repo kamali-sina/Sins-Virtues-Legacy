@@ -27,6 +27,8 @@ class Game{
     Game();
     Block* getBlockAtPlayerLocation();
     Player* getPlayer();
+    Map getMap();
+    void digHere(int inventory_index);
     void run();
 
     // command handlers
