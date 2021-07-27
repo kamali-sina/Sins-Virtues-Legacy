@@ -92,7 +92,12 @@ class HomeBlock : public Block {
 
     std::string getInfo() { return "This looks like a place to rest."; }
     bool getContainsItem() { return contains_item; }
+    bool getContainsEnemy() { return contains_enemy; }
+    Item* getItemInside() { return item_inside; }
+    void setContainsEnemy(bool value) { contains_enemy = value; }
+    void setContainsItem(bool value) { contains_item = value; }
     std::string getPrompt() { return "Enter the home?(y,n)"; }
+    Enemy* getEnemyInside() { return enemy_inside; }
     std::string getAdjacentDialog() { return "I can see a faint light emitting nearby..."; }
 
     protected:
