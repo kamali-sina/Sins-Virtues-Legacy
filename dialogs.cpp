@@ -89,6 +89,26 @@ void itemIsNoLongerUsableDialog(std::string item_name) {
     dialog("You", item_name + " is no longer usable and I'm dropping it.", YELLOW, 29);
 }
 
+void noBlackSmithBlockDialog() {
+    dialog("You", "I'll come back when I have more weapon parts!", YELLOW, 29);
+}
+
+void noShopBlockPromptDialog() {
+    dialog("You", "I'll come back when I have more money.", YELLOW, 29);
+}
+
+void noHomeBlockPromptDialog() {
+    dialog("You", "Good idea, there might be people in there.", YELLOW, 29);
+}
+
+void haveToFightEnemyInHomeDialog(std::string enemy_name) {
+    dialog("You", "there is a " + enemy_name + " here, I have to fight it!", YELLOW, 29);
+}
+
+void restAfterFightDialog() {
+    dialog("You", "I can rest here now...", YELLOW, 29);
+}
+
 void showPrompt(std::string prompt, std::string block_name, std::string block_color) {
     dialog(block_name, prompt, block_color, 23);
 }
