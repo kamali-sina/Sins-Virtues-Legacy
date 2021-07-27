@@ -7,24 +7,24 @@ string TOTURIAL_OPTIONS[] =  {"-t", "--toturial"};
 string NEWGAME = "-n";
 string LOADGAME = "-l";
 
-float _random(){
+float _random() {
     int r = rand();
     return float(float(r) / float(RAND_MAX));
 }
 
-void _sleep(float time){
+void _sleep(float time) {
     int milli = time * 1000;
     std::this_thread::sleep_for(std::chrono::milliseconds(milli));
 }
 
-string lower(string input){
+string lower(string input) {
     std::for_each(input.begin(), input.end(), [](char & c) {
         c = ::tolower(c);
     });
     return input;
 }
 
-vector<string> split_string(string input, char delim){
+vector<string> split_string(string input, char delim) {
     vector<string> output;
     string part;
     stringstream s(input);
@@ -34,27 +34,27 @@ vector<string> split_string(string input, char delim){
     return output;
 }
 
-void _error(std::string msg){
+void _error(std::string msg) {
     cprint("ERROR: " + msg, RED);
 }
 
 int signal = 0;
-void* wait_for_input(void* i){
+void* wait_for_input(void* i) {
     getch();
     signal = 1;
     return NULL;
 }
 
-void slow(std::string text, float speed){
+void slow(std::string text, float speed) {
     /*function which displays characters one at a time*/
     pthread_t thread;
     signal = 0;
     pthread_create(&thread, NULL, wait_for_input, NULL);
-    for (int i = 0; i < text.length(); i++){
+    for (int i = 0; i < text.length(); i++) {
         cout<<text[i];
         std::cout.setf( std::ios_base::unitbuf ); //flushes cout
-        if (signal){
-            for (int j = i+1; j < text.length(); j++){cout<<text[j];}
+        if (signal) {
+            for (int j = i+1; j < text.length(); j++) {cout<<text[j];}
             return;
         }
         int r = rand();
@@ -67,7 +67,7 @@ void slow(std::string text, float speed){
     return;
 }
 
-void dialog(std::string name , std::string text, std::string color, float speed){
+void dialog(std::string name , std::string text, std::string color, float speed) {
     /* prints endl automatically! */
     cout<<colored(name, color)<<": ";
     std::cout.setf( std::ios_base::unitbuf ); //flushes cout
@@ -75,8 +75,13 @@ void dialog(std::string name , std::string text, std::string color, float speed)
     cout<<endl;
 }
 
-void toturial_if_needed(string option){
-    if (find(begin(TOTURIAL_OPTIONS), end(TOTURIAL_OPTIONS), option) != end(TOTURIAL_OPTIONS)){
+void notification(string msg) {
+    slow(msg, 30);
+    cout<<endl;
+}
+
+void toturial_if_needed(string option) {
+    if (find(begin(TOTURIAL_OPTIONS), end(TOTURIAL_OPTIONS), option) != end(TOTURIAL_OPTIONS)) {
         cprint("\n=== welcome to Sins & Virtues! ===\n", BLUE);
         cout<<"This game is completely text based. There are no maps(yet), no hints, no eagle vision, no nothing."<<endl;
         cout<<"But that does not mean that you are completely blind! The protagonist constantly talks about his surroundings, everything he says is there for a reason, so don\'t skip all the dialogs!"<<endl;
@@ -105,8 +110,8 @@ void toturial_if_needed(string option){
     }
 }
 
-void help_if_needed(string option){
-    if (find(begin(HELP_OPTIONS), end(HELP_OPTIONS), option) != end(HELP_OPTIONS)){
+void help_if_needed(string option) {
+    if (find(begin(HELP_OPTIONS), end(HELP_OPTIONS), option) != end(HELP_OPTIONS)) {
         cout<<"Usage: ./VnS.out <options>\n"<<endl;
         cprint("=== welcome to Sins & Virtues! ===\n", BLUE);
         cout<<"use the following options to play the game:\n"<<endl;

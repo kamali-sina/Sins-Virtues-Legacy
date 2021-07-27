@@ -34,5 +34,6 @@ void slow(std::string text, float speed);
 void dialog(std::string name , std::string text, std::string color, float speed);
 void toturial_if_needed(std::string option);
 void help_if_needed(std::string option);
+void notification(std::string msg);
 
 #endif
