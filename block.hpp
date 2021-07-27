@@ -76,6 +76,8 @@ class DigableBlock : public Block {
     std::string getInfo() { return "It looks like I can dig here with a shovel!"; }
     bool getContainsItem() { return contains_item; }
     std::string getString() { return name; }
+    Item* getItemInside() { return item_inside; }
+    void setContainsItem(bool value) { contains_item = value; }
 
     protected:
     bool contains_item;
