@@ -164,6 +164,19 @@ void Game::handleNewReachedBlock() {
     }
 }
 
+void Game::enterBlacksmith() {
+
+}
+
+void Game::enterShop() {
+
+}
+
+void Game::fightEnemy(Enemy* enemy) {
+
+}
+
+
 // TODO:
 // def fight_enemy(self, enemy):
 //         print(colored('\n--Entered Battle--\n','red'))
