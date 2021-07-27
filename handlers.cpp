@@ -62,7 +62,6 @@ void handleHomeBlock(bool ans, Game &game) {
         homeblock->setContainsItem(false);
         Item* item = homeblock->getItemInside();
         game.getPlayer()->addItem(item);
-        foundItemDialog(item->getName());
     }
     // save game
 }
