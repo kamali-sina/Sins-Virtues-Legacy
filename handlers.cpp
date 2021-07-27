@@ -39,18 +39,48 @@ void handleNormalBlock(bool ans, Game &game) {
 }
 
 void handleHomeBlock(bool ans, Game &game) {
-    //TODO: 
-    cout<<"Complete home block!"<<endl;
+    if (ans == false) {
+        noHomeBlockPromptDialog();
+        return;
+    }
+    HomeBlock* homeblock = (HomeBlock*)game.getBlockAtPlayerLocation();
+    if (homeblock->getContainsEnemy()) {
+        Enemy* enemy = homeblock->getEnemyInside();
+        haveToFightEnemyInHomeDialog(enemy->getName());
+        game.fightEnemy(enemy);
+        homeblock->setContainsEnemy(false);
+        restAfterFightDialog();
+    }
+    cout<<"resting..."<<endl;
+    sleep(2);
+    game.getPlayer()->refillHP();
+    notification("Health fully restored!");
+    notification("It's morning now, Game Saved!");
+    //TODO:
+    // reset world times
+    if (homeblock->getContainsItem()) {
+        homeblock->setContainsItem(false);
+        Item* item = homeblock->getItemInside();
+        game.getPlayer()->addItem(item);
+        foundItemDialog(item->getName());
+    }
+    // save game
 }
 
 void handleShopBlock(bool ans, Game &game) {
-    //TODO: 
-    cout<<"Complete shop block!"<<endl;
+    if (ans == false) {
+        noShopBlockPromptDialog();
+    } else {
+        game.enterShop();
+    }
 }
 
 void handleBlacksmithBlock(bool ans, Game &game) {
-    //TODO: 
-    cout<<"Complete blacksmith block!"<<endl;
+    if (ans == false) {
+        noBlackSmithBlockDialog();
+    } else {
+        game.enterBlacksmith();
+    }
 }
 
 void handleCastleBlock(bool ans, Game &game) {
