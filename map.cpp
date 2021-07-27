@@ -67,7 +67,7 @@ void Map::spawnOneSpecialBlock(int init_vector[]) {
         if (map[random_indexes.first][random_indexes.second]->getID() != 0) continue;
         if (!isIndexValidForBlock(random_indexes, init_vector[BLOCK_ID])) continue;
         map[random_indexes.first][random_indexes.second] = getBlock(init_vector[BLOCK_ID]);
-        if (init_vector[BLOCK_ID] == CASTLEBLOCK) map_location_index = random_indexes;
+        if (init_vector[BLOCK_ID] == CASTLEBLOCK) castle_location_index = random_indexes;
         i++;
     }
 }
@@ -135,21 +135,23 @@ void Map::printPartialMap(int vision, std::pair<int,int> location) {
     }
 }
 
-std::string compass(std::pair<int,int> location) {
-    // TODO:
-    // vector = (self.castle_location[0] - tup[0], self.castle_location[1] - tup[1])
-    // if (vector[0] == 0 and vector[1] == 0):
-    //     return 'This is the castle block!'
-    // direction = ''
-    // if (vector[0] > 0):
-    //     direction += 'north'
-    // elif (vector[0] < 0):
-    //     direction += 'south'
-    // if (vector[1] > 0):
-    //     direction += 'east'
-    // elif (vector[1] < 0):
-    //     direction += 'west'
-    // return f'The castle is {colored(direction, "cyan")} from here'
+std::string Map::compass(std::pair<int,int> location) {
+    pair<int,int> castleLocation = indexToLocation(castle_location_index);
+    int x_diff = castleLocation.first - location.first;
+    int y_diff = castleLocation.second - location.second;
+    if (x_diff == 0 && y_diff == 0){
+        return "This is the castle block!";
+    }
+    string path_to_castle = "";
+    if (x_diff > 0)
+        path_to_castle += "north";
+    else if (x_diff < 0)
+        path_to_castle += "south";
+    if (y_diff > 0)
+        path_to_castle += "east";
+    else if (y_diff < 0)
+        path_to_castle += "west";
+    return "The castle is " + path_to_castle + " from here.";
 }
 
 bool Map::isLocationValid(std::pair<int,int> location) {

@@ -38,7 +38,7 @@ class Map {
     void completeMap(); //Complete rest of the map!
     std::pair<int,int> locationToIndex(std::pair<int,int> location);
     std::pair<int,int> indexToLocation(std::pair<int,int> index);
-    std::pair<int,int> map_location_index;
+    std::pair<int,int> castle_location_index;
 };
 
 #endif
