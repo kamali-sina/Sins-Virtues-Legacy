@@ -11,15 +11,22 @@
 class Enemy{
     public:
     Enemy(){ }
-    virtual int get_damaged(int _damage){
+    std::string getName() { return name; }
+    int getHP() { return hp; }
+    int getBounty() { return bounty; }
+    float getSpeed() { return speed; }
+    int getDamage() { return damage; }
+    float getRarity() { return rarity; }
+    virtual int getDamaged(int _damage){
         hp -= _damage;
         return hp;
     }
 
-    virtual std::string get_kill_dialog(){
+    virtual std::string getKillDialog(){
         return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the " + name;
     }
 
+    protected:
     std::string name = "";
     int hp = 0;
     int bounty = 0;
@@ -52,7 +59,7 @@ class Wolf: public Enemy{
     int damage = 3;
     float rarity = 3;
     
-    std::string get_kill_dialog(){
+    std::string getKillDialog(){
         return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the wolf, how does a wolf have money?";
     }
 };
