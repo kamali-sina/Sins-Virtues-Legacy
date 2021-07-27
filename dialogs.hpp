@@ -43,6 +43,10 @@ void noNormalblockPromptDialog();
 
 void yesNormalblockPromptDialog();
 
+void usedSteroidDialog(int new_maxhp);
+
+void itemIsNoLongerUsableDialog(std::string item_name);
+
 void showPrompt(std::string prompt, std::string block_name, std::string block_color);
 
 #endif
