@@ -28,7 +28,6 @@ class Game{
     Block* getBlockAtPlayerLocation();
     Player* getPlayer();
     Map getMap();
-    void digHere(int inventory_index);
     void run();
 
     // command handlers
@@ -46,12 +45,17 @@ class Game{
     void sell(std::vector<std::string> splitted_input);
     void exit_to_world(std::vector<std::string> splitted_input);
 
+    void digHere(int inventory_index);
+    //TODO: 
+    void enterBlacksmith();
+    void enterShop();
+    void fightEnemy(Enemy* enemy);
+
     float player_time = 0.0;
     float enemy_time = 0.0;
     float world_time = 0.0;
     int state = NORMAL; 
     
-    //TODO: add player and map
     private:
     Map map;
     Player *player = new Player();

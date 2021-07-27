@@ -163,6 +163,42 @@ void Game::handleNewReachedBlock() {
     }
 }
 
+// TODO:
+// def fight_enemy(self, enemy):
+//         print(colored('\n--Entered Battle--\n','red'))
+//         notification('enemy info:\n' + str(enemy), speed=18)
+//         print()
+//         save_state = self.state
+//         self.state = 'fight'
+//         self.set_command_set()
+//         self.enemy = enemy
+//         self.my_time = float(enemy.speed)
+//         self.enemy_time = float(self.player.equipped.speed)
+//         self.attacked = False
+//         while(True):
+//             if (self.enemy_time < self.my_time):
+//                 #Enemy's turn to attack!
+//                 notification(self.enemy.attack(self.player), speed=26)
+//                 self.enemy_time += self.player.equipped.speed
+//             else:
+//                 #our turn to attack
+//                 if (self.attacked):
+//                     self.attacked = False
+//                     self.player.update_status_effects()
+//                 print(colored("Your hp",'green') + f': {self.player.hp}')
+//                 print(colored("Enemy's hp",'red') + f': {self.enemy.hp}\n')
+//                 self.player.print_affected_effects()
+//                 input_str = input(colored("> ",'red')).strip().lower()
+//                 self.process_input(input_str)
+//             if(self.enemy.hp <= 0):
+//                 notification(f'the {colored(self.enemy.name, "red")} is dead.', speed=20)
+//                 print()
+//                 dialog("You", self.enemy.get_kill_dialog(), "yellow", speed=18)
+//                 self.player.coin += self.enemy.bounty
+//                 break
+//         self.player.reset_status_effects()
+//         self.state = save_state
+
 void Game::inventory(std::vector<std::string> splitted_input) {
     cout<<"base inventory..."<<endl;
 }
