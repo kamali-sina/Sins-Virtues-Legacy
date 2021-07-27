@@ -97,6 +97,8 @@ class UtilityItem : public Item {
     UtilityItem();
     std::string getInfo();
     int getSellprice();
+    int getUsesRemaining() { return uses; }
+    int use();
 
     protected:
     int initial_uses = 0;

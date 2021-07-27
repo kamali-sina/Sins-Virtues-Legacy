@@ -73,6 +73,13 @@ std::string UtilityItem::getInfo() {
     return "uses remaining: " + to_string(uses);
 }
 
+int UtilityItem::use() {
+    uses -= 1;
+    if (uses <= 0)
+        return 0;
+    return 1;
+}
+
 /* ==================== HP ==================== */
 
 HpItem::HpItem() {
