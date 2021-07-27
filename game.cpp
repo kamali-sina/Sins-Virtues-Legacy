@@ -66,6 +66,29 @@ Player* Game::getPlayer() {
     return player;
 }
 
+Map Game::getMap() {
+    return map;
+}
+
+void Game::digHere(int inventory_index) {
+    Block* block = getBlockAtPlayerLocation();
+    if (block->getID() != DIGABLEBLOCK) {
+        cantDigHereDialog();
+        return;
+    }
+    DigableBlock* digableBlock = (DigableBlock*)block;
+    player->useItem(inventory_index);
+    if (digableBlock->getContainsItem()) {
+        digableBlock->setContainsItem(false);
+        Item* item = digableBlock->getItemInside();
+        foundItemDialog(item->getName());
+        player->addItem(item);
+    } else {
+        didntFindItemDialog();
+    }
+    map.setBlockAtLocation(player->getLocation(), new NormalBlock(true));
+}
+
 bool mini_valid(vector<string> command_set, vector<int> command_count, string command, int count) {
     int index = find(command_set.begin(), command_set.end(), command) - command_set.begin();
     if (index != command_set.size()) {
