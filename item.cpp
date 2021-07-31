@@ -5,10 +5,10 @@ using namespace std;
 /* ==================== Base Class ==================== */
 
 int Item::getSellprice() {
-    float MAX = 0.80;
-    float MIN = 0.60;
+    float MAX = 1.1;
+    float MIN = 0.81;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
-    return (int)(rarity * price_multiplier);
+    return (int)(price * price_multiplier);
 }
 
 bool Item::tagsContain(std::string tag) {
@@ -62,11 +62,11 @@ UtilityItem::UtilityItem() {
 }
 
 int UtilityItem::getSellprice() {
-    float MAX = 0.80;
-    float MIN = 0.60;
+    float MAX = 1.1;
+    float MIN = 0.8;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
     float use_multiplier = (float)(uses) / (float)(initial_uses);
-    return (int)(rarity * price_multiplier * use_multiplier);   
+    return (int)(price * price_multiplier * use_multiplier);   
 }
 
 std::string UtilityItem::getInfo() { 
@@ -126,7 +126,7 @@ int AttackItem::getScrapParts() {
     float price_multiplier = (MAX - MIN) * random() + MIN;
     price_multiplier *= 1 + ((float)lvl / 3.0);
     price_multiplier *= 0.25;
-    return (int)(rarity * price_multiplier);
+    return (int)(price * price_multiplier);
 }
 
 std::string AttackItem::getInfo() {
@@ -212,11 +212,12 @@ std::string RangedAttackItem::getInfo() {
 
 Shovel::Shovel() {
     initial_uses = 4;
-    rarity = COMMON;
+    rarity = UNCOMMON;
     tags.push_back(RANDOMTAG);
     tags.push_back("attack");
     name = "shovel";
     uses = initial_uses;
+    price = 4;
     id = 1;
     /*
         TODO:
@@ -231,6 +232,7 @@ Compass::Compass() {
     rarity = EPIC;
     tags.push_back(RANDOMTAG);
     name = "compass";
+    price = 9;
     uses = initial_uses;
     id = 2;
 }
@@ -245,6 +247,7 @@ MapItem::MapItem() {
     rarity = RARE;
     tags.push_back(RANDOMTAG);
     name = "map";
+    price = 7;
     uses = initial_uses;
     id = 3;
 }
@@ -256,16 +259,19 @@ Steroid::Steroid() {
     tags.push_back(RANDOMTAG);
     name = "steroid";
     uses = initial_uses;
+    price = 12;
     id = 4;
 }
 
 /* ==================== MeleeAttackItem Classes ==================== */
 
 Fist::Fist() {
+    tags.push_back(NOTBUYABLETAG);
     rarity = 0;
     name = "fist";
     damage = 1;
     speed = 6;
+    price = 0;
     id = 5;
 }
 
@@ -277,6 +283,7 @@ Knife::Knife() {
     name = "knife";
     damage = 3;
     speed = 9;
+    price = 7;
     id = 6;
 }
 
@@ -286,7 +293,8 @@ Sword::Sword() {
     tags.push_back(RANDOMTAG);
     name = "sword";
     damage = 7;
-    speed = 6;
+    speed = 5;
+    price = 13;
     id = 7;
 }
 
@@ -297,6 +305,7 @@ Axe::Axe() {
     name = "sword";
     damage = 14;
     speed = 2;
+    price = 8;
     id = 8;
 }
 
@@ -308,6 +317,7 @@ Peacemaker::Peacemaker() {
     name = "peacemaker";
     damage = 6;
     speed = 6;
+    price = 14;
     misschance = 0.2;
     id = 9;
 }
@@ -318,6 +328,7 @@ Shotgun::Shotgun() {
     name = "shotgun";
     damage = 13;
     speed = 5;
+    price = 18;
     misschance = 0.3;
     id = SHOTGUN;
 }
@@ -328,6 +339,7 @@ Apple::Apple() {
     rarity = COMMON;
     tags.push_back(RANDOMTAG);
     name = "apple";
+    price = 2;
     hp = 3;
     id = 10;
 }
@@ -338,6 +350,7 @@ Celery::Celery() {
     tags.push_back(RANDOMTAG);
     name = "celery";
     hp = 11;
+    price = 7;
     id = 11;
 } 
 
@@ -347,6 +360,7 @@ Meat::Meat() {
     tags.push_back(RANDOMTAG);
     name = "meat";
     hp = 6;
+    price = 5;
     id = 12;
 } 
 
@@ -355,6 +369,7 @@ Meat::Meat() {
 CoinStack::CoinStack() {
     rarity = UNCOMMON;
     tags.push_back(RANDOMTAG);
+    tags.push_back(NOTBUYABLETAG);
     name = "coinstack";
     min_coins = 2;
     max_coins = 4;
@@ -366,6 +381,7 @@ CoinStack::CoinStack() {
 CoinBag::CoinBag() {
     rarity = RARE;
     tags.push_back(RANDOMTAG);
+    tags.push_back(NOTBUYABLETAG);
     name = "coinbag";
     min_coins = 3;
     max_coins = 8;
@@ -380,6 +396,7 @@ ScrapBox::ScrapBox() {
     tags.push_back(RANDOMTAG);
     name = "scrapbox";
     min_scraps = 1;
+    price = 9;
     max_scraps = 3;
     assignAmount();
     id = 15;

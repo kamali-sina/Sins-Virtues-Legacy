@@ -45,6 +45,7 @@ In case of adding a new item, add these to the following locations:
 /* ==================== Base Classes ==================== */
 
 #define RANDOMTAG "random"
+#define NOTBUYABLETAG "notbuyable"
 
 class Item {
     public:
@@ -63,6 +64,7 @@ class Item {
     protected:
     std::vector<std::string> tags;
     float rarity;
+    int price;
     std::string name = "item";
     std::string color = WHITE;
     int id;
