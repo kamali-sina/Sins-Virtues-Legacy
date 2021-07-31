@@ -4,6 +4,8 @@
 
 using namespace std;
 
+/* ==================== Block ==================== */
+
 Block::Block(): tags() {
     name = "block";
     rarity = 1;
@@ -18,6 +20,8 @@ bool Block::tagsContain(std::string tag) {
     }
     return false;
 }
+
+/* ==================== NormalBlock ==================== */
 
 NormalBlock::NormalBlock(bool no_chest) {
     tags.push_back("random");
@@ -53,6 +57,7 @@ std::string NormalBlock::getString() {
     return me;
 }
 
+/* ==================== DigableBlock ==================== */
 
 DigableBlock::DigableBlock() {
     tags.push_back("random");
@@ -69,6 +74,7 @@ DigableBlock::DigableBlock() {
     color = MAGENTA;
 }
 
+/* ==================== HomeBlock ==================== */
 
 HomeBlock::HomeBlock() {
     tags.push_back("random");
@@ -87,6 +93,7 @@ HomeBlock::HomeBlock() {
     item_inside = getRandomItem(0);
 }
 
+/* ==================== ShopBlock ==================== */
 
 ShopBlock::ShopBlock() {
     tags.push_back("random");
@@ -97,13 +104,35 @@ ShopBlock::ShopBlock() {
     color = YELLOW;
     has_prompt = true;
     has_adjacent_dialog = true;
-    init_stock(); 
+    initStock(); 
 }
 
-void ShopBlock::init_stock() {
-    //TODO: complete stock logic
+void ShopBlock::initStock() {
+    vector<string> ignored_tags({NOTBUYABLETAG});
+    for (int i = 0 ; i < ITEMCOUNT ; i++) {
+        Item* item = getItem(i);
+        if (item->tagsContain(NOTBUYABLETAG)) continue;
+        item->rerollPrice();
+        stock.push_back(item);
+    }
 }
 
+int ShopBlock::indexItem(std::string item_name) {
+    for (int i = 0 ; i < stock.size() ; i++ ) {
+        if (stock[i]->getName() == item_name)
+            return i;
+    }
+    return -1;
+}
+
+Item* ShopBlock::buyItem(std::string item_name) {
+    int index = indexItem(item_name);
+    Item* item = stock[index];
+    stock.erase(stock.begin() + index);
+    return item;
+}
+
+/* ==================== BlacksmithBlock ==================== */
 
 BlacksmithBlock::BlacksmithBlock() {
     tags.push_back("random");
@@ -115,6 +144,8 @@ BlacksmithBlock::BlacksmithBlock() {
     has_prompt = true;
     has_adjacent_dialog = true; 
 }
+
+/* ==================== CastleBlock ==================== */
 
 CastleBlock::CastleBlock() {
     number_of_enemies = (int)(_random() * max_enemy_count) + 1;
@@ -135,6 +166,8 @@ void CastleBlock::initEnemies() {
     //TODO: spawn boss
     boss = getRandomEnemy();
 }
+
+/* ==================== Getters ==================== */
 
 Block *getBlock(int block_id) {
     switch (block_id) {

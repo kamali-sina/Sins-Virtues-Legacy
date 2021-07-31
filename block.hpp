@@ -113,14 +113,16 @@ class ShopBlock : public Block {
 
     int buyItem(int index);
     int indexItem(std::string item_name);
-    void init_stock();
+    void initStock();
 
     std::string getInfo() { return "I can spend the coins I found here and sell my extra stuff."; }
     std::string getPrompt() { return "Enter the shop?(y,n)"; }
     std::string getAdjacentDialog() { return "I can see a shop nearby..."; }
+    int indexItem(std::string item_name);
+    Item* buyItem(std::string item_name);
 
     protected:
-    std::vector<Item> Stock;
+    std::vector<Item*> stock;
 };
 
 class BlacksmithBlock : public Block {
