@@ -50,7 +50,8 @@ In case of adding a new item, add these to the following locations:
 class Item {
     public:
     Item() {;}
-    virtual int getSellprice();
+    virtual int rerollPrice();
+    int getSellPrice() { return sell_price; }
     std::string getName() { return name; }
     bool tagsContain(std::string tag);
     int getID() { return id; }
@@ -65,6 +66,7 @@ class Item {
     std::vector<std::string> tags;
     float rarity;
     int price;
+    int sell_price = 0;
     std::string name = "item";
     std::string color = WHITE;
     int id;
@@ -98,7 +100,7 @@ class UtilityItem : public Item {
     public:
     UtilityItem();
     std::string getInfo();
-    int getSellprice();
+    int rerollPrice();
     int getUsesRemaining() { return uses; }
     int use();
 

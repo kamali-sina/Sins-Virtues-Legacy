@@ -4,11 +4,12 @@ using namespace std;
 
 /* ==================== Base Class ==================== */
 
-int Item::getSellprice() {
+int Item::rerollPrice() {
     float MAX = 1.1;
     float MIN = 0.81;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
-    return (int)(price * price_multiplier);
+    sell_price = (int)(price * price_multiplier);
+    return sell_price;
 }
 
 bool Item::tagsContain(std::string tag) {
@@ -61,12 +62,13 @@ UtilityItem::UtilityItem() {
     uses = initial_uses;
 }
 
-int UtilityItem::getSellprice() {
+int UtilityItem::rerollPrice() {
     float MAX = 1.1;
     float MIN = 0.8;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
     float use_multiplier = (float)(uses) / (float)(initial_uses);
-    return (int)(price * price_multiplier * use_multiplier);   
+    sell_price = (int)(price * price_multiplier * use_multiplier);
+    return sell_price;
 }
 
 std::string UtilityItem::getInfo() { 
