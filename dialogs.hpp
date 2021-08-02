@@ -57,6 +57,10 @@ void haveToFightEnemyInHomeDialog(std::string enemy_name);
 
 void restAfterFightDialog();
 
+void equippedItemDialog(std::string item_name);
+
 void showPrompt(std::string prompt, std::string block_name, std::string block_color);
+
+void IHaveNoItemsDialog();
 
 #endif

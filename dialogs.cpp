@@ -109,6 +109,14 @@ void restAfterFightDialog() {
     dialog("You", "I can rest here now...", YELLOW, 29);
 }
 
+void equippedItemDialog(std::string item_name) {
+    dialog("You", "equipped item is now " + item_name , YELLOW, 29);
+}
+
+void IHaveNoItemsDialog() {
+    dialog("You", "I have no items in my inventory!" , YELLOW, 29);
+}
+
 void showPrompt(std::string prompt, std::string block_name, std::string block_color) {
     dialog(block_name, prompt, block_color, 23);
 }
