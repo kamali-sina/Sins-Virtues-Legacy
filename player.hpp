@@ -36,6 +36,5 @@ class Player {
     int scrap=0;
     float time_in_fight = 0;
     std::pair<int,int> location;
-    //TODO: set to fists
     Item* equipped;
 };

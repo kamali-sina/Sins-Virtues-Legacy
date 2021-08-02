@@ -47,7 +47,6 @@ char getche(void)
     return getch_(1);
 }
 
-//FIXME: kbhit writes to terminal! fix it.
 int kbhit(){
     int ch;
     int oldf;

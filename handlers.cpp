@@ -56,14 +56,13 @@ void handleHomeBlock(bool ans, Game &game) {
     game.getPlayer()->refillHP();
     notification("Health fully restored!");
     notification("It's morning now, Game Saved!");
-    //TODO:
-    // reset world times
+    game.resetWorldTimer();
     if (homeblock->getContainsItem()) {
         homeblock->setContainsItem(false);
         Item* item = homeblock->getItemInside();
         game.getPlayer()->addItem(item);
     }
-    // save game
+    // TODO: save game
 }
 
 void handleShopBlock(bool ans, Game &game) {

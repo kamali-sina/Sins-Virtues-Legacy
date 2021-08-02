@@ -268,11 +268,13 @@ void Game::use(std::vector<std::string> splitted_input) {
 void Game::info(std::vector<std::string> splitted_input) {
     updateWorldTimer(0.1);   
     player->printInfo();
-    //TODO: complete
     // block = self.map.get(self.player.location)
     cout << "time: " << getClockTime() << endl;
-    // if (self.state == 'normal'): print(f'current block is {colored(block.name,"magenta")}')
-    // elif (self.state == 'fight'): print(f'enemy has {colored(self.enemy.hp,"red")} hp left')
+    if (state == NORMAL){ 
+        cout << "current block is " << colored(getBlockAtPlayerLocation()->getName(), MAGENTA) << endl;
+    } else if (state == FIGHT) {
+        // TODO: print(f'enemy has {colored(self.enemy.hp,"red")} hp left')
+    } 
 }
 
 void Game::commands(std::vector<std::string> splitted_input) {
