@@ -98,7 +98,7 @@ std::string HpItem::getInfo() {
 
 AttackItem::AttackItem() {
     type = "none";
-    tags.push_back("attack");
+    tags.push_back(ATTACKITEMTAG);
     color = RED;
     name = "attackItem";
 }
@@ -139,7 +139,7 @@ std::string AttackItem::getInfo() {
 
 MeleeAttackItem::MeleeAttackItem() {
     type = "melee";
-    tags.push_back("attack");
+    tags.push_back(ATTACKITEMTAG);
     tags.push_back("melee");
     name = "meleeattackItem";
     rarity = 0;
@@ -177,7 +177,7 @@ std::string MeleeAttackItem::getInfo() {
 
 RangedAttackItem::RangedAttackItem() {
     type = "ranged";
-    tags.push_back("attack");
+    tags.push_back(ATTACKITEMTAG);
     tags.push_back("ranged");
     name = "rangedattackItem";
     rarity = 0;
@@ -216,7 +216,7 @@ Shovel::Shovel() {
     initial_uses = 4;
     rarity = UNCOMMON;
     tags.push_back(RANDOMTAG);
-    tags.push_back("attack");
+    tags.push_back(ATTACKITEMTAG);
     name = "shovel";
     uses = initial_uses;
     price = 4;
@@ -304,7 +304,7 @@ Sword::Sword() {
 Axe::Axe() {
     rarity = RARE;
     tags.push_back(RANDOMTAG);
-    name = "sword";
+    name = "axe";
     damage = 14;
     speed = 2;
     price = 8;
