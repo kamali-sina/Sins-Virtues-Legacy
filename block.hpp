@@ -112,8 +112,8 @@ class ShopBlock : public Block {
     ShopBlock();
 
     int buyItem(int index);
-    int indexItem(std::string item_name);
     void initStock();
+    void printStock();
 
     std::string getInfo() { return "I can spend the coins I found here and sell my extra stuff."; }
     std::string getPrompt() { return "Enter the shop?(y,n)"; }
@@ -128,8 +128,6 @@ class ShopBlock : public Block {
 class BlacksmithBlock : public Block {
     public:
     BlacksmithBlock();
-
-    //TODO: complete Logic
 
     std::string getInfo() { return "I can upgrade my weapons and dismantle the extra stuff I found here."; }
     std::string getPrompt() { return "Enter the blacksmith?(y,n)"; }
