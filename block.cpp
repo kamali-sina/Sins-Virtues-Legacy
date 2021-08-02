@@ -110,7 +110,7 @@ ShopBlock::ShopBlock() {
 void ShopBlock::initStock() {
     vector<string> ignored_tags({NOTBUYABLETAG});
     for (int i = 0 ; i < ITEMCOUNT ; i++) {
-        Item* item = getItem(i);
+        Item* item = getItem(i + 1);
         if (item->tagsContain(NOTBUYABLETAG)) continue;
         item->rerollPrice();
         stock.push_back(item);
@@ -130,6 +130,18 @@ Item* ShopBlock::buyItem(std::string item_name) {
     Item* item = stock[index];
     stock.erase(stock.begin() + index);
     return item;
+}
+
+void ShopBlock::printStock() {
+    cout<<"==========Shop Stock==========" << endl;
+    cout<<"  name                price" << endl;
+    cout<<"------------------------------" << endl;
+    for (auto item : stock) {
+        cout<< item->getString();
+        int spaces = 24 - item->getName().length();
+        for (int i = 0 ; i < spaces ; i++) cout<<" ";
+        cout<<colored(to_string(item->getSellPrice()),YELLOW) <<endl;
+    }
 }
 
 /* ==================== BlacksmithBlock ==================== */
