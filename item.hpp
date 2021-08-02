@@ -46,6 +46,7 @@ In case of adding a new item, add these to the following locations:
 
 #define RANDOMTAG "random"
 #define NOTBUYABLETAG "notbuyable"
+#define ATTACKITEMTAG "attack"
 
 class Item {
     public:
