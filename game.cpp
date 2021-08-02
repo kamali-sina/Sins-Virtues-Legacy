@@ -15,6 +15,8 @@ vector<string> PROMPT_COMMANDS({"yes", "no", "y", "n"});
 vector<int> PROMPT_COMMANDS_COUNT({1, 1, 1, 1});
 vector<string> SHOP_COMMANDS({"inventory", "info", "commands", "stock", "buy", "sell", "exit"});
 vector<int> SHOP_COMMANDS_COUNT({1, 1, 1, 1, 2, 2, 1});
+vector<string> BLACKSMITH_COMMANDS({"inventory", "info", "commands", "upgrade", "scrap", "exit"});
+vector<int> BLACKSMITH_COMMANDS_COUNT({1, 1, 1, 2, 2, 1});
 
 void Game::init_handlers() {
     if (handlers["move"] == NULL) {
@@ -31,6 +33,8 @@ void Game::init_handlers() {
         handlers["sell"] = &Game::sell;
         handlers["exit"] = &Game::exit_to_world;
         handlers["dev_map"] = &Game::dev_map;
+        handlers["upgrade"] = &Game::upgrade;
+        handlers["scrap"] = &Game::scrap;
 
         handlers["y"] = &Game::prompt_handler;
         handlers["n"] = &Game::prompt_handler;
@@ -48,7 +52,36 @@ Game::Game() {
     return;
 }
 
+void Game::updateCommandSet() {
+    switch(state) {
+        case NORMAL:
+            active_commandset = NORMAL_COMMANDS;
+            active_commandset_count = NORMAL_COMMANDS_COUNT;
+            return;
+        case FIGHT:
+            active_commandset = FIGHT_COMMANDS;
+            active_commandset_count = FIGHT_COMMANDS_COUNT;
+            return;
+        case PROMPT:
+            active_commandset = PROMPT_COMMANDS;
+            active_commandset_count = PROMPT_COMMANDS_COUNT;
+            return;
+        case SHOP:
+            active_commandset = SHOP_COMMANDS;
+            active_commandset_count = SHOP_COMMANDS_COUNT;
+            return;
+        case BLACKSMITH:
+            active_commandset = BLACKSMITH_COMMANDS;
+            active_commandset_count = BLACKSMITH_COMMANDS_COUNT;
+            return;
+        default:
+            _error("unknown error happened!");
+            exit(0);
+    }
+}
+
 void Game::run() {
+    updateCommandSet();
     while (true) {
         string input;
         cout<<"> ";
@@ -56,6 +89,7 @@ void Game::run() {
         input = lower(input);
         vector<string> splitted_input = split_string(input, ' ');
         validate_input(splitted_input);
+        updateCommandSet();
     }
 }
 
@@ -104,24 +138,11 @@ int index_item(std::vector<T> list, T to_be_found) {
    for (int i = 0 ; i < list.size() ; i++) {
        if (list[i] == to_be_found) return i;
    }
-   return -1;
+   return NOTFOUND;
 }
 
 bool Game::is_command_valid(string command, int count) {
-    switch(state) {
-        case NORMAL:
-            return mini_valid(NORMAL_COMMANDS, NORMAL_COMMANDS_COUNT,command, count);
-        case FIGHT:
-            return mini_valid(FIGHT_COMMANDS, FIGHT_COMMANDS_COUNT,command, count);
-        case PROMPT:
-            return mini_valid(PROMPT_COMMANDS, PROMPT_COMMANDS_COUNT, command, count);
-        case SHOP:
-            return mini_valid(SHOP_COMMANDS, SHOP_COMMANDS_COUNT, command, count);
-        default:
-            _error("unknown error happened!");
-            exit(0);
-    }
-    
+    return mini_valid(active_commandset, active_commandset_count, command, count);
 }
 
 void Game::validate_input(vector<string> splitted_input) {
@@ -140,7 +161,7 @@ void Game::move(std::vector<std::string> splitted_input) {
     vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
          pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
     int index = index_item<string>(moveset, splitted_input[1]);
-    if (index == -1){
+    if (index == NOTFOUND){
         _error("command is invalid!");
         return;
     }
@@ -151,6 +172,7 @@ void Game::move(std::vector<std::string> splitted_input) {
         return;
     }
     player->setLocation(new_location);
+    updateWorldTimer(0.30);
     handleNewReachedBlock();
 }
 
@@ -175,7 +197,6 @@ void Game::enterShop() {
 void Game::fightEnemy(Enemy* enemy) {
 
 }
-
 
 // TODO:
 // def fight_enemy(self, enemy):
@@ -213,8 +234,31 @@ void Game::fightEnemy(Enemy* enemy) {
 //         self.player.reset_status_effects()
 //         self.state = save_state
 
+void Game::updateWorldTimer(float value) {
+    float multi = 1;
+    world_timer += value * multi;
+}
+
+void Game::resetWorldTimer() {
+    world_timer = 0.0;
+    time_of_day = DAY;
+}
+
+std::string Game::getClockTime() {
+    float t = (int)(world_timer + 5.0) % 24;
+    int h = t;
+    int m = (t - h) * 60;
+    string hour = to_string(h);
+    string minutes = to_string(m);
+    if (hour.length() < 2) hour = "0" + hour;
+    if (minutes.length() < 2) minutes = "0" + minutes;
+    return hour + ":" + minutes;
+}
+
 void Game::inventory(std::vector<std::string> splitted_input) {
-    cout<<"base inventory..."<<endl;
+    player->updateTimeInFight(0.5);
+    updateWorldTimer(0.15);
+    player->printInventory();
 }
 
 void Game::use(std::vector<std::string> splitted_input) {
@@ -222,11 +266,20 @@ void Game::use(std::vector<std::string> splitted_input) {
 }
 
 void Game::info(std::vector<std::string> splitted_input) {
-    cout<<"player location: "<< player->getLocation().first << "," << player->getLocation().second<<endl;
+    updateWorldTimer(0.1);   
+    player->printInfo();
+    //TODO: complete
+    // block = self.map.get(self.player.location)
+    cout << "time: " << getClockTime() << endl;
+    // if (self.state == 'normal'): print(f'current block is {colored(block.name,"magenta")}')
+    // elif (self.state == 'fight'): print(f'enemy has {colored(self.enemy.hp,"red")} hp left')
 }
 
 void Game::commands(std::vector<std::string> splitted_input) {
-    cout<<"base commands..."<<endl;
+    cout<< "Available commands:" << endl;
+    for (auto& command : active_commandset) {
+        cout<< "                  " << colored("-", CYAN) << command << endl;
+    }
 }
 
 void Game::print_map(std::vector<std::string> splitted_input) {
@@ -234,7 +287,19 @@ void Game::print_map(std::vector<std::string> splitted_input) {
 }
 
 void Game::equip(std::vector<std::string> splitted_input) {
-    cout<<"base equip..."<<endl;
+    int item_index = player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    updateWorldTimer(0.13);
+    Item* item = player->getItemAtIndex(item_index);
+    if (item->tagsContain(ATTACKITEMTAG)) {
+        player->updateTimeInFight(1.5);
+        player->equipItem(item);
+    } else {
+        cantAttackWithItemDialog();
+    }
 }
 
 void Game::attack(std::vector<std::string> splitted_input) {
@@ -251,7 +316,9 @@ void Game::prompt_handler(std::vector<std::string> splitted_input) {
 }
 
 void Game::stock(std::vector<std::string> splitted_input) {
-    cout<<"base stock..."<<endl;
+    ShopBlock* shopBlock = (ShopBlock*)getBlockAtPlayerLocation();
+    shopBlock->printStock();
+    updateWorldTimer(0.18);
 }
 
 void Game::buy(std::vector<std::string> splitted_input) {
@@ -268,4 +335,12 @@ void Game::exit_to_world(std::vector<std::string> splitted_input) {
 
 void Game::dev_map(std::vector<std::string> splitted_input) {
     map.printFullMap();
+}
+
+void Game::upgrade(std::vector<std::string> splitted_input) {
+    cout<<"base upgrade..."<<endl;
+}
+
+void Game::scrap(std::vector<std::string> splitted_input) {
+    cout<<"base scrap..."<<endl;
 }
