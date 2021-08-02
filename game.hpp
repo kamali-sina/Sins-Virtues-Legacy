@@ -15,6 +15,13 @@
 #define FIGHT 1
 #define PROMPT 2
 #define SHOP 3
+#define BLACKSMITH 4
+
+#define DAY 0
+#define EVENING 1
+#define NIGHT 2
+
+#define NOTFOUND -1
 
 extern std::vector<std::string> NORMAL_COMMANDS;
 extern std::vector<std::string> FIGHT_COMMANDS;
@@ -45,8 +52,13 @@ class Game{
     void sell(std::vector<std::string> splitted_input);
     void dev_map(std::vector<std::string> splitted_input);
     void exit_to_world(std::vector<std::string> splitted_input);
+    void upgrade(std::vector<std::string> splitted_input);
+    void scrap(std::vector<std::string> splitted_input);
 
     void digHere(int inventory_index);
+    void updateWorldTimer(float value);
+    void resetWorldTimer();
+    std::string getClockTime();
     //TODO: 
     void enterBlacksmith();
     void enterShop();
@@ -54,18 +66,22 @@ class Game{
 
     float player_time = 0.0;
     float enemy_time = 0.0;
-    float world_time = 0.0;
+    float world_timer = 0.0;
+    int time_of_day = DAY;
     int state = NORMAL; 
     
     private:
     Map map;
     Player *player = new Player();
     int idiot_counter = 0;
+    std::vector<std::string> active_commandset;
+    std::vector<int> active_commandset_count;
 
     void validate_input(std::vector<std::string> splitted_input);
     void init_handlers();
     bool is_command_valid(std::string command, int count);
     void handleNewReachedBlock();
+    void updateCommandSet();
 };
 
 #endif
