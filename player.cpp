@@ -12,6 +12,18 @@ std::pair<int,int> Player::getLocation() {
     return location;
 }
 
+int Player::getCoins() {
+    return coin;
+}
+
+void Player::deductCoins(int amount) {
+    coin -= amount;
+}
+
+void Player::addCoins(int amount) {
+    coin += amount;
+}
+
 void Player::setLocation(std::pair<int,int> new_location) {
     location = new_location;
 }
@@ -47,8 +59,44 @@ int Player::getDamaged(int damage) {
     return hp;
 }
 
+int Player::getScraps() {
+    return scrap;
+}
+
+void Player::deductScraps(int amount) {
+    scrap -= amount;
+}
+
+void Player::addScraps(int amount) {
+    scrap += amount;
+}
+
+bool Player::doesItemExist(Item* item) {
+    for (auto& ite : inventory) {
+        if (ite->getName() == item->getName()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Player::addItem(Item* item) {
-    //TODO: fix coins, duplicates and other stuff
+    if (item->tagsContain(COINITEMTAG)) {
+        CoinItem* coinitem = (CoinItem*)item;
+        addCoins(coinitem->getAmount());
+        gotXCoinsDialog(coinitem->getAmount());
+        return;
+    } else if (item->tagsContain(SCRAPITEMTAG)) {
+        ScrapItem* scrapitem = (ScrapItem*)item;
+        addScraps(scrapitem->getAmount());
+        gotXScrapsDialog(scrapitem->getAmount());
+        return;
+    } else if (item->tagsContain(ATTACKITEMTAG) && doesItemExist(item)) {
+        AttackItem* attackitem = (AttackItem*)item;
+        addScraps(attackitem->getScrapParts());
+        scrappedDuplicatieItemDialog(attackitem->getName(), attackitem->getScrapParts());
+        return;
+    }
     inventory.push_back(item);
     foundItemDialog(item->getName());
 }
@@ -97,6 +145,18 @@ int Player::indexItem(std::string item_name) {
             return i;
     }
     return -1;
+}
+
+void Player::sellItem(int item_index) {
+    int price = inventory[item_index]->getPlayerSellPrice();
+    addCoins(price);
+    inventory.erase(inventory.begin() + item_index);
+    soldItemDialog(price);
+}
+
+int Player::getPlayerSellPrice(int item_index) {
+    Item* item = inventory[item_index];
+    return item->getPlayerSellPrice();
 }
 
 void Player::equipItem(Item* item) {
