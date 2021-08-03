@@ -111,7 +111,6 @@ class ShopBlock : public Block {
     public:
     ShopBlock();
 
-    int buyItem(int index);
     void initStock();
     void printStock();
 
@@ -119,7 +118,8 @@ class ShopBlock : public Block {
     std::string getPrompt() { return "Enter the shop?(y,n)"; }
     std::string getAdjacentDialog() { return "I can see a shop nearby..."; }
     int indexItem(std::string item_name);
-    Item* buyItem(std::string item_name);
+    Item* buyItem(int item_index);
+    int getItemPrice(int item_index);
 
     protected:
     std::vector<Item*> stock;
