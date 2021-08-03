@@ -191,7 +191,21 @@ void Game::enterBlacksmith() {
 }
 
 void Game::enterShop() {
-
+    // TODO: if (self.is_block_closed('shop')): return
+    cout<< colored("--Entered Shop--\n",YELLOW) << endl;
+    welcomeToShopDialog();
+    state = SHOP;
+    updateCommandSet();
+    while (state == SHOP){
+        string input;
+        cout<<colored("> ", YELLOW);
+        getline(cin, input);
+        input = lower(input);
+        vector<string> splitted_input = split_string(input, ' ');
+        validate_input(splitted_input);
+        updateCommandSet();
+    }
+    updateCommandSet();
 }
 
 void Game::fightEnemy(Enemy* enemy) {
@@ -237,10 +251,15 @@ void Game::fightEnemy(Enemy* enemy) {
 void Game::updateWorldTimer(float value) {
     float multi = 1;
     world_timer += value * multi;
+    if (world_timer > 24.0) {
+        world_timer -= 24.0;
+        days_passed += 1;
+    }
 }
 
 void Game::resetWorldTimer() {
     world_timer = 0.0;
+    days_passed += 1;
     time_of_day = DAY;
 }
 
@@ -268,7 +287,6 @@ void Game::use(std::vector<std::string> splitted_input) {
 void Game::info(std::vector<std::string> splitted_input) {
     updateWorldTimer(0.1);   
     player->printInfo();
-    // block = self.map.get(self.player.location)
     cout << "time: " << getClockTime() << endl;
     if (state == NORMAL){ 
         cout << "current block is " << colored(getBlockAtPlayerLocation()->getName(), MAGENTA) << endl;
@@ -318,21 +336,58 @@ void Game::prompt_handler(std::vector<std::string> splitted_input) {
 }
 
 void Game::stock(std::vector<std::string> splitted_input) {
-    ShopBlock* shopBlock = (ShopBlock*)getBlockAtPlayerLocation();
-    shopBlock->printStock();
+    ShopBlock* shopblock = (ShopBlock*)getBlockAtPlayerLocation();
+    shopblock->printStock();
     updateWorldTimer(0.18);
 }
 
 void Game::buy(std::vector<std::string> splitted_input) {
-    cout<<"base buy..."<<endl;
+    ShopBlock* shopblock = (ShopBlock*)getBlockAtPlayerLocation();
+    int index = shopblock->indexItem(splitted_input[1]);
+    if (index == NOTFOUND) {
+        itemNotInStockDialog();
+        return;
+    }
+    int price = shopblock->getItemPrice(index);
+    if (price > player->getCoins()){
+        notEnoughCoinsDialog();
+        return;
+    }
+    player->deductCoins(price);
+    Item* item = shopblock->buyItem(index);
+    player->addItem(item);
+}
+
+bool Game::setupPrompt(std::string prompt) {
+    notification(prompt + "(y, n)");
+    string input;
+    while (1){
+        cout<<colored("> ", WHITE);
+        cin>>input;
+        if (input == "n" || input == "no") return false;
+        else if (input == "y" || input == "yes") return true;
+        _error("answer with y or n");
+    }
 }
 
 void Game::sell(std::vector<std::string> splitted_input) {
-    cout<<"base sell..."<<endl;
+    ShopBlock* shopBlock = (ShopBlock*)getBlockAtPlayerLocation();
+    int item_index = player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    int sell_price = player->getPlayerSellPrice(item_index);
+    bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + to_string(sell_price) + " coins?");
+    if (ans) {
+        player->sellItem(item_index);
+    }
 }
 
 void Game::exit_to_world(std::vector<std::string> splitted_input) {
-    cout<<"base exit_to_world..."<<endl;
+    cout<< "exiting..." << endl;
+    updateWorldTimer(0.03);
+    state = NORMAL;
 }
 
 void Game::dev_map(std::vector<std::string> splitted_input) {

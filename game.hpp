@@ -67,6 +67,7 @@ class Game{
     float player_time = 0.0;
     float enemy_time = 0.0;
     float world_timer = 0.0;
+    int days_passed = 0;
     int time_of_day = DAY;
     int state = NORMAL; 
     
@@ -82,6 +83,7 @@ class Game{
     bool is_command_valid(std::string command, int count);
     void handleNewReachedBlock();
     void updateCommandSet();
+    bool setupPrompt(std::string prompt);
 };
 
 #endif
