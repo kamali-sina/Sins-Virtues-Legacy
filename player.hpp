@@ -14,6 +14,14 @@ class Player {
     int getMaxHp() { return max_hp; }
     Item* getItemAtIndex(int index);
     int useSteroid();
+    int getCoins();
+    int getScraps();
+    void addScraps(int amount);
+    void deductScraps(int amount);
+    void deductCoins(int amount);
+    void addCoins(int amount);
+    void sellItem(int item_index);
+    int getPlayerSellPrice(int item_index);
     void updateTimeInFight(float value) { time_in_fight += value; }
     void removeItem(int inventory_index);
     void useItem(int inventory_index);
@@ -28,6 +36,7 @@ class Player {
     void addItem(Item* item);
 
     protected:
+    bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
     int max_hp=10;
     int hp;
