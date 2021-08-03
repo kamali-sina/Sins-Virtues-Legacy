@@ -47,12 +47,15 @@ In case of adding a new item, add these to the following locations:
 #define RANDOMTAG "random"
 #define NOTBUYABLETAG "notbuyable"
 #define ATTACKITEMTAG "attack"
+#define COINITEMTAG "coin"
+#define SCRAPITEMTAG "scrap"
 
 class Item {
     public:
-    Item() {;}
+    Item();
     virtual int rerollPrice();
-    int getSellPrice() { return sell_price; }
+    int getSellPrice();
+    int getPlayerSellPrice();
     std::string getName() { return name; }
     bool tagsContain(std::string tag);
     int getID() { return id; }
@@ -61,7 +64,6 @@ class Item {
     std::string getString() { return colored(name, color); }
     std::string getColor() { return color; }
     virtual std::string getInfo() { return "infoBase"; }
-    // virtual void use(){}
 
     protected:
     std::vector<std::string> tags;
@@ -78,6 +80,7 @@ class CoinItem : public Item {
     CoinItem();
     void assignAmount();
     std::string getInfo();
+    int getAmount() { return amount; }
 
     protected:
     int min_coins = 0;
@@ -90,6 +93,7 @@ class ScrapItem : public Item {
     ScrapItem();
     void assignAmount();
     std::string getInfo();
+    int getAmount() { return amount; }
 
     protected:
     int min_scraps = 0;
@@ -126,7 +130,7 @@ class AttackItem : public Item {
     int getSpeed(){ return speed; }
     int getLvl(){ return lvl; }
     virtual std::string upgrade();
-    int getSellPrice();
+    int rerollPrice();
     int getUpgradePrice();
     int getScrapParts();
     std::string getInfo();
