@@ -4,11 +4,15 @@ using namespace std;
 
 /* ==================== Base Class ==================== */
 
+Item::Item() {
+    this->rerollPrice();
+}
+
 int Item::rerollPrice() {
     float MAX = 1.1;
     float MIN = 0.81;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
-    sell_price = (int)(price * price_multiplier);
+    sell_price = max((int)(price * price_multiplier), 1);
     return sell_price;
 }
 
@@ -19,12 +23,27 @@ bool Item::tagsContain(std::string tag) {
     return false;
 }
 
+int Item::getPlayerSellPrice() {
+    if (sell_price == 0) {
+        rerollPrice();
+    }
+    float multip = 0.8;
+    return (int)(multip * sell_price);
+}
+
+int Item::getSellPrice() {
+    if (sell_price == 0) {
+        rerollPrice();
+    }
+    return sell_price;
+}
+
 /* ==================== Coin ==================== */
 
 CoinItem::CoinItem() {
     name = "coin";
     color = YELLOW;
-    tags.push_back("coin");
+    tags.push_back(COINITEMTAG);
     assignAmount();
 }
 
@@ -41,7 +60,7 @@ std::string CoinItem::getInfo() {
 ScrapItem::ScrapItem() {
     name = "scrap";
     color = BLACK;
-    tags.push_back("scrap");
+    tags.push_back(SCRAPITEMTAG);
     assignAmount();
 }
 
@@ -109,26 +128,24 @@ std::string AttackItem::upgrade() {
     return "upgraded!";
 }
 
-int AttackItem::getSellPrice() {
+int AttackItem::rerollPrice() {
     float MAX = 0.80 + lvl * 0.3;
     float MIN = 0.60 + lvl * 0.3;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
-    return (int)(rarity * price_multiplier);
+    return max((int)(price * price_multiplier), 1);
 }
 
 int AttackItem::getUpgradePrice() {
     float price_multiplier = 1 + ((float)lvl * 0.66);
     price_multiplier *= 0.25;
-    return (int)(rarity * price_multiplier);
+    return max((int)(price * price_multiplier), 1);
 }
 
 int AttackItem::getScrapParts() {
-    float MAX = 1;
-    float MIN = 0.8;
-    float price_multiplier = (MAX - MIN) * random() + MIN;
-    price_multiplier *= 1 + ((float)lvl / 3.0);
+    float price_multiplier = 0.9;
+    price_multiplier *= 1.0 + ((float)lvl / 3.0);
     price_multiplier *= 0.25;
-    return (int)(price * price_multiplier);
+    return max((int)(price * price_multiplier), 1);
 }
 
 std::string AttackItem::getInfo() {
@@ -216,7 +233,7 @@ Shovel::Shovel() {
     initial_uses = 4;
     rarity = UNCOMMON;
     tags.push_back(RANDOMTAG);
-    tags.push_back(ATTACKITEMTAG);
+    // tags.push_back(ATTACKITEMTAG);
     name = "shovel";
     uses = initial_uses;
     price = 4;
