@@ -125,11 +125,15 @@ int ShopBlock::indexItem(std::string item_name) {
     return -1;
 }
 
-Item* ShopBlock::buyItem(std::string item_name) {
-    int index = indexItem(item_name);
-    Item* item = stock[index];
-    stock.erase(stock.begin() + index);
+Item* ShopBlock::buyItem(int item_index) {
+    Item* item = stock[item_index];
+    stock.erase(stock.begin() + item_index);
     return item;
+}
+
+int ShopBlock::getItemPrice(int item_index) {
+    Item* item = stock[item_index];
+    return item->getSellPrice();
 }
 
 void ShopBlock::printStock() {
