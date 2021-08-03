@@ -63,4 +63,12 @@ void showPrompt(std::string prompt, std::string block_name, std::string block_co
 
 void IHaveNoItemsDialog();
 
+void soldItemDialog(int price);
+
+void scrappedDuplicatieItemDialog(std::string item_name, int scrap_amount);
+
+void gotXCoinsDialog(int amount);
+
+void gotXScrapsDialog(int amount);
+
 #endif
