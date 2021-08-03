@@ -3,11 +3,11 @@
 using namespace std;
 
 void introCutscene() {
-    cprint("\n======== Sins & Virtues ========", "blue");
+    cprint("\n======== Sins & Virtues ========", BLUE);
     cprint("=== A game made by PapaSinku ===\n", YELLOW);
-    dialog("Unknown", "Have you ever been to the SinkuLand?\n", "red", 8);
+    dialog("Unknown", "Have you ever been to the SinkuLand?\n", RED, 8);
     dialog("You", "No I can't recall...", YELLOW, 4);
-    dialog("Unknown", "Close your eyes, and just imagine SinkuLand...", "red", 10);
+    dialog("Unknown", "Close your eyes, and just imagine SinkuLand...", RED, 10);
     sleep(1);
     cprint("\n> A white light fills the room\n","magenta");
     dialog("You", "Where the hell am I? It's getting dark, better find shelter.", YELLOW, 7);
@@ -22,31 +22,31 @@ void dontHaveItemsDialog() {
 }
 
 void itemNotInStockDialog() {
-    dialog("Shopkeeper", "I do not have that item in stock!", "green", 18);
+    dialog("Shopkeeper", "I do not have that item in stock!", GREEN, 18);
 }
 
 void notEnoughCoinsDialog() {
-    dialog("Shopkeeper", "You do not have enough coins to buy that!", "green", 18);
+    dialog("Shopkeeper", "You do not have enough coins to buy that! You trying to scam me?", GREEN, 18);
 }
 
 void welcomeToShopDialog() {
-    dialog("Shopkeeper", "Welcome stranger! Whatever you want, I got it.", "green", 18);
+    dialog("Shopkeeper", "Welcome stranger! Whatever you want, I got it.", GREEN, 18);
 }
 
 void cantUseItemDialog() {
-    dialog("You", "I can't use that item!", YELLOW, 17);
+    dialog("You", "I can't use that item!", YELLOW, 25);
 }
 
 void cantDigHereDialog() {
-    dialog("You", "This is not a digable block!", YELLOW, 17);
+    dialog("You", "This is not a digable block!", YELLOW, 25);
 }
 
 void foundItemDialog(std::string item_name) {
-    dialog("You", "I found a " + item_name + "!", YELLOW, 17);
+    dialog("You", "I got a " + item_name + "!", YELLOW, 25);
 }
 
 void didntFindItemDialog() {
-    dialog("You", "There was nothing here!", YELLOW, 17);
+    dialog("You", "There was nothing here!", YELLOW, 25);
 }
 
 void newBlockReachedDialog(std::string block_name, std::string block_info) {
@@ -58,7 +58,7 @@ void deathDialog() {
 }
 
 void defaultKillDialog() {
-    dialog("You", "It's over, time to move on...", YELLOW, 17);
+    dialog("You", "It's over, time to move on...", YELLOW, 25);
 }
 
 void cantAttackWithItemDialog() {
@@ -117,6 +117,22 @@ void IHaveNoItemsDialog() {
     dialog("You", "I have no items in my inventory!" , YELLOW, 29);
 }
 
+void soldItemDialog(int price) {
+    dialog("You", "Sold item for " + to_string(price) + " coins." , YELLOW, 29);
+}
+
 void showPrompt(std::string prompt, std::string block_name, std::string block_color) {
     dialog(block_name, prompt, block_color, 23);
+}
+
+void scrappedDuplicatieItemDialog(std::string item_name, int scrap_amount) {
+    dialog("You", "I already had a " + item_name + " so I scrapped this one for " + to_string(scrap_amount) + " scraps." , YELLOW, 29);
+}
+
+void gotXCoinsDialog(int amount) {
+    dialog("You", "Found " + to_string(amount) + " coins." , YELLOW, 29);
+}
+
+void gotXScrapsDialog(int amount) {
+    dialog("You", "Found " + to_string(amount) + " scraps." , YELLOW, 29);    
 }
