@@ -51,6 +51,10 @@ void noBlackSmithBlockDialog();
 
 void noShopBlockPromptDialog();
 
+void hpIsNowFullDialog(int hp);
+
+void hpIsNowDialog(int hp);
+
 void noHomeBlockPromptDialog();
 
 void haveToFightEnemyInHomeDialog(std::string enemy_name);
@@ -70,5 +74,23 @@ void scrappedDuplicatieItemDialog(std::string item_name, int scrap_amount);
 void gotXCoinsDialog(int amount);
 
 void gotXScrapsDialog(int amount);
+
+void welcomeToBlacksmithDialog();
+
+void itemNotScrappableDialog();
+
+void itemNotUpgradbleDialog();
+
+void cantUpgradeMaxitemDialog();
+
+void postUpgradeDialog(std::string item_name, int price, std::string result);
+
+void postScrapDialog(std::string item_name, int price);
+
+void notEnoughScrapsDialog();
+
+void dontWasteMyTimeDialog();
+
+void understandableHaveAGoodDialog();
 
 #endif

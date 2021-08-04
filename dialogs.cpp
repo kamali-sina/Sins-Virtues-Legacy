@@ -33,6 +33,10 @@ void welcomeToShopDialog() {
     dialog("Shopkeeper", "Welcome stranger! Whatever you want, I got it.", GREEN, 18);
 }
 
+void understandableHaveAGoodDialog() {
+    dialog("Shopkeeper", "Understandable, have a good day!", GREEN, 30);
+}
+
 void cantUseItemDialog() {
     dialog("You", "I can't use that item!", YELLOW, 25);
 }
@@ -57,7 +61,7 @@ void deathDialog() {
     dialog("You", "fuck, is this what death is? god damn it hurts...\nI'm just gonna close my eyes for a little bit...\n\ngoodbye...", YELLOW, 6);
 }
 
-void defaultKillDialog() {
+void voidaultKillDialog() {
     dialog("You", "It's over, time to move on...", YELLOW, 25);
 }
 
@@ -117,6 +121,15 @@ void IHaveNoItemsDialog() {
     dialog("You", "I have no items in my inventory!" , YELLOW, 29);
 }
 
+void hpIsNowFullDialog(int hp) {
+    dialog("You", "Hp is now full at " + to_string(hp) + " hp." , YELLOW, 29);
+}
+
+void hpIsNowDialog(int hp) {
+    dialog("You", "Hp is now at " + to_string(hp) + " hp." , YELLOW, 29);
+}
+
+
 void soldItemDialog(int price) {
     dialog("You", "Sold item for " + to_string(price) + " coins." , YELLOW, 29);
 }
@@ -135,4 +148,36 @@ void gotXCoinsDialog(int amount) {
 
 void gotXScrapsDialog(int amount) {
     dialog("You", "Found " + to_string(amount) + " scraps." , YELLOW, 29);    
+}
+
+void welcomeToBlacksmithDialog() {
+    dialog("Blacksmith", "Welcome stranger! You want stronger weapons? I have it.", BLUE, 22);
+}
+
+void itemNotScrappableDialog() {
+    dialog("Blacksmith", "I can't scrap that item! it's worthless to me.", BLUE, 27);
+}
+
+void itemNotUpgradbleDialog() {
+    dialog("Blacksmith", "I can't upgrade that item! it's not an attack item.", BLUE, 28);
+}
+
+void cantUpgradeMaxitemDialog() {
+    dialog("Blacksmith", "I can't upgrade that item anymore! it's at max level.", BLUE, 22);
+}
+
+void notEnoughScrapsDialog() {
+    dialog("Blacksmith", "You do not have enough scraps to upgrade that!", BLUE, 24);
+}
+
+void dontWasteMyTimeDialog() {
+    dialog("Blacksmith", "Don't waste my time. either upgrade or get out!", BLUE, 30);
+}
+
+void postUpgradeDialog(std::string item_name, int price, std::string result) {
+    dialog("Blacksmith", "upgraded " + item_name + " for " + to_string(price) + " parts. " + result, BLUE, 30);
+}
+
+void postScrapDialog(std::string item_name, int price) {
+    dialog("Blacksmith", "scrapped " + item_name + " for " + to_string(price) + " scraps.", BLUE, 30);
 }
