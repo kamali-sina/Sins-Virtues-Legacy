@@ -49,6 +49,10 @@ In case of adding a new item, add these to the following locations:
 #define ATTACKITEMTAG "attack"
 #define COINITEMTAG "coin"
 #define SCRAPITEMTAG "scrap"
+#define UTILITYITEMTAG "utility"
+#define HPITEMTAG "hp"
+
+#define ATTACKITEMMAXLEVEL 3
 
 class Item {
     public:
@@ -68,7 +72,7 @@ class Item {
     protected:
     std::vector<std::string> tags;
     float rarity;
-    int price;
+    int price = -1;
     int sell_price = 0;
     std::string name = "item";
     std::string color = WHITE;
@@ -149,10 +153,6 @@ class MeleeAttackItem : public AttackItem {
     std::string getInfo();
 
     protected:
-    int speed = 0;
-    int damage = 0;
-    std::string type;
-    int lvl = 0;
 };
 
 class RangedAttackItem : public AttackItem {
@@ -162,11 +162,7 @@ class RangedAttackItem : public AttackItem {
     std::string getInfo();
 
     protected:
-    int speed = 0;
-    int damage = 0;
     float misschance = 0.0;
-    std::string type;
-    int lvl = 0;
 };
 
 /* ==================== UtilityItem Classes ==================== */
