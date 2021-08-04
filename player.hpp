@@ -30,6 +30,8 @@ class Player {
     void printInfo();
     int indexItem(std::string item_name);
     void equipItem(Item* item);
+    void scrapItem(int item_index);
+    int healWithItem(int item_index);
     std::pair<int,int> getLocation();
     int refillHP();
     int heal(int amount);
