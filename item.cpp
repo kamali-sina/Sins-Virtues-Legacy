@@ -5,7 +5,6 @@ using namespace std;
 /* ==================== Base Class ==================== */
 
 Item::Item() {
-    this->rerollPrice();
 }
 
 int Item::rerollPrice() {
@@ -28,7 +27,7 @@ int Item::getPlayerSellPrice() {
         rerollPrice();
     }
     float multip = 0.8;
-    return (int)(multip * sell_price);
+    return max((int)(multip * sell_price), 1);
 }
 
 int Item::getSellPrice() {
@@ -77,7 +76,7 @@ std::string ScrapItem::getInfo() {
 UtilityItem::UtilityItem() {
     name = "utility";
     color = BLUE;
-    tags.push_back("utility");
+    tags.push_back(UTILITYITEMTAG);
     uses = initial_uses;
 }
 
@@ -106,7 +105,7 @@ int UtilityItem::use() {
 HpItem::HpItem() {
     name = "hp";
     color = GREEN;
-    tags.push_back("hp");
+    tags.push_back(HPITEMTAG);
 }
 
 std::string HpItem::getInfo() { 
@@ -125,14 +124,16 @@ AttackItem::AttackItem() {
 std::string AttackItem::upgrade() {
     lvl += 1;
     damage += 1;
+    rerollPrice();
     return "upgraded!";
 }
 
 int AttackItem::rerollPrice() {
-    float MAX = 0.80 + lvl * 0.3;
-    float MIN = 0.60 + lvl * 0.3;
+    float MAX = 1.2 + lvl * 0.3;
+    float MIN = 1.0 + lvl * 0.3;
     float price_multiplier = (MAX - MIN) * _random() + MIN;
-    return max((int)(price * price_multiplier), 1);
+    sell_price = max((int)(price * price_multiplier), 1);
+    return sell_price;
 }
 
 int AttackItem::getUpgradePrice() {
@@ -167,6 +168,7 @@ std::string MeleeAttackItem::upgrade() {
         return "Can't upgrade the weapon any further!";
     }
     lvl += 1;
+    rerollPrice();
     float up;
     switch(lvl) {
         case 1:
@@ -205,6 +207,7 @@ std::string RangedAttackItem::upgrade() {
         return "Can't upgrade the weapon any further!";
     }
     lvl += 1;
+    rerollPrice();
     float up;
     switch(lvl) {
         case 1:
