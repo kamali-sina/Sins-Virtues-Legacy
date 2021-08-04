@@ -112,15 +112,14 @@ void Game::digHere(int inventory_index) {
         return;
     }
     DigableBlock* digableBlock = (DigableBlock*)block;
-    player->useItem(inventory_index);
     if (digableBlock->getContainsItem()) {
         digableBlock->setContainsItem(false);
         Item* item = digableBlock->getItemInside();
-        foundItemDialog(item->getName());
         player->addItem(item);
     } else {
         didntFindItemDialog();
     }
+    player->useItem(inventory_index);
     map.setBlockAtLocation(player->getLocation(), new NormalBlock(true));
 }
 
@@ -187,7 +186,20 @@ void Game::handleNewReachedBlock() {
 }
 
 void Game::enterBlacksmith() {
-
+    cout<< colored("--Entered Blacksmith--\n", BLUE) << endl;
+    welcomeToBlacksmithDialog();
+    state = BLACKSMITH;
+    updateCommandSet();
+    while (state == BLACKSMITH){
+        string input;
+        cout<<colored("> ", BLUE);
+        getline(cin, input);
+        input = lower(input);
+        vector<string> splitted_input = split_string(input, ' ');
+        validate_input(splitted_input);
+        updateCommandSet();
+    }
+    updateCommandSet();
 }
 
 void Game::enterShop() {
@@ -281,7 +293,23 @@ void Game::inventory(std::vector<std::string> splitted_input) {
 }
 
 void Game::use(std::vector<std::string> splitted_input) {
-    cout<<"base use..."<<endl;
+    int item_index = player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = player->getItemAtIndex(item_index);
+    updateWorldTimer(0.1);
+    if (item->tagsContain(UTILITYITEMTAG)) {
+        runItemHandler(*this, item_index);
+    } else if (item->tagsContain(HPITEMTAG)) {
+        player->healWithItem(item_index);
+    } else {
+        cantUseItemDialog();
+        return;
+    }
+    updateWorldTimer(0.2);
+    player->updateTimeInFight(1.0);
 }
 
 void Game::info(std::vector<std::string> splitted_input) {
@@ -381,6 +409,8 @@ void Game::sell(std::vector<std::string> splitted_input) {
     bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + to_string(sell_price) + " coins?");
     if (ans) {
         player->sellItem(item_index);
+    } else {
+        understandableHaveAGoodDialog();
     }
 }
 
@@ -395,10 +425,61 @@ void Game::dev_map(std::vector<std::string> splitted_input) {
 }
 
 void Game::upgrade(std::vector<std::string> splitted_input) {
-    //TODO:
-    cout<<"base upgrade..."<<endl;
+    int item_index = player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = player->getItemAtIndex(item_index);
+    if (!item->tagsContain(ATTACKITEMTAG)) {
+        itemNotUpgradbleDialog();
+        return;
+    }
+    AttackItem* attackitem = (AttackItem*)item;
+    int price = attackitem->getUpgradePrice();
+    int level = attackitem->getLvl();
+    if (level >= ATTACKITEMMAXLEVEL) {
+        cantUpgradeMaxitemDialog();
+        return;
+    }
+    bool ans = setupPrompt("upgrading the " 
+                    + item->getName() 
+                    + " to level " 
+                    + to_string(level) 
+                    + " costs " + to_string(price) + " scraps, upgrade?");
+    if (ans) {
+        if (player->getScraps() < price) {
+            notEnoughScrapsDialog();
+            return;
+        }
+        string response = attackitem->upgrade();
+        player->deductScraps(price);
+        updateWorldTimer(0.5);
+        postUpgradeDialog(splitted_input[1], price, response);
+    } else {
+        dontWasteMyTimeDialog();
+        return;
+    }
 }
 
 void Game::scrap(std::vector<std::string> splitted_input) {
-    cout<<"base scrap..."<<endl;
+    int item_index = player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = player->getItemAtIndex(item_index);
+    if (!item->tagsContain(ATTACKITEMTAG)) {
+        itemNotScrappableDialog();
+        return;
+    }
+    AttackItem* attackitem = (AttackItem*)item;
+    updateWorldTimer(0.1);
+    int price = attackitem->getScrapParts();
+    bool ans = setupPrompt("scrap " + attackitem->getName() + " for " + to_string(price) + " scraps?");
+    if (ans) {
+        player->scrapItem(item_index);
+        postScrapDialog(attackitem->getName(), price);
+        updateWorldTimer(0.6);
+    }
 }
