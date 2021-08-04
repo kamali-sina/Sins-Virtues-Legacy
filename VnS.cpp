@@ -4,7 +4,6 @@
 
 using namespace std;
 
-Game session = Game();
 
 int main (int argc , char *argv[]) {
     srand((unsigned int)time(NULL));
@@ -14,7 +13,7 @@ int main (int argc , char *argv[]) {
     }
     toturial_if_needed(argv[1]);
     help_if_needed(argv[1]);
-    session = Game(true, "");
+    Game session(true, "");
     session.run();
     return 1;
 }
