@@ -119,12 +119,13 @@ void handleCompass(Game &game, int inventory_index) {
 }
 
 void handleMap(Game &game, int inventory_index) {
-    game.getPlayer()->useItem(inventory_index);
-    game.getMap().printPartialMap(game.getPlayer()->getVision(), game.getPlayer()->getLocation());    
+    
+    game.getMap().printPartialMap(game.getPlayer()->getVision(), game.getPlayer()->getLocation());  
+    game.getPlayer()->useItem(inventory_index);  
 }
 
 void handleSteroid(Game &game, int inventory_index) {
-    game.getPlayer()->useItem(inventory_index);
     int new_max = game.getPlayer()->useSteroid();
     usedSteroidDialog(new_max);
+    game.getPlayer()->useItem(inventory_index);
 }
