@@ -71,9 +71,10 @@ class Game{
     int time_of_day = DAY;
     int state = NORMAL; 
     
-    private:
+    
     Map map;
     Player *player = new Player();
+    private:
     int idiot_counter = 0;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;
