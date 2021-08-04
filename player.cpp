@@ -6,6 +6,8 @@ Player::Player() {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
+    for (int i= 0 ; i < 15 ; i++)
+        addItem(getRandomItem());
 }
 
 std::pair<int,int> Player::getLocation() {
@@ -80,6 +82,19 @@ bool Player::doesItemExist(Item* item) {
     return false;
 }
 
+void Player::scrapItem(int item_index) {
+    AttackItem *attackitem = (AttackItem*)getItemAtIndex(item_index);
+    addScraps(attackitem->getScrapParts());
+    inventory.erase(inventory.begin() + item_index);
+}
+
+int Player::healWithItem(int item_index) {
+    HpItem* hpitem = (HpItem*)getItemAtIndex(item_index);
+    heal(hpitem->getHP());
+    inventory.erase(inventory.begin() + item_index);
+    return hp;
+}
+
 void Player::addItem(Item* item) {
     if (item->tagsContain(COINITEMTAG)) {
         CoinItem* coinitem = (CoinItem*)item;
@@ -109,6 +124,11 @@ int Player::heal(int amount) {
     hp += amount; 
     if (hp > max_hp){
         hp = max_hp;
+    }
+    if (hp == max_hp) {
+        hpIsNowFullDialog(hp);
+    } else {
+        hpIsNowDialog(hp);
     }
     return hp;
 }
@@ -156,7 +176,8 @@ void Player::sellItem(int item_index) {
 
 int Player::getPlayerSellPrice(int item_index) {
     Item* item = inventory[item_index];
-    return item->getPlayerSellPrice();
+    int price = item->getPlayerSellPrice();
+    return price;
 }
 
 void Player::equipItem(Item* item) {
