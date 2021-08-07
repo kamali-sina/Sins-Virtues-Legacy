@@ -221,20 +221,27 @@ void Game::enterShop() {
 }
 
 void Game::fightEnemy(Enemy* enemy) {
+    enemy_fighting = enemy;
+    cout<< colored("\n--Entered Battle--\n", RED) << endl;
+    notification(enemy_fighting->getInfo());
+    cout<< endl;
+    int save_state = state;
+    state = FIGHT;
+    //change This:
+    player->resetTimeInFight(enemy_fighting->getSpeed());
+    enemy_fighting->resetTimeInFight(player->getSpeed());
+    bool attacked = false;
+    while (true) {
+        if (enemy_fighting->getTimeInFight() < player->getTimeInFight()) {
 
+        } else {
+
+        }
+    }
 }
 
 // TODO:
 // def fight_enemy(self, enemy):
-//         print(colored('\n--Entered Battle--\n','red'))
-//         notification('enemy info:\n' + str(enemy), speed=18)
-//         print()
-//         save_state = self.state
-//         self.state = 'fight'
-//         self.set_command_set()
-//         self.enemy = enemy
-//         self.my_time = float(enemy.speed)
-//         self.enemy_time = float(self.player.equipped.speed)
 //         self.attacked = False
 //         while(True):
 //             if (self.enemy_time < self.my_time):

@@ -59,9 +59,9 @@ class Game{
     void updateWorldTimer(float value);
     void resetWorldTimer();
     std::string getClockTime();
-    //TODO: 
     void enterBlacksmith();
     void enterShop();
+    //TODO: 
     void fightEnemy(Enemy* enemy);
 
     float player_time = 0.0;
@@ -72,9 +72,10 @@ class Game{
     int state = NORMAL; 
     
     
+    private:
     Map map;
     Player *player = new Player();
-    private:
+    Enemy* enemy_fighting;
     int idiot_counter = 0;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;

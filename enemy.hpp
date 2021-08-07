@@ -6,23 +6,31 @@
 #include <iostream>
 #include "termcolor.hpp"
 
+
+#define BASE_SPEED_TIME 10
 #define NUMBER_OF_ENEMIES 3
 
 class Enemy{
     public:
-    Enemy(){ }
+    Enemy() { }
     std::string getName() { return name; }
     int getHP() { return hp; }
     int getBounty() { return bounty; }
     float getSpeed() { return speed; }
     int getDamage() { return damage; }
+    int getAttackTime() { return BASE_SPEED_TIME - speed; }
     float getRarity() { return rarity; }
-    virtual int getDamaged(int _damage){
+    float getTimeInFight() { return time_in_fight; }
+    void resetTimeInFight(float value = 0.0) { time_in_fight = value; }
+    void updateTimeInFight(float value) { time_in_fight += value; }
+    virtual int getDamaged(int _damage) {
         hp -= _damage;
         return hp;
     }
-
-    virtual std::string getKillDialog(){
+    virtual std::string getInfo() {
+        return "name: " + name + "\nhp: " + std::to_string(hp) + "\nspeed: " + std::to_string(speed) + "\ndamage: " + std::to_string(damage);
+    }
+    virtual std::string getKillDialog() {
         return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the " + name;
     }
 
@@ -32,48 +40,29 @@ class Enemy{
     int bounty = 0;
     float speed = 0;
     int damage = 0;
+    float time_in_fight = 0;
     float rarity = 1;
 };
 
 class Guy: public Enemy{
     /*you can 'talk' with to end fight*/
     public:
-    Guy(){ }
-    std::string name = "guy";
-    int hp = 1;
-    int bounty = 1;
-    float speed = 2;
-    int damage = 2;
-    float rarity = 4;
+    Guy();
 };
 
 class Wolf: public Enemy{
     /*can be given a single meat to end fight*/
     public:
-    Wolf(){ }
-
-    std::string name = "wolf";
-    int hp = 4;
-    int bounty = 2;
-    float speed = 7;
-    int damage = 3;
-    float rarity = 3;
+    Wolf();
     
-    std::string getKillDialog(){
+    std::string getKillDialog() {
         return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the wolf, how does a wolf have money?";
     }
 };
 
 class BigBob: public Enemy{
     public:
-    BigBob(){ }
-
-    std::string name = "bigBob";
-    int hp = 12;
-    int bounty = 2;
-    float speed = 3;
-    int damage = 6;
-    float rarity = 4;
+    BigBob();
 };
 
 Enemy* getEnemy(int enemy_id);

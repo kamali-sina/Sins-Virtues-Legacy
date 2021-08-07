@@ -23,6 +23,8 @@ class Player {
     void sellItem(int item_index);
     int getPlayerSellPrice(int item_index);
     void updateTimeInFight(float value) { time_in_fight += value; }
+    float getTimeInFight() { return time_in_fight; }
+    void resetTimeInFight(float value = 0.0) { time_in_fight = value; }
     void removeItem(int inventory_index);
     void useItem(int inventory_index);
     void setLocation(std::pair<int,int> new_location);
@@ -31,6 +33,7 @@ class Player {
     int indexItem(std::string item_name);
     void equipItem(Item* item);
     void scrapItem(int item_index);
+    int getSpeed();
     int healWithItem(int item_index);
     std::pair<int,int> getLocation();
     int refillHP();
@@ -47,5 +50,5 @@ class Player {
     int scrap=0;
     float time_in_fight = 0;
     std::pair<int,int> location;
-    Item* equipped;
+    AttackItem* equipped;
 };

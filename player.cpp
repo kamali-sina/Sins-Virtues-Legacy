@@ -167,6 +167,10 @@ int Player::indexItem(std::string item_name) {
     return -1;
 }
 
+int Player::getSpeed() {
+    return equipped->getSpeed();
+}
+
 void Player::sellItem(int item_index) {
     int price = inventory[item_index]->getPlayerSellPrice();
     addCoins(price);
@@ -181,6 +185,6 @@ int Player::getPlayerSellPrice(int item_index) {
 }
 
 void Player::equipItem(Item* item) {
-    equipped = item;
+    equipped = (AttackItem*)item;
     equippedItemDialog(equipped->getName());
 }
