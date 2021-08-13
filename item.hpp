@@ -47,6 +47,7 @@ In case of adding a new item, add these to the following locations:
 #define RANDOMTAG "random"
 #define NOTBUYABLETAG "notbuyable"
 #define ATTACKITEMTAG "attack"
+#define RANGEDATTACKITEMTAG "rangedattackItem"
 #define COINITEMTAG "coin"
 #define SCRAPITEMTAG "scrap"
 #define UTILITYITEMTAG "utility"
@@ -133,6 +134,7 @@ class AttackItem : public Item {
     AttackItem();
     int getSpeed(){ return speed; }
     int getLvl(){ return lvl; }
+    int getDamage() { return damage; }
     virtual std::string upgrade();
     int rerollPrice();
     int getUpgradePrice();
@@ -158,6 +160,7 @@ class MeleeAttackItem : public AttackItem {
 class RangedAttackItem : public AttackItem {
     public:
     RangedAttackItem();
+    float getMisschance() { return misschance; }
     std::string upgrade();
     std::string getInfo();
 
