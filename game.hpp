@@ -61,6 +61,10 @@ class Game{
     std::string getClockTime();
     void enterBlacksmith();
     void enterShop();
+    bool isBlockClosed(std::string block_name);
+    void printFightStatus();
+    void getPlayerInput(std::string color);
+    void playKillCutscene();
     //TODO: 
     void fightEnemy(Enemy* enemy);
 
