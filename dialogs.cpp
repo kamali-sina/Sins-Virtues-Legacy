@@ -181,3 +181,19 @@ void postUpgradeDialog(std::string item_name, int price, std::string result) {
 void postScrapDialog(std::string item_name, int price) {
     dialog("Blacksmith", "scrapped " + item_name + " for " + to_string(price) + " scraps.", BLUE, 30);
 }
+
+void blockIsClosedDialog(std::string block_name) {
+    dialog("You", "The " + block_name + " is closed at nights, better find another shelter.", "yellow", 26);
+}
+
+void enemyAttacksYouDialog(std::string enemy_name, int damage) {
+    dialog("You", enemy_name + " attacks you for " + to_string(damage) + " damage!", "yellow", 26);
+}
+
+void missedShotDialog() {
+    dialog("You", "Oh shit I missed!!!", "yellow", 26);
+}
+
+void attackedEnemyDialog(std::string enemy_name, int damage) {
+    dialog("You", "Attacked the " + enemy_name + " for " + to_string(damage) + " damage!!!", "yellow", 26);
+}

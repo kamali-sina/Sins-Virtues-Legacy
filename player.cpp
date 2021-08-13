@@ -156,7 +156,7 @@ void Player::printInfo() {
     cout<< colored("location",BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
     cout<< colored("equipped item",WHITE) + ": " + equipped->getString() <<endl;
     cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory",CYAN) <<endl;
-    // TODO: self.print_affected_effects()
+    // TODO: print_affected_effects()
 }
 
 int Player::indexItem(std::string item_name) {
@@ -187,4 +187,20 @@ int Player::getPlayerSellPrice(int item_index) {
 void Player::equipItem(Item* item) {
     equipped = (AttackItem*)item;
     equippedItemDialog(equipped->getName());
+}
+
+int Player::attack(std::string enemy_name) {
+    int damage = equipped->getDamage();
+    if (equipped->tagsContain(RANGEDATTACKITEMTAG)) {
+        RangedAttackItem *ranged = (RangedAttackItem*) equipped;
+        if (_random() < ranged->getMisschance()) {
+            damage = 0;
+        }
+    }
+    if (damage > 0) {
+        attackedEnemyDialog(enemy_name, damage);
+    } else {
+        missedShotDialog();
+    }
+    return damage;
 }

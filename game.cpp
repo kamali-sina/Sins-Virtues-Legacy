@@ -80,16 +80,20 @@ void Game::updateCommandSet() {
     }
 }
 
+void Game::getPlayerInput(std::string color) {
+    string input;
+    cout<<colored("> ", color);
+    getline(cin, input);
+    input = lower(input);
+    vector<string> splitted_input = split_string(input, ' ');
+    validate_input(splitted_input);
+    updateCommandSet();
+}
+
 void Game::run() {
     updateCommandSet();
     while (true) {
-        string input;
-        cout<<"> ";
-        getline(cin, input);
-        input = lower(input);
-        vector<string> splitted_input = split_string(input, ' ');
-        validate_input(splitted_input);
-        updateCommandSet();
+        getPlayerInput(NOCOLOR);
     }
 }
 
@@ -185,39 +189,47 @@ void Game::handleNewReachedBlock() {
     }
 }
 
+bool Game::isBlockClosed(std::string block_name) {
+    if (time_of_day == NIGHT) {
+        blockIsClosedDialog(block_name);
+        return true;
+    }
+    return false;
+}
+
 void Game::enterBlacksmith() {
+    if (isBlockClosed("blacksmith")) return;
     cout<< colored("--Entered Blacksmith--\n", BLUE) << endl;
     welcomeToBlacksmithDialog();
     state = BLACKSMITH;
     updateCommandSet();
     while (state == BLACKSMITH){
-        string input;
-        cout<<colored("> ", BLUE);
-        getline(cin, input);
-        input = lower(input);
-        vector<string> splitted_input = split_string(input, ' ');
-        validate_input(splitted_input);
-        updateCommandSet();
+        getPlayerInput(BLUE);
     }
     updateCommandSet();
 }
 
 void Game::enterShop() {
-    // TODO: if (self.is_block_closed('shop')): return
+    if (isBlockClosed("shop")) return;
     cout<< colored("--Entered Shop--\n",YELLOW) << endl;
     welcomeToShopDialog();
     state = SHOP;
     updateCommandSet();
     while (state == SHOP){
-        string input;
-        cout<<colored("> ", YELLOW);
-        getline(cin, input);
-        input = lower(input);
-        vector<string> splitted_input = split_string(input, ' ');
-        validate_input(splitted_input);
-        updateCommandSet();
+        getPlayerInput(YELLOW);
     }
     updateCommandSet();
+}
+
+void Game::printFightStatus() {
+    cout<< colored("Your hp",GREEN)  << ": " << player->getHP() << endl;
+    cout<< colored("Enemy's hp",RED) << ": " << enemy_fighting->getHP() << endl << endl;
+}
+
+void Game::playKillCutscene() {
+    notification("the " +  enemy_fighting->getName() +" is dead.");
+    dialog("You", enemy_fighting->getKillDialog(), "yellow", 28);
+    player->addCoins(enemy_fighting->getBounty());
 }
 
 void Game::fightEnemy(Enemy* enemy) {
@@ -227,42 +239,45 @@ void Game::fightEnemy(Enemy* enemy) {
     cout<< endl;
     int save_state = state;
     state = FIGHT;
-    //change This:
     player->resetTimeInFight(enemy_fighting->getSpeed());
     enemy_fighting->resetTimeInFight(player->getSpeed());
     bool attacked = false;
     while (true) {
         if (enemy_fighting->getTimeInFight() < player->getTimeInFight()) {
-
+            enemy_fighting->attack(player);
         } else {
+            if (attacked) {
+                attacked = false;
+                //TODO: update status effects
+            }
+            printFightStatus();
+            // self.player.print_affected_effects()
+            getPlayerInput(RED);
+        }
 
+        if (enemy_fighting->isDead()) {
+            playKillCutscene();
+            break;
         }
     }
+    // self.player.reset_status_effects()
+    state = save_state;
 }
 
 // TODO:
 // def fight_enemy(self, enemy):
 //         self.attacked = False
 //         while(True):
-//             if (self.enemy_time < self.my_time):
-//                 #Enemy's turn to attack!
-//                 notification(self.enemy.attack(self.player), speed=26)
-//                 self.enemy_time += self.player.equipped.speed
 //             else:
 //                 #our turn to attack
 //                 if (self.attacked):
 //                     self.attacked = False
 //                     self.player.update_status_effects()
-//                 print(colored("Your hp",'green') + f': {self.player.hp}')
-//                 print(colored("Enemy's hp",'red') + f': {self.enemy.hp}\n')
 //                 self.player.print_affected_effects()
 //                 input_str = input(colored("> ",'red')).strip().lower()
 //                 self.process_input(input_str)
 //             if(self.enemy.hp <= 0):
-//                 notification(f'the {colored(self.enemy.name, "red")} is dead.', speed=20)
-//                 print()
-//                 dialog("You", self.enemy.get_kill_dialog(), "yellow", speed=18)
-//                 self.player.coin += self.enemy.bounty
+
 //                 break
 //         self.player.reset_status_effects()
 //         self.state = save_state
@@ -358,7 +373,11 @@ void Game::equip(std::vector<std::string> splitted_input) {
 }
 
 void Game::attack(std::vector<std::string> splitted_input) {
-    cout<<"base attack..."<<endl;
+    // TODO: update this if needed : self.attacked = True
+    player->updateTimeInFight(enemy_fighting->getSpeed());
+    updateWorldTimer(0.05);
+    int damage = player->attack(enemy_fighting->getName());
+    enemy_fighting->getDamaged(damage);
 }
 
 void Game::prompt_handler(std::vector<std::string> splitted_input) {

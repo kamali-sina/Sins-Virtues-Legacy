@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include "termcolor.hpp"
+#include "dialogs.hpp"
+#include "player.hpp"
 
 
 #define BASE_SPEED_TIME 10
@@ -23,18 +25,14 @@ class Enemy{
     float getTimeInFight() { return time_in_fight; }
     void resetTimeInFight(float value = 0.0) { time_in_fight = value; }
     void updateTimeInFight(float value) { time_in_fight += value; }
-    virtual int getDamaged(int _damage) {
-        hp -= _damage;
-        return hp;
-    }
-    virtual std::string getInfo() {
-        return "name: " + name + "\nhp: " + std::to_string(hp) + "\nspeed: " + std::to_string(speed) + "\ndamage: " + std::to_string(damage);
-    }
-    virtual std::string getKillDialog() {
-        return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the " + name;
-    }
+    bool isDead() { return hp == 0; }
+    virtual int getDamaged(int _damage);
+    virtual void attack(Player* player);
+    virtual std::string getInfo();
+    virtual std::string getKillDialog();
 
     protected:
+    void reduceHP(int _damage);
     std::string name = "";
     int hp = 0;
     int bounty = 0;

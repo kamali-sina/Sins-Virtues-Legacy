@@ -1,3 +1,6 @@
+#ifndef _PLAYER_HPP
+#define _PLAYER_HPP
+
 #include "item.hpp"
 #include "dialogs.hpp"
 #include <vector>
@@ -13,8 +16,10 @@ class Player {
     int getVision() { return vision; }
     int getMaxHp() { return max_hp; }
     Item* getItemAtIndex(int index);
+    int getHP() { return hp; }
     int useSteroid();
     int getCoins();
+    int attack(std::string enemy_name);
     int getScraps();
     void addScraps(int amount);
     void deductScraps(int amount);
@@ -52,3 +57,5 @@ class Player {
     std::pair<int,int> location;
     AttackItem* equipped;
 };
+
+#endif

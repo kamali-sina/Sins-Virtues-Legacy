@@ -9,6 +9,30 @@ Guy::Guy() {
     rarity = 4;
 }
 
+int Enemy::getDamaged(int _damage) {
+    reduceHP(_damage);
+    return hp;
+}
+
+void Enemy::attack(Player* player) {
+    player->getDamaged(damage);
+    enemyAttacksYouDialog(name, damage);
+    updateTimeInFight(player->getSpeed());
+}
+
+std::string Enemy::getInfo() {
+    return "name: " + name + "\nhp: " + std::to_string(hp) + "\nspeed: " + std::to_string(speed) + "\ndamage: " + std::to_string(damage);
+}
+
+std::string Enemy::getKillDialog() {
+    return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the " + name;
+}
+
+void Enemy::reduceHP(int _damage) { 
+    hp -= _damage;
+    hp = std::max(0, hp);
+}
+
 Wolf::Wolf() {
     name = "wolf";
     hp = 4;
