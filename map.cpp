@@ -101,10 +101,11 @@ std::pair<int,int> Map::indexToLocation(std::pair<int,int> index) {
 }
 
 void Map::printFullMap() {
-    int number_of_dashes = MAPSIZE * 4 - 1;
+    int number_of_dashes = MAPSIZE * 4 + 1;
     for (int j = 0 ; j < number_of_dashes ; j++) cout<<"-";
         cout<<endl;
     for (int i = 0 ; i < MAPSIZE ; i++) {
+        cout<<"| ";
         for (int j = 0 ; j < MAPSIZE ; j++) {
             string temp(1, map[i][j]->getName()[0]);
             cout<<colored(temp, map[i][j]->getColor())<<" | ";
@@ -117,10 +118,11 @@ void Map::printFullMap() {
 
 void Map::printPartialMap(int vision, std::pair<int,int> location) {
     pair<int,int> indexes = locationToIndex(location);
-    int number_of_dashes = 4 * ((vision * 2) + 1) - 1;
+    int number_of_dashes = 4 * ((vision * 2) + 1) + 1;
     for (int j = 0 ; j < number_of_dashes ; j++) cout<<"-";
         cout<<endl;
     for (int i = indexes.first - vision ; i <= indexes.first + vision ; i++) {
+        cout<< "| ";
         for (int j = indexes.second - vision ; j <= indexes.second + vision ; j++) {
             if (!isIndexValid(pair<int,int>(i,j))){
                 cout<<colored("X", RED)<<" | ";

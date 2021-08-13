@@ -46,13 +46,19 @@ void* wait_for_input(void* i) {
     return NULL;
 }
 
-//TODO: FIx color slow
+//TODO: Fix color slow
+/*function which displays characters one at a time*/
 void slow(std::string text, float speed) {
-    /*function which displays characters one at a time*/
     pthread_t thread;
     signal = 0;
     pthread_create(&thread, NULL, wait_for_input, NULL);
     for (int i = 0; i < text.length(); i++) {
+        if ((int)text[i] == STARTOFCOLORCODE) {
+            while (text[i] != 'm') {
+                cout<<text[i];
+                i++;
+            } 
+        }
         cout<<text[i];
         std::cout.setf( std::ios_base::unitbuf ); //flushes cout
         if (signal) {

@@ -23,11 +23,11 @@ void cantUseItemDialog();
 
 void cantDigHereDialog();
 
-void foundItemDialog(std::string item_name);
+void foundItemDialog(std::string item_name, std::string item_color);
 
 void didntFindItemDialog();
 
-void newBlockReachedDialog(std::string block_name, std::string block_info);
+void newBlockReachedDialog(std::string block_name, std::string block_color, std::string block_info);
 
 void deathDialog();
 
