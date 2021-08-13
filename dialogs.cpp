@@ -45,16 +45,16 @@ void cantDigHereDialog() {
     dialog("You", "This is not a digable block!", YELLOW, 25);
 }
 
-void foundItemDialog(std::string item_name) {
-    dialog("You", "I got a " + item_name + "!", YELLOW, 25);
+void foundItemDialog(std::string item_name, std::string item_color) {
+    dialog("You", "I got a " + colored(item_name, item_color) + "!", YELLOW, 25);
 }
 
 void didntFindItemDialog() {
     dialog("You", "There was nothing here!", YELLOW, 25);
 }
 
-void newBlockReachedDialog(std::string block_name, std::string block_info) {
-    std::cout<<colored("You",YELLOW) + ": reached a " + block_name + " block. " + block_info<<endl;
+void newBlockReachedDialog(std::string block_name, std::string block_color, std::string block_info) {
+    std::cout<<colored("You",YELLOW) + ": reached a " + colored(block_name, block_color) + " block. " + block_info<<endl;
 }
 
 void deathDialog() {
@@ -70,7 +70,8 @@ void cantAttackWithItemDialog() {
 }
 
 void intoTheCastleDialog(int number_of_enemies, std::string boss_name) {
-    dialog("You", "Here goes nothing...\nThere are " + std::to_string(number_of_enemies) + " enemies here and a " + boss_name + " boss!", YELLOW, 23);
+    dialog("You", "Here goes nothing...\nThere are " + std::to_string(number_of_enemies) 
+            + " enemies here and a " + colored(boss_name, RED)  + " boss!", YELLOW, 23);
 }
 
 void bossDialog() {
@@ -86,11 +87,11 @@ void yesNormalblockPromptDialog() {
 }
 
 void usedSteroidDialog(int new_maxhp) {
-    dialog("You", "max hp is now " + to_string(new_maxhp), YELLOW, 29);
+    dialog("You", "max hp is now " + colored(to_string(new_maxhp), GREEN), YELLOW, 29);
 }
 
 void itemIsNoLongerUsableDialog(std::string item_name) {
-    dialog("You", item_name + " is no longer usable and I'm dropping it.", YELLOW, 29);
+    dialog("You", colored(item_name, BLUE) + " is no longer usable and I'm dropping it.", YELLOW, 29);
 }
 
 void noBlackSmithBlockDialog() {
@@ -106,7 +107,7 @@ void noHomeBlockPromptDialog() {
 }
 
 void haveToFightEnemyInHomeDialog(std::string enemy_name) {
-    dialog("You", "there is a " + enemy_name + " here, I have to fight it!", YELLOW, 29);
+    dialog("You", "there is a " + colored(enemy_name, RED) + " here, I have to fight it!", YELLOW, 29);
 }
 
 void restAfterFightDialog() {
@@ -114,7 +115,7 @@ void restAfterFightDialog() {
 }
 
 void equippedItemDialog(std::string item_name) {
-    dialog("You", "equipped item is now " + item_name , YELLOW, 29);
+    dialog("You", "equipped item is now " + colored(item_name, RED), YELLOW, 29);
 }
 
 void IHaveNoItemsDialog() {
@@ -122,16 +123,16 @@ void IHaveNoItemsDialog() {
 }
 
 void hpIsNowFullDialog(int hp) {
-    dialog("You", "Hp is now full at " + to_string(hp) + " hp." , YELLOW, 29);
+    dialog("You", "Hp is now full at " + colored(to_string(hp), RED) + " hp." , YELLOW, 29);
 }
 
 void hpIsNowDialog(int hp) {
-    dialog("You", "Hp is now at " + to_string(hp) + " hp." , YELLOW, 29);
+    dialog("You", "Hp is now at " + colored(to_string(hp), RED) + " hp." , YELLOW, 29);
 }
 
 
 void soldItemDialog(int price) {
-    dialog("You", "Sold item for " + to_string(price) + " coins." , YELLOW, 29);
+    dialog("You", "Sold item for " + colored(to_string(price), YELLOW) + " coins." , YELLOW, 29);
 }
 
 void showPrompt(std::string prompt, std::string block_name, std::string block_color) {
@@ -139,15 +140,16 @@ void showPrompt(std::string prompt, std::string block_name, std::string block_co
 }
 
 void scrappedDuplicatieItemDialog(std::string item_name, int scrap_amount) {
-    dialog("You", "I already had a " + item_name + " so I scrapped this one for " + to_string(scrap_amount) + " scraps." , YELLOW, 29);
+    dialog("You", "I already had a " + colored(item_name, RED) 
+            + " so I scrapped this one for " + colored(to_string(scrap_amount), BLACK) + " scraps." , YELLOW, 29);
 }
 
 void gotXCoinsDialog(int amount) {
-    dialog("You", "Found " + to_string(amount) + " coins." , YELLOW, 29);
+    dialog("You", "Found " + colored(to_string(amount), YELLOW) + " coins." , YELLOW, 29);
 }
 
 void gotXScrapsDialog(int amount) {
-    dialog("You", "Found " + to_string(amount) + " scraps." , YELLOW, 29);    
+    dialog("You", "Found " + colored(to_string(amount), BLACK) + " scraps." , YELLOW, 29);    
 }
 
 void welcomeToBlacksmithDialog() {
@@ -175,25 +177,27 @@ void dontWasteMyTimeDialog() {
 }
 
 void postUpgradeDialog(std::string item_name, int price, std::string result) {
-    dialog("Blacksmith", "upgraded " + item_name + " for " + to_string(price) + " parts. " + result, BLUE, 30);
+    dialog("Blacksmith", "upgraded " + colored(item_name, RED) 
+            + " for " + colored(to_string(price), BLACK) + " parts. " + result, BLUE, 30);
 }
 
 void postScrapDialog(std::string item_name, int price) {
-    dialog("Blacksmith", "scrapped " + item_name + " for " + to_string(price) + " scraps.", BLUE, 30);
+    dialog("Blacksmith", "scrapped " + colored(item_name, RED) + " for " + colored(to_string(price), BLACK) + " scraps.", BLUE, 30);
 }
 
 void blockIsClosedDialog(std::string block_name) {
-    dialog("You", "The " + block_name + " is closed at nights, better find another shelter.", "yellow", 26);
+    dialog("You", "The " + block_name + " is closed at nights, better find another shelter.", YELLOW, 26);
 }
 
 void enemyAttacksYouDialog(std::string enemy_name, int damage) {
-    dialog("You", enemy_name + " attacks you for " + to_string(damage) + " damage!", "yellow", 26);
+    notification(colored(enemy_name, RED) + " attacks you for " + colored(to_string(damage), RED) + " damage!");
 }
 
 void missedShotDialog() {
-    dialog("You", "Oh shit I missed!!!", "yellow", 26);
+    dialog("You", "Oh shit I missed!!!", YELLOW, 26);
 }
 
 void attackedEnemyDialog(std::string enemy_name, int damage) {
-    dialog("You", "Attacked the " + enemy_name + " for " + to_string(damage) + " damage!!!", "yellow", 26);
+    notification("Attacked the " + colored(enemy_name, RED) 
+            + " for " + colored(to_string(damage), RED) + " damage!!!");
 }
