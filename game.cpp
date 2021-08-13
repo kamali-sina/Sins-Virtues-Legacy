@@ -81,13 +81,15 @@ void Game::updateCommandSet() {
 }
 
 void Game::getPlayerInput(std::string color) {
+    updateCommandSet();
     string input;
+    cout<<endl;
     cout<<colored("> ", color);
     getline(cin, input);
+    cout<<endl;
     input = lower(input);
     vector<string> splitted_input = split_string(input, ' ');
     validate_input(splitted_input);
-    updateCommandSet();
 }
 
 void Game::run() {
@@ -181,7 +183,7 @@ void Game::move(std::vector<std::string> splitted_input) {
 
 void Game::handleNewReachedBlock() {
     Block* current_block = getBlockAtPlayerLocation();
-    newBlockReachedDialog(current_block->getName(), current_block->getInfo());
+    newBlockReachedDialog(current_block->getName(), current_block->getColor(), current_block->getInfo());
     map.printAdjacentDialogs(player->getLocation());
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
@@ -228,7 +230,7 @@ void Game::printFightStatus() {
 
 void Game::playKillCutscene() {
     notification("the " +  enemy_fighting->getName() +" is dead.");
-    dialog("You", enemy_fighting->getKillDialog(), "yellow", 28);
+    dialog("You", enemy_fighting->getKillDialog(), YELLOW, 28);
     player->addCoins(enemy_fighting->getBounty());
 }
 
@@ -264,24 +266,6 @@ void Game::fightEnemy(Enemy* enemy) {
     state = save_state;
 }
 
-// TODO:
-// def fight_enemy(self, enemy):
-//         self.attacked = False
-//         while(True):
-//             else:
-//                 #our turn to attack
-//                 if (self.attacked):
-//                     self.attacked = False
-//                     self.player.update_status_effects()
-//                 self.player.print_affected_effects()
-//                 input_str = input(colored("> ",'red')).strip().lower()
-//                 self.process_input(input_str)
-//             if(self.enemy.hp <= 0):
-
-//                 break
-//         self.player.reset_status_effects()
-//         self.state = save_state
-
 void Game::updateWorldTimer(float value) {
     float multi = 1;
     world_timer += value * multi;
@@ -298,7 +282,8 @@ void Game::resetWorldTimer() {
 }
 
 std::string Game::getClockTime() {
-    float t = (int)(world_timer + 5.0) % 24;
+    float t = (world_timer + 5.0);
+    while (t > 24) t -= 24;
     int h = t;
     int m = (t - h) * 60;
     string hour = to_string(h);
@@ -432,7 +417,7 @@ void Game::sell(std::vector<std::string> splitted_input) {
         return;
     }
     int sell_price = player->getPlayerSellPrice(item_index);
-    bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + to_string(sell_price) + " coins?");
+    bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + colored(to_string(sell_price), YELLOW) + " coins?");
     if (ans) {
         player->sellItem(item_index);
     } else {
@@ -469,10 +454,11 @@ void Game::upgrade(std::vector<std::string> splitted_input) {
         return;
     }
     bool ans = setupPrompt("upgrading the " 
-                    + item->getName() 
+                    + colored(item->getName(), RED) 
                     + " to level " 
-                    + to_string(level) 
-                    + " costs " + to_string(price) + " scraps, upgrade?");
+                    + colored(to_string(level), BOLDYELLOW) 
+                    + " costs " 
+                    + colored(to_string(price), YELLOW) + " scraps, upgrade?");
     if (ans) {
         if (player->getScraps() < price) {
             notEnoughScrapsDialog();
@@ -502,7 +488,8 @@ void Game::scrap(std::vector<std::string> splitted_input) {
     AttackItem* attackitem = (AttackItem*)item;
     updateWorldTimer(0.1);
     int price = attackitem->getScrapParts();
-    bool ans = setupPrompt("scrap " + attackitem->getName() + " for " + to_string(price) + " scraps?");
+    bool ans = setupPrompt("scrap " + colored(attackitem->getName(), RED) 
+                            + " for " + colored(to_string(price), BLACK) + " scraps?");
     if (ans) {
         player->scrapItem(item_index);
         postScrapDialog(attackitem->getName(), price);
