@@ -91,6 +91,14 @@ void notEnoughScrapsDialog();
 
 void dontWasteMyTimeDialog();
 
+void blockIsClosedDialog(std::string block_name);
+
+void enemyAttacksYouDialog(std::string enemy_name, int damage);
+
+void missedShotDialog();
+
 void understandableHaveAGoodDialog();
+
+void attackedEnemyDialog(std::string enemy_name, int damage);
 
 #endif
