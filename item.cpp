@@ -198,7 +198,7 @@ RangedAttackItem::RangedAttackItem() {
     type = "ranged";
     tags.push_back(ATTACKITEMTAG);
     tags.push_back("ranged");
-    name = "rangedattackItem";
+    name = RANGEDATTACKITEMTAG;
     rarity = 0;
 }
 
@@ -325,8 +325,8 @@ Axe::Axe() {
     rarity = RARE;
     tags.push_back(RANDOMTAG);
     name = "axe";
-    damage = 14;
-    speed = 2;
+    damage = 12;
+    speed = 3;
     price = 8;
     id = 8;
 }
