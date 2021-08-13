@@ -22,6 +22,7 @@ class Player {
     int attack(std::string enemy_name);
     int getScraps();
     void addScraps(int amount);
+    void removeIfEquipped(int item_index);
     void deductScraps(int amount);
     void deductCoins(int amount);
     void addCoins(int amount);
