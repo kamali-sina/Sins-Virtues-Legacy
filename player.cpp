@@ -113,7 +113,7 @@ void Player::addItem(Item* item) {
         return;
     }
     inventory.push_back(item);
-    foundItemDialog(item->getName());
+    foundItemDialog(item->getName(), item->getColor());
 }
 
 int Player::refillHP() {
@@ -171,9 +171,17 @@ int Player::getSpeed() {
     return equipped->getSpeed();
 }
 
+void Player::removeIfEquipped(int item_index) {
+    Item* item = (Item*)equipped;
+    if (inventory[item_index] == equipped) {
+        equipped = new Fist();
+    }
+}
+
 void Player::sellItem(int item_index) {
     int price = inventory[item_index]->getPlayerSellPrice();
     addCoins(price);
+    removeIfEquipped(item_index);
     inventory.erase(inventory.begin() + item_index);
     soldItemDialog(price);
 }
