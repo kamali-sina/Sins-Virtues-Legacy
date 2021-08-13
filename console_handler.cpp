@@ -7,6 +7,7 @@ string TOTURIAL_OPTIONS[] =  {"-t", "--toturial"};
 string NEWGAME = "-n";
 string LOADGAME = "-l";
 
+/* Returns: a random number between 0 and 1 */
 float _random() {
     int r = rand();
     return float(float(r) / float(RAND_MAX));
@@ -45,6 +46,7 @@ void* wait_for_input(void* i) {
     return NULL;
 }
 
+//TODO: FIx color slow
 void slow(std::string text, float speed) {
     /*function which displays characters one at a time*/
     pthread_t thread;
