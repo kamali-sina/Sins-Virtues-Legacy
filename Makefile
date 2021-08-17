@@ -37,9 +37,6 @@ ${BUILD_DIR}/enemy.o: enemy.cpp
 ${BUILD_DIR}/utilities.o: utilities.cpp
 	$(CC) -c utilities.cpp -o ${BUILD_DIR}/utilities.o
 
-${BUILD_DIR}/handlers.o: handlers.cpp
-	$(CC) -c handlers.cpp -o ${BUILD_DIR}/handlers.o
-
 ${BUILD_DIR}/player.o: player.cpp
 	$(CC) -c player.cpp -o ${BUILD_DIR}/player.o
 

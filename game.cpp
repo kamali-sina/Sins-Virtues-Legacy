@@ -308,7 +308,8 @@ void Game::use(std::vector<std::string> splitted_input) {
     Item* item = player->getItemAtIndex(item_index);
     updateWorldTimer(0.1);
     if (item->tagsContain(UTILITYITEMTAG)) {
-        runItemHandler(*this, item_index);
+        UtilityItem* utility_item = (UtilityItem*) item;
+        utility_item->use_item(item_index);
     } else if (item->tagsContain(HPITEMTAG)) {
         player->healWithItem(item_index);
     } else {
@@ -370,7 +371,7 @@ void Game::prompt_handler(std::vector<std::string> splitted_input) {
     if (splitted_input[0] == "yes" || splitted_input[0] == "y"){
         ans = true;
     }
-    runBlockHandler(ans, *this);
+    getBlockAtPlayerLocation()->run_handler(ans);
     state = NORMAL;
 }
 

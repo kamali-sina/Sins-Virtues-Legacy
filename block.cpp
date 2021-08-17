@@ -1,5 +1,6 @@
 #include "block.hpp"
 #include "console_handler.hpp"
+#include "VnS.hpp"
 #include <cstdlib>
 
 using namespace std;
@@ -57,6 +58,18 @@ std::string NormalBlock::getString() {
     return me;
 }
 
+void NormalBlock::run_handler(bool ans) {
+    if (ans == false) {
+        noNormalblockPromptDialog();
+        return;
+    }
+    this->setContainsItem(false);
+    this->setHasPrompt(false);
+    this->setHasAdjacentDialog(false);
+    session.getPlayer()->addItem(this->getItemInside());
+    yesNormalblockPromptDialog();
+}
+
 /* ==================== DigableBlock ==================== */
 
 DigableBlock::DigableBlock() {
@@ -91,6 +104,32 @@ HomeBlock::HomeBlock() {
         enemy_inside = getRandomEnemy(0);
     }
     item_inside = getRandomItem(0);
+}
+
+void HomeBlock::run_handler(bool ans) {
+    if (ans == false) {
+        noHomeBlockPromptDialog();
+        return;
+    }
+    if (this->getContainsEnemy()) {
+        Enemy* enemy = this->getEnemyInside();
+        haveToFightEnemyInHomeDialog(enemy->getName());
+        session.fightEnemy(enemy);
+        this->setContainsEnemy(false);
+        restAfterFightDialog();
+    }
+    cout<<"resting..."<<endl;
+    sleep(2);
+    session.getPlayer()->refillHP();
+    notification("Health fully restored!");
+    notification("It's morning now, Game Saved!");
+    session.resetWorldTimer();
+    if (this->getContainsItem()) {
+        this->setContainsItem(false);
+        Item* item = this->getItemInside();
+        session.getPlayer()->addItem(item);
+    }
+    // TODO: save game
 }
 
 /* ==================== ShopBlock ==================== */
@@ -148,6 +187,14 @@ void ShopBlock::printStock() {
     }
 }
 
+void ShopBlock::run_handler(bool ans) {
+    if (ans == false) {
+        noShopBlockPromptDialog();
+    } else {
+        session.enterShop();
+    }
+}
+
 /* ==================== BlacksmithBlock ==================== */
 
 BlacksmithBlock::BlacksmithBlock() {
@@ -159,6 +206,14 @@ BlacksmithBlock::BlacksmithBlock() {
     color = BLUE;
     has_prompt = true;
     has_adjacent_dialog = true; 
+}
+
+void BlacksmithBlock::run_handler(bool ans) {
+    if (ans == false) {
+        noBlackSmithBlockDialog();
+    } else {
+        session.enterBlacksmith();
+    }
 }
 
 /* ==================== CastleBlock ==================== */
@@ -181,6 +236,10 @@ void CastleBlock::initEnemies() {
     }
     //TODO: spawn boss
     boss = getRandomEnemy();
+}
+
+void CastleBlock::run_handler(bool ans) {
+    //TODO: complete castle
 }
 
 /* ==================== Getters ==================== */

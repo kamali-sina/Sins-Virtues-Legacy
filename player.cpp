@@ -6,7 +6,7 @@ Player::Player() {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
-    for (int i= 0 ; i < 15 ; i++)
+    for (int i= 0 ; i < 7 ; i++)
         addItem(getRandomItem());
 }
 
@@ -40,6 +40,7 @@ int Player::useSteroid() {
 }
 
 void Player::removeItem(int inventory_index) {
+    removeIfEquipped(inventory_index);
     inventory.erase(inventory.begin() + inventory_index);
 }
 
@@ -85,13 +86,13 @@ bool Player::doesItemExist(Item* item) {
 void Player::scrapItem(int item_index) {
     AttackItem *attackitem = (AttackItem*)getItemAtIndex(item_index);
     addScraps(attackitem->getScrapParts());
-    inventory.erase(inventory.begin() + item_index);
+    removeItem(item_index);
 }
 
 int Player::healWithItem(int item_index) {
     HpItem* hpitem = (HpItem*)getItemAtIndex(item_index);
     heal(hpitem->getHP());
-    inventory.erase(inventory.begin() + item_index);
+    removeItem(item_index);
     return hp;
 }
 
@@ -181,8 +182,7 @@ void Player::removeIfEquipped(int item_index) {
 void Player::sellItem(int item_index) {
     int price = inventory[item_index]->getPlayerSellPrice();
     addCoins(price);
-    removeIfEquipped(item_index);
-    inventory.erase(inventory.begin() + item_index);
+    removeItem(item_index);
     soldItemDialog(price);
 }
 

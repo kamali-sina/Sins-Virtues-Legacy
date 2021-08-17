@@ -112,6 +112,8 @@ class UtilityItem : public Item {
     std::string getInfo();
     int rerollPrice();
     int getUsesRemaining() { return uses; }
+    //TODO: choose better names
+    virtual void use_item(int inventory_index) = 0;
     int use();
 
     protected:
@@ -173,12 +175,14 @@ class RangedAttackItem : public AttackItem {
 class Shovel : public UtilityItem {
     public:
     Shovel();
+    void use_item(int inventory_index);
 };
 
 
 class Compass : public UtilityItem {
     public:
     Compass();
+    void use_item(int inventory_index);
     std::string getInfo();
 };
 
@@ -186,12 +190,14 @@ class Compass : public UtilityItem {
 class MapItem : public UtilityItem {
     public:
     MapItem();
+    void use_item(int inventory_index);
 };
 
 
 class Steroid : public UtilityItem {
     public:
     Steroid();
+    void use_item(int inventory_index);
 };
 
 /* ==================== MeleeAttackItem Classes ==================== */
