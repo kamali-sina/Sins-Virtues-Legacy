@@ -39,6 +39,9 @@ class Block {
     virtual std::string getString() { return colored(name, color); }
     virtual std::string getPrompt() { return "prompt_base"; }
     virtual std::string getAdjacentDialog() { return "adjacent_base"; }
+    virtual void run_handler(bool ans) {
+        _error("A block with no handler was called!");
+    }
 
     protected:
     std::string name;
@@ -62,6 +65,7 @@ class NormalBlock : public Block {
     std::string getPrompt() { return "Open the chest?(y,n)"; }
     std::string getAdjacentDialog() { return "I can see a chest over there on the ground!"; }
     Item* getItemInside(){ return item_inside; }
+    void run_handler(bool ans);
 
     protected:
     bool contains_item;
@@ -99,6 +103,7 @@ class HomeBlock : public Block {
     std::string getPrompt() { return "Enter the home?(y,n)"; }
     Enemy* getEnemyInside() { return enemy_inside; }
     std::string getAdjacentDialog() { return "I can see a faint light emitting nearby..."; }
+    void run_handler(bool ans);
 
     protected:
     bool contains_item;
@@ -120,6 +125,7 @@ class ShopBlock : public Block {
     int indexItem(std::string item_name);
     Item* buyItem(int item_index);
     int getItemPrice(int item_index);
+    void run_handler(bool ans);
 
     protected:
     std::vector<Item*> stock;
@@ -132,6 +138,7 @@ class BlacksmithBlock : public Block {
     std::string getInfo() { return "I can upgrade my weapons and dismantle the extra stuff I found here."; }
     std::string getPrompt() { return "Enter the blacksmith?(y,n)"; }
     std::string getAdjacentDialog() { return "I can hear hitting on an anvil nearby."; }
+    void run_handler(bool ans);
 };
 
 class CastleBlock : public Block {
@@ -141,6 +148,8 @@ class CastleBlock : public Block {
 
     std::string getInfo() { return "A castle in the middle of nowhere?!"; }
     std::string getPrompt() { return "There is no turning back now, get ready, have healing items, and equip your weapons. Do you want to enter the castle?(y,n)"; }
+    void run_handler(bool ans);
+
     protected:
     int max_enemy_count = 4;
     int number_of_enemies; 
