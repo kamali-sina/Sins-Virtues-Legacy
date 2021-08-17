@@ -1,4 +1,5 @@
 #include "item.hpp"
+#include "VnS.hpp"
 
 using namespace std;
 
@@ -248,6 +249,10 @@ Shovel::Shovel() {
     */
 }
 
+void Shovel::use_item(int inventory_index) {
+    session.digHere(inventory_index);
+}
+
 
 Compass::Compass() {
     initial_uses = 9999;
@@ -263,6 +268,10 @@ std::string Compass::getInfo() {
     return "infinite uses";
 }
 
+void Compass::use_item(int inventory_index) {
+    cout<<session.getMap().compass(session.getPlayer()->getLocation())<<endl;
+}
+
 
 MapItem::MapItem() {
     initial_uses = 3;
@@ -274,6 +283,14 @@ MapItem::MapItem() {
     id = 3;
 }
 
+void MapItem::use_item(int inventory_index) {
+    session.getMap().printPartialMap(
+                                    session.getPlayer()->getVision(), 
+                                    session.getPlayer()->getLocation()
+                                    );
+    session.getPlayer()->useItem(inventory_index);
+}
+
 
 Steroid::Steroid() {
     initial_uses = 1;
@@ -283,6 +300,12 @@ Steroid::Steroid() {
     uses = initial_uses;
     price = 12;
     id = 4;
+}
+
+void Steroid::use_item(int inventory_index) {
+    int new_max = session.getPlayer()->useSteroid();
+    usedSteroidDialog(new_max);
+    session.getPlayer()->useItem(inventory_index);
 }
 
 /* ==================== MeleeAttackItem Classes ==================== */
