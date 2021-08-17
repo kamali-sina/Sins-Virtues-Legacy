@@ -371,7 +371,7 @@ void Game::prompt_handler(std::vector<std::string> splitted_input) {
     if (splitted_input[0] == "yes" || splitted_input[0] == "y"){
         ans = true;
     }
-    runBlockHandler(ans, *this);
+    getBlockAtPlayerLocation()->run_handler(ans);
     state = NORMAL;
 }
 
