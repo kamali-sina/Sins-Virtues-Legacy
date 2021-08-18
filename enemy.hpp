@@ -11,7 +11,7 @@
 
 #define BASE_SPEED_TIME 10
 #define NUMBER_OF_ENEMIES 3
-//TODO: FIX SPEEDS
+
 class Enemy{
     public:
     Enemy() { }
