@@ -92,4 +92,36 @@ class Game{
     bool setupPrompt(std::string prompt);
 };
 
+/*
+    TODO: save and load
+    void save() {
+        ofstream file_obj;
+ 
+        // Opening file in append mode
+        file_obj.open("save.txt", ios::app);
+    
+        // Object of class contestant to input data in file
+    
+        // Writing the object's data in file
+        file_obj.write((char*)&*this, sizeof(*this));
+    }
+
+    void load() {
+        ifstream file_obj;
+ 
+        file_obj.open("save.txt", ios::in);
+    
+    
+        // Reading from file into object "obj"
+        file_obj.read((char*)&*this, sizeof(*this));
+    
+        print();
+    }
+
+    void print() {
+        cout<<i<<endl;
+    }
+
+*/
+
 #endif
