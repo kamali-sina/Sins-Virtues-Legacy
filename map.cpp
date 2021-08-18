@@ -82,8 +82,8 @@ void Map::completeMap() {
 }
 
 bool Map::spawnRandomBlockAtIndex(std::pair<int,int> index) {
-    Block* block = getRandomBlock();
-    while (!block->tagsContain("random") || !isIndexValidForBlock(index, block->getID())) block = getRandomBlock();
+    Block* block = spawnBlock();
+    while (!block->tagsContain("random") || !isIndexValidForBlock(index, block->getID())) block = spawnBlock();
     map[index.first][index.second] = block;
     return true;
 }

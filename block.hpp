@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <numeric>
 #include "item.hpp"
 #include "termcolor.hpp"
 #include "enemy.hpp"
@@ -13,7 +14,6 @@ In case of adding a new block, add these to the following locations:
     1- Add the defined ID under here and update number of blocks
     2- Add the block to getRandomBlock function switch case
     3- Add Init Vector for block to map.hpp
-    4- If needed add handler for block at handlers.hpp
 */
 
 #define NUMBER_OF_BLOCKS 6
@@ -23,6 +23,9 @@ In case of adding a new block, add these to the following locations:
 #define SHOPBLOCK 4 
 #define BLACKSMITHBLOCK 5 
 #define CASTLEBLOCK 6 
+
+#define RANDOMTAG "random"
+#define SPECIALTAG "special"
 
 class Block {
     public:
@@ -34,6 +37,7 @@ class Block {
     void setHasPrompt(bool value) { has_prompt = value; }
     void setHasAdjacentDialog(bool value) { has_adjacent_dialog = value; }
     bool getHasPrompt() { return has_prompt; }
+    int getRarity() { return rarity; }
     bool getHasAdjacentDialog() { return has_adjacent_dialog; }
     virtual std::string getInfo() { return "info_base"; }
     virtual std::string getString() { return colored(name, color); }
@@ -47,7 +51,7 @@ class Block {
     std::string name;
     int ID = 0;
     std::vector<std::string> tags;
-    float rarity;
+    int rarity;
     bool has_prompt;
     bool has_adjacent_dialog;
     std::string color = WHITE;
@@ -159,5 +163,6 @@ class CastleBlock : public Block {
 
 Block *getBlock(int block_id);
 Block *getRandomBlock();
+Block* spawnBlock();
 
 #endif

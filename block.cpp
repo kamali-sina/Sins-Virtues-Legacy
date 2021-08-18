@@ -5,6 +5,9 @@
 
 using namespace std;
 
+bool is_tensor_valid = false;
+vector<float> blocks_tensor;
+
 /* ==================== Block ==================== */
 
 Block::Block(): tags() {
@@ -25,7 +28,7 @@ bool Block::tagsContain(std::string tag) {
 /* ==================== NormalBlock ==================== */
 
 NormalBlock::NormalBlock(bool no_chest) {
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     tags.push_back("loot");
     tags.push_back("prompt");
     rarity = 1;
@@ -73,7 +76,7 @@ void NormalBlock::run_handler(bool ans) {
 /* ==================== DigableBlock ==================== */
 
 DigableBlock::DigableBlock() {
-    tags.push_back("random");
+    tags.push_back(RANDOMTAG);
     tags.push_back("loot");
     rarity = 10;
     ID = DIGABLEBLOCK;
@@ -90,8 +93,8 @@ DigableBlock::DigableBlock() {
 /* ==================== HomeBlock ==================== */
 
 HomeBlock::HomeBlock() {
-    tags.push_back("random");
-    tags.push_back("special");
+    tags.push_back(RANDOMTAG);
+    tags.push_back(SPECIALTAG);
     rarity = 80;
     ID = HOMEBLOCK;
     name = "home";
@@ -135,8 +138,8 @@ void HomeBlock::run_handler(bool ans) {
 /* ==================== ShopBlock ==================== */
 
 ShopBlock::ShopBlock() {
-    tags.push_back("random");
-    tags.push_back("special");
+    tags.push_back(RANDOMTAG);
+    tags.push_back(SPECIALTAG);
     rarity = 100;
     ID = SHOPBLOCK;
     name = "shop";
@@ -198,8 +201,8 @@ void ShopBlock::run_handler(bool ans) {
 /* ==================== BlacksmithBlock ==================== */
 
 BlacksmithBlock::BlacksmithBlock() {
-    tags.push_back("random");
-    tags.push_back("special");
+    tags.push_back(RANDOMTAG);
+    tags.push_back(SPECIALTAG);
     rarity = 120;
     ID = BLACKSMITHBLOCK;
     name = "blacksmith";
@@ -221,7 +224,7 @@ void BlacksmithBlock::run_handler(bool ans) {
 CastleBlock::CastleBlock() {
     number_of_enemies = (int)(_random() * max_enemy_count) + 1;
     rarity = 9999;
-    tags.push_back("special");
+    tags.push_back(SPECIALTAG);
     ID = CASTLEBLOCK;
     name = "castle";
     color = BOLDCYAN;
@@ -244,7 +247,28 @@ void CastleBlock::run_handler(bool ans) {
 
 /* ==================== Getters ==================== */
 
-Block *getBlock(int block_id) {
+void setBlocksTensor() {
+    vector<float> rarities;
+    for (int i = 0 ; i < NUMBER_OF_BLOCKS ; i++) {
+        Block* block = getBlock(i + 1);
+        if (block->tagsContain(RANDOMTAG)) {
+            rarities.push_back(1.0 / (float)block->getRarity());
+        } else {
+            rarities.push_back(0.0);
+        }
+    }
+    float sum_of_rarities = 0;
+    for (auto& rarity : rarities) {
+        sum_of_rarities += rarity;
+    }
+    for (int i = 0 ; i < rarities.size() ; i++) {
+        rarities[i] = rarities[i] / sum_of_rarities;
+    }
+    blocks_tensor = rarities;
+    is_tensor_valid = true;
+}
+
+Block* getBlock(int block_id) {
     switch (block_id) {
         case NORMALBLOCK: return new NormalBlock();
         case DIGABLEBLOCK: return new DigableBlock();
@@ -259,4 +283,19 @@ Block *getBlock(int block_id) {
 Block* getRandomBlock() {
     int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
     return getBlock(block_id);
+}
+
+Block* spawnBlock() {
+    if (!is_tensor_valid || blocks_tensor.size() == 0) {
+        setBlocksTensor();
+    }
+    float block_chooser = _random();
+    for (int i = 0 ; i < blocks_tensor.size() ; i++) {
+        if (block_chooser < blocks_tensor[i]) {
+            return getBlock(i + 1);
+        }
+        block_chooser -= blocks_tensor[i];
+    }
+    _error("this should not happen: spawnBlock!!!");
+    exit(0);
 }
