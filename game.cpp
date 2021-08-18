@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "handlers.hpp"
 
 using namespace std;
 
