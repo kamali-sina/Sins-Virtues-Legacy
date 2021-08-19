@@ -45,6 +45,13 @@ void Game::init_handlers() {
 Game::Game(bool newgame, string path) {
     srand((unsigned int)time(NULL));
     init_handlers();
+    save_path = path;
+    if (newgame) {
+        save();
+        introCutscene();
+    } else {
+        load();
+    }
 }
 
 Game::Game() {
@@ -495,4 +502,20 @@ void Game::scrap(std::vector<std::string> splitted_input) {
         postScrapDialog(attackitem->getName(), price);
         updateWorldTimer(0.6);
     }
+}
+
+void Game::save() {
+    string save_file_path = save_path + SAVEFILENAME;
+    ofstream file_obj;
+    file_obj.open(save_file_path);
+    file_obj.write((char*)&*this, sizeof(*this));
+    file_obj.close();
+}
+
+void Game::load() {
+    string save_file_path = save_path + SAVEFILENAME;
+    ifstream file_obj;
+    file_obj.open(save_file_path, ios::in);
+    file_obj.read((char*)&*this, sizeof(*this));
+    file_obj.close();
 }

@@ -132,7 +132,7 @@ void HomeBlock::run_handler(bool ans) {
         Item* item = this->getItemInside();
         session.getPlayer()->addItem(item);
     }
-    // TODO: save game
+    session.save();
 }
 
 /* ==================== ShopBlock ==================== */
@@ -279,7 +279,7 @@ Block* getBlock(int block_id) {
         default: return new Block();
     }
 }
-//TODO: fix random function to account for rarity
+
 Block* getRandomBlock() {
     int block_id = (rand() % NUMBER_OF_BLOCKS) + 1;
     return getBlock(block_id);

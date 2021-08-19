@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <fstream>
 #include "console_handler.hpp"
 #include "map.hpp"
 #include "player.hpp"
@@ -65,8 +66,9 @@ class Game{
     void printFightStatus();
     void getPlayerInput(std::string color);
     void playKillCutscene();
-    //TODO: 
     void fightEnemy(Enemy* enemy);
+    void save();
+    void load();
 
     float player_time = 0.0;
     float enemy_time = 0.0;
@@ -83,6 +85,7 @@ class Game{
     int idiot_counter = 0;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;
+    std::string save_path;
 
     void validate_input(std::vector<std::string> splitted_input);
     void init_handlers();

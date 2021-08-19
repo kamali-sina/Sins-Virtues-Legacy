@@ -6,8 +6,8 @@ Player::Player() {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
-    for (int i= 0 ; i < 7 ; i++)
-        addItem(getRandomItem());
+    // for (int i= 0 ; i < 7 ; i++)
+    //     addItem(getRandomItem());
 }
 
 std::pair<int,int> Player::getLocation() {
