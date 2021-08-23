@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <fstream>
 
 #define STEROID_HEALTH_UPGRADE 5
 
@@ -45,6 +46,9 @@ class Player {
     int refillHP();
     int heal(int amount);
     void addItem(Item* item);
+
+    void save(std::ofstream &save_file);
+    void load(std::ifstream &load_file);
 
     protected:
     bool doesItemExist(Item* item);
