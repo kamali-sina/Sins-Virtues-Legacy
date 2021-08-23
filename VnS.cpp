@@ -34,6 +34,5 @@ int main (int argc , char *argv[]) {
     }
     session = Game(newgame, save_path);
     session.run();
-    // session.getPlayer()->printInventory();
     return 1;
 }

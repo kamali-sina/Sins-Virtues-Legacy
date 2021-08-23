@@ -47,7 +47,6 @@ Game::Game(bool newgame, string path) {
     init_handlers();
     save_path = path;
     if (newgame) {
-        save();
         introCutscene();
     } else {
         load();
