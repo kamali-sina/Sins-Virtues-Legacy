@@ -212,3 +212,35 @@ int Player::attack(std::string enemy_name) {
     }
     return damage;
 }
+
+void Player::save(ofstream& save_file) {
+    save_file.write((char*)&*this, sizeof(*this));
+    int equipped_index = indexItem(equipped->getName());
+    save_file << equipped_index << endl;
+    for (auto& item : inventory) {
+        save_file<< item->serialize() << endl;
+    }
+}
+
+void Player::load(ifstream& load_file) {
+    load_file.read((char*)&*this, sizeof(*this));
+    inventory.clear();
+    string line;
+    getline(load_file, line);
+    vector<string> splitted_line = split_string(line, ' ');
+    int equipped_index = stoi(splitted_line[0]);
+    while (getline(load_file, line)) {
+        splitted_line = split_string(line, ' ');
+        int item_id = stoi(splitted_line[0]);
+        Item* item = getItem(item_id);
+        item->deserialize(splitted_line);
+        inventory.push_back(item);
+    }
+    if (equipped_index == -1) {
+        equipped = new Fist();
+    } else {
+        equipped = (AttackItem*)inventory[equipped_index];
+    }
+    cout<<"loaded player!"<<endl;
+    cout<<"player had index: " << equipped_index << " equipped!" <<endl;
+}
