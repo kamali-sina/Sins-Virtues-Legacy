@@ -509,6 +509,7 @@ void Game::save() {
     ofstream file_obj;
     file_obj.open(save_file_path);
     file_obj.write((char*)&*this, sizeof(*this));
+    player->save(file_obj);
     file_obj.close();
 }
 
@@ -517,5 +518,8 @@ void Game::load() {
     ifstream file_obj;
     file_obj.open(save_file_path, ios::in);
     file_obj.read((char*)&*this, sizeof(*this));
+    Player* loaded_player = new Player();
+    loaded_player->load(file_obj);
+    player = loaded_player;
     file_obj.close();
 }
