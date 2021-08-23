@@ -68,6 +68,8 @@ class Item {
     std::vector<std::string> getTags() { return tags; }
     std::string getString() { return colored(name, color); }
     std::string getColor() { return color; }
+    virtual std::string serialize() { return "this shoud not be called!"; }
+    virtual void deserialize(std::vector<std::string> args) { return; }
     virtual std::string getInfo() { return "infoBase"; }
 
     protected:
@@ -86,7 +88,8 @@ class CoinItem : public Item {
     void assignAmount();
     std::string getInfo();
     int getAmount() { return amount; }
-
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
     protected:
     int min_coins = 0;
     int max_coins = 0;
@@ -99,6 +102,8 @@ class ScrapItem : public Item {
     void assignAmount();
     std::string getInfo();
     int getAmount() { return amount; }
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     int min_scraps = 0;
@@ -115,6 +120,8 @@ class UtilityItem : public Item {
     //TODO: choose better names
     virtual void use_item(int inventory_index) = 0;
     int use();
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     int initial_uses = 0;
@@ -126,6 +133,8 @@ class HpItem : public Item {
     HpItem();
     int getHP(){ return hp; };
     std::string getInfo();
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     int hp = 0;
@@ -142,6 +151,8 @@ class AttackItem : public Item {
     int getUpgradePrice();
     int getScrapParts();
     std::string getInfo();
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     int speed = 0;
