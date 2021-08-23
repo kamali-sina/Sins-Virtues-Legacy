@@ -55,6 +55,15 @@ std::string CoinItem::getInfo() {
     return "amount: " + to_string(amount); 
 }
 
+std::string CoinItem::serialize() {
+    string serialized_data = to_string(id) + " " + to_string(amount);
+    return serialized_data;
+}
+
+void CoinItem::deserialize(std::vector<std::string> args) {
+    amount = stoi(args[1]);
+}
+
 /* ==================== Scrap ==================== */
 
 ScrapItem::ScrapItem() {
@@ -70,6 +79,15 @@ void ScrapItem::assignAmount() {
 
 std::string ScrapItem::getInfo() { 
     return "amount: " + to_string(amount); 
+}
+
+std::string ScrapItem::serialize() {
+    string serialized_data = to_string(id) + " " + to_string(amount);
+    return serialized_data;
+}
+
+void ScrapItem::deserialize(std::vector<std::string> args) {
+    amount = stoi(args[1]);
 }
 
 /* ==================== Utility ==================== */
@@ -101,6 +119,15 @@ int UtilityItem::use() {
     return 1;
 }
 
+std::string UtilityItem::serialize() {
+    string serialized_data = to_string(id) + " " + to_string(uses);
+    return serialized_data;
+}
+
+void UtilityItem::deserialize(std::vector<std::string> args) {
+    uses = stoi(args[1]);
+}
+
 /* ==================== HP ==================== */
 
 HpItem::HpItem() {
@@ -111,6 +138,15 @@ HpItem::HpItem() {
 
 std::string HpItem::getInfo() { 
     return "restores: " + to_string(hp) + "hp";
+}
+
+std::string HpItem::serialize() {
+    string serialized_data = to_string(id);
+    return serialized_data;
+}
+
+void HpItem::deserialize(std::vector<std::string> args) {
+    
 }
 
 /* ==================== Attack ==================== */
@@ -152,6 +188,18 @@ int AttackItem::getScrapParts() {
 
 std::string AttackItem::getInfo() {
     return "damage: " + to_string(damage) + ", speed: " + to_string(speed);
+}
+
+std::string AttackItem::serialize() {
+    string serialized_data = to_string(id) + " " + to_string(lvl);
+    return serialized_data;
+}
+
+void AttackItem::deserialize(std::vector<std::string> args) {
+    int saved_level = stoi(args[1]);
+    for (int i = 0 ; i < saved_level ; i++) {
+        cout <<this->upgrade() << endl;
+    }    
 }
 
 /* ==================== Melee ==================== */
