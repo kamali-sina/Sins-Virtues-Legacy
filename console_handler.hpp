@@ -33,6 +33,7 @@ extern std::string TOTURIAL_OPTIONS[];
 #define DEFAULTSAVEPATH "./"
 #define SAVEFOLDRNAME "VnSave"
 #define SAVEFILENAME  "savefile.vnsave"
+#define PLAYERSAVEFILENAME  "playerItems.vnsave"
 
 float _random();
 std::string lower(std::string input);

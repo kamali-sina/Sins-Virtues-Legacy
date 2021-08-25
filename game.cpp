@@ -508,8 +508,8 @@ void Game::save() {
     string save_file_path = save_path + SAVEFILENAME;
     ofstream file_obj;
     file_obj.open(save_file_path);
-    file_obj.write((char*)&*this, sizeof(*this));
-    player->save(file_obj);
+    file_obj << days_passed << endl;
+    player->save(save_path);
     file_obj.close();
 }
 
@@ -517,9 +517,9 @@ void Game::load() {
     string save_file_path = save_path + SAVEFILENAME;
     ifstream file_obj;
     file_obj.open(save_file_path, ios::in);
-    file_obj.read((char*)&*this, sizeof(*this));
+    file_obj >> days_passed;
     Player* loaded_player = new Player();
-    loaded_player->load(file_obj);
+    loaded_player->load(save_path);
     player = loaded_player;
     file_obj.close();
     map = new Map(player->getLocation());

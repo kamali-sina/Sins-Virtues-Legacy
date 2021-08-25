@@ -79,7 +79,7 @@ class Game{
     
     
     private:
-    Map *map;
+    Map *map = new Map();
     Player *player = new Player();
     Enemy* enemy_fighting;
     int idiot_counter = 0;

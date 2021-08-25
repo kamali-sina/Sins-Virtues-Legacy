@@ -6,8 +6,8 @@ Player::Player() {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
-    // for (int i= 0 ; i < 7 ; i++)
-    //     addItem(getRandomItem());
+    for (int i= 0 ; i < 7 ; i++)
+        addItem(getRandomItem(), true);
 }
 
 std::pair<int,int> Player::getLocation() {
@@ -96,25 +96,29 @@ int Player::healWithItem(int item_index) {
     return hp;
 }
 
-void Player::addItem(Item* item) {
+void Player::addItem(Item* item, bool silent) {
     if (item->tagsContain(COINITEMTAG)) {
         CoinItem* coinitem = (CoinItem*)item;
         addCoins(coinitem->getAmount());
-        gotXCoinsDialog(coinitem->getAmount());
+        if (!silent)
+            gotXCoinsDialog(coinitem->getAmount());
         return;
     } else if (item->tagsContain(SCRAPITEMTAG)) {
         ScrapItem* scrapitem = (ScrapItem*)item;
         addScraps(scrapitem->getAmount());
-        gotXScrapsDialog(scrapitem->getAmount());
+        if (!silent)
+            gotXScrapsDialog(scrapitem->getAmount());
         return;
     } else if (item->tagsContain(ATTACKITEMTAG) && doesItemExist(item)) {
         AttackItem* attackitem = (AttackItem*)item;
         addScraps(attackitem->getScrapParts());
-        scrappedDuplicatieItemDialog(attackitem->getName(), attackitem->getScrapParts());
+        if (!silent)
+            scrappedDuplicatieItemDialog(attackitem->getName(), attackitem->getScrapParts());
         return;
     }
     inventory.push_back(item);
-    foundItemDialog(item->getName(), item->getColor());
+    if (!silent)
+        foundItemDialog(item->getName(), item->getColor());
 }
 
 int Player::refillHP() {
@@ -213,34 +217,51 @@ int Player::attack(std::string enemy_name) {
     return damage;
 }
 
-void Player::save(ofstream& save_file) {
-    save_file.write((char*)&*this, sizeof(*this));
+void Player::save(string path) {
+    string player_items_path = path + PLAYERSAVEFILENAME;
+    ofstream file_obj;
+    file_obj.open(player_items_path);
+    file_obj << max_hp << endl;
+    file_obj << hp << endl;
+    file_obj << coin << endl;
+    file_obj << vision << endl;
+    file_obj << scrap << endl;
+    file_obj << location.first << " " << location.second << endl;
     int equipped_index = indexItem(equipped->getName());
-    save_file << equipped_index << endl;
+    file_obj << equipped_index << endl;
     for (auto& item : inventory) {
-        save_file<< item->serialize() << endl;
+        file_obj<< item->serialize() << endl;
     }
+    file_obj.close();
 }
 
-void Player::load(ifstream& load_file) {
-    load_file.read((char*)&*this, sizeof(*this));
+void Player::load(string path) {
+    string player_items_path = path + PLAYERSAVEFILENAME;
+    ifstream file_obj;
+    file_obj.open(player_items_path);
     inventory.clear();
     string line;
-    getline(load_file, line);
-    vector<string> splitted_line = split_string(line, ' ');
-    int equipped_index = stoi(splitted_line[0]);
-    while (getline(load_file, line)) {
+    file_obj >> max_hp;
+    file_obj >> hp;
+    file_obj >> coin;
+    file_obj >> vision;
+    file_obj >> scrap;
+    int x, y;
+    file_obj >> x >> y;
+    location = pair<int,int>(x,y);
+    vector<string> splitted_line;
+    int equipped_index;
+    file_obj >> equipped_index;
+    while (getline(file_obj, line)) {
+        if (line.size() == 0) continue;
         splitted_line = split_string(line, ' ');
         int item_id = stoi(splitted_line[0]);
         Item* item = getItem(item_id);
         item->deserialize(splitted_line);
         inventory.push_back(item);
     }
-    if (equipped_index == -1) {
-        equipped = new Fist();
-    } else {
+    if (equipped_index != -1) {
         equipped = (AttackItem*)inventory[equipped_index];
     }
-    cout<<"loaded player!"<<endl;
-    cout<<"player had index: " << equipped_index << " equipped!" <<endl;
+    file_obj.close();
 }
