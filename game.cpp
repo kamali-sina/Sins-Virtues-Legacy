@@ -47,6 +47,7 @@ Game::Game(bool newgame, string path) {
     init_handlers();
     save_path = path;
     if (newgame) {
+        save();
         introCutscene();
     } else {
         load();
@@ -105,14 +106,14 @@ void Game::run() {
 }
 
 Block* Game::getBlockAtPlayerLocation() {
-    return map.getBlockAtLocation(player->getLocation());
+    return map->getBlockAtLocation(player->getLocation());
 }
 
 Player* Game::getPlayer() {
     return player;
 }
 
-Map Game::getMap() {
+Map* Game::getMap() {
     return map;
 }
 
@@ -131,7 +132,7 @@ void Game::digHere(int inventory_index) {
         didntFindItemDialog();
     }
     player->useItem(inventory_index);
-    map.setBlockAtLocation(player->getLocation(), new NormalBlock(true));
+    map->setBlockAtLocation(player->getLocation(), new NormalBlock(true));
 }
 
 bool mini_valid(vector<string> command_set, vector<int> command_count, string command, int count) {
@@ -177,7 +178,7 @@ void Game::move(std::vector<std::string> splitted_input) {
     }
     pair<int,int> new_location(player->getLocation().first + moveset_handler[index].first,
         player->getLocation().second + moveset_handler[index].second);
-    if (!map.isLocationValid(new_location)){
+    if (!map->isLocationValid(new_location)){
         outOfBoundsDialog();
         return;
     }
@@ -189,7 +190,7 @@ void Game::move(std::vector<std::string> splitted_input) {
 void Game::handleNewReachedBlock() {
     Block* current_block = getBlockAtPlayerLocation();
     newBlockReachedDialog(current_block->getName(), current_block->getColor(), current_block->getInfo());
-    map.printAdjacentDialogs(player->getLocation());
+    map->printAdjacentDialogs(player->getLocation());
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
         state = PROMPT;
@@ -344,7 +345,7 @@ void Game::commands(std::vector<std::string> splitted_input) {
 }
 
 void Game::print_map(std::vector<std::string> splitted_input) {
-    map.printPartialMap(2, player->getLocation());
+    map->printPartialMap(2, player->getLocation());
 }
 
 void Game::equip(std::vector<std::string> splitted_input) {
@@ -438,7 +439,7 @@ void Game::exit_to_world(std::vector<std::string> splitted_input) {
 }
 
 void Game::dev_map(std::vector<std::string> splitted_input) {
-    map.printFullMap();
+    map->printFullMap();
 }
 
 void Game::upgrade(std::vector<std::string> splitted_input) {
@@ -521,4 +522,5 @@ void Game::load() {
     loaded_player->load(file_obj);
     player = loaded_player;
     file_obj.close();
+    map = new Map(player->getLocation());
 }
