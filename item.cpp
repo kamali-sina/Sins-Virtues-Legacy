@@ -317,7 +317,7 @@ std::string Compass::getInfo() {
 }
 
 void Compass::use_item(int inventory_index) {
-    cout<<session.getMap().compass(session.getPlayer()->getLocation())<<endl;
+    cout<<session.getMap()->compass(session.getPlayer()->getLocation())<<endl;
 }
 
 
@@ -332,7 +332,7 @@ MapItem::MapItem() {
 }
 
 void MapItem::use_item(int inventory_index) {
-    session.getMap().printPartialMap(
+    session.getMap()->printPartialMap(
                                     session.getPlayer()->getVision(), 
                                     session.getPlayer()->getLocation()
                                     );
