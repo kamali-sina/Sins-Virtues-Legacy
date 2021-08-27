@@ -87,8 +87,24 @@ void Game::updateCommandSet() {
     }
 }
 
+void Game::updateTimeOfDay() {
+    int time;
+    if (world_timer < 14) {
+        time = 0;
+    } else if (world_timer < 16) {
+        time = 1;
+    } else {
+        time = 2;
+    }
+    if (time != time_of_day) {
+        newTimeOfDayDialog(time);
+    }
+    time_of_day = time;
+}
+
 void Game::getPlayerInput(std::string color) {
     updateCommandSet();
+    updateTimeOfDay();
     string input;
     cout<<endl;
     cout<<colored("> ", color);
@@ -97,6 +113,8 @@ void Game::getPlayerInput(std::string color) {
     input = lower(input);
     vector<string> splitted_input = split_string(input, ' ');
     validate_input(splitted_input);
+    spawnNightTimeEnemey();
+    can_spawn_enemy = false;
 }
 
 void Game::run() {
@@ -168,6 +186,17 @@ void Game::validate_input(vector<string> splitted_input) {
     }
 }
 
+void Game::spawnNightTimeEnemey() {
+    if (time_of_day == NIGHT && state == NORMAL && can_spawn_enemy) {
+        if (_random() < NIGHT_ENEMY_CHANCE) {
+            Enemy* enemy = getRandomEnemy();
+            cout<<endl;
+            encounteredEnemyAtNightDialog(enemy->getName());
+            fightEnemy(enemy);
+        }
+    }
+}
+
 void Game::move(std::vector<std::string> splitted_input) {
     vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
     vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
@@ -185,6 +214,7 @@ void Game::move(std::vector<std::string> splitted_input) {
     }
     player->setLocation(new_location);
     updateWorldTimer(0.30);
+    can_spawn_enemy = true;
     handleNewReachedBlock();
 }
 
@@ -305,6 +335,7 @@ void Game::inventory(std::vector<std::string> splitted_input) {
     player->updateTimeInFight(0.5);
     updateWorldTimer(0.15);
     player->printInventory();
+    can_spawn_enemy = true;
 }
 
 void Game::use(std::vector<std::string> splitted_input) {
@@ -329,6 +360,7 @@ void Game::use(std::vector<std::string> splitted_input) {
 }
 
 void Game::info(std::vector<std::string> splitted_input) {
+    cout<<"========== Day " + to_string(days_passed) + " ==========" <<endl<<endl;
     updateWorldTimer(0.1);   
     player->printInfo();
     cout << "time: " << getClockTime() << endl;
