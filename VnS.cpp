@@ -32,7 +32,6 @@ int main (int argc , char *argv[]) {
     } else { 
         _error("Invalid option was provided, use --help for more info!");
     }
-    Player* player = new Player();
     session = Game(newgame, save_path);
     session.run();
     return 1;
