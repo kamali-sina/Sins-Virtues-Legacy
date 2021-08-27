@@ -34,7 +34,7 @@ class Enemy{
     virtual void attack(Player* player);
     virtual std::string getInfo();
     virtual std::string getKillDialog();
-    virtual std::string serialize() { return to_string(id); }
+    virtual std::string serialize() { return std::to_string(id); }
     virtual void deserialize(std::vector<std::string> args) { return; }
 
     protected:

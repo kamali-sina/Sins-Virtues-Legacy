@@ -112,7 +112,7 @@ DigableBlock::DigableBlock() {
     color = MAGENTA;
 }
 
-std::string NormalBlock::serialize() { 
+std::string DigableBlock::serialize() { 
     string serialized_data = to_string(ID) + " " + to_string(contains_item);
     if (contains_item) {
         serialized_data += " " + item_inside->serialize();
@@ -120,7 +120,7 @@ std::string NormalBlock::serialize() {
     return serialized_data;
 }
 
-void NormalBlock::deserialize(std::vector<std::string> args) {
+void DigableBlock::deserialize(std::vector<std::string> args) {
     bool does_contain_item = stoi(args[1]);
     this->setContainsItem(does_contain_item);
     if (does_contain_item) {
@@ -175,6 +175,14 @@ void HomeBlock::run_handler(bool ans) {
         session.getPlayer()->addItem(item);
     }
     session.save();
+}
+
+std::string HomeBlock::serialize() { 
+    return to_string(ID);
+}
+
+void HomeBlock::deserialize(std::vector<std::string> args) {
+    return;
 }
 
 /* ==================== ShopBlock ==================== */
@@ -240,6 +248,14 @@ void ShopBlock::run_handler(bool ans) {
     }
 }
 
+std::string ShopBlock::serialize() { 
+    return to_string(ID);
+}
+
+void ShopBlock::deserialize(std::vector<std::string> args) {
+    return;
+}
+
 /* ==================== BlacksmithBlock ==================== */
 
 BlacksmithBlock::BlacksmithBlock() {
@@ -259,6 +275,14 @@ void BlacksmithBlock::run_handler(bool ans) {
     } else {
         session.enterBlacksmith();
     }
+}
+
+std::string BlacksmithBlock::serialize() { 
+    return to_string(ID);
+}
+
+void BlacksmithBlock::deserialize(std::vector<std::string> args) {
+    return;
 }
 
 /* ==================== CastleBlock ==================== */
@@ -285,6 +309,14 @@ void CastleBlock::initEnemies() {
 
 void CastleBlock::run_handler(bool ans) {
     //TODO: complete castle
+}
+
+std::string CastleBlock::serialize() { 
+    return to_string(ID);
+}
+
+void CastleBlock::deserialize(std::vector<std::string> args) {
+    return;
 }
 
 /* ==================== Getters ==================== */

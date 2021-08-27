@@ -46,7 +46,7 @@ class Block {
     virtual void run_handler(bool ans) {
         _error("A block with no handler was called!");
     }
-    virtual std::string serialize() { return to_string(ID); }
+    virtual std::string serialize() { return std::to_string(ID); }
     virtual void deserialize(std::vector<std::string> args) { return; }
 
     protected:
