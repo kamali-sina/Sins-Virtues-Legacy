@@ -103,4 +103,8 @@ void understandableHaveAGoodDialog();
 
 void attackedEnemyDialog(std::string enemy_name, int damage);
 
+void newTimeOfDayDialog(int time);
+
+void encounteredEnemyAtNightDialog(std::string enemy_name);
+
 #endif
