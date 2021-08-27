@@ -18,9 +18,13 @@
 #define SHOP 3
 #define BLACKSMITH 4
 
+#define NUMTIMESOFDAY 3
+
 #define DAY 0
-#define EVENING 1
+#define DUSK 1
 #define NIGHT 2
+
+#define NIGHT_ENEMY_CHANCE 0.51
 
 #define NOTFOUND -1
 
@@ -76,6 +80,7 @@ class Game{
     int days_passed = 0;
     int time_of_day = DAY;
     int state = NORMAL;
+    bool can_spawn_enemy = false;
     
     
     private:
@@ -92,6 +97,8 @@ class Game{
     bool is_command_valid(std::string command, int count);
     void handleNewReachedBlock();
     void updateCommandSet();
+    void updateTimeOfDay();
+    void spawnNightTimeEnemey();
     bool setupPrompt(std::string prompt);
 };
 
