@@ -208,3 +208,19 @@ void attackedEnemyDialog(std::string enemy_name, int damage) {
     notification("Attacked the " + colored(enemy_name, RED) 
             + " for " + colored(to_string(damage), RED) + " damage!!!");
 }
+
+void newTimeOfDayDialog(int time) {
+    string message = "";
+    if (time == 0)
+        message = "The sun is rising! I was up all night god damn. Can't stop now...";
+    else if (time == 1)
+        message = "It's dusk, getting dark soon, better find shelter fast.";
+    else
+        message = "It's night. Shops are closed. The night is dark and full of terrors...";
+    dialog("You", message, YELLOW, 22);
+}
+
+void encounteredEnemyAtNightDialog(std::string enemy_name) {
+    dialog("You", "Shit there is a " + colored(enemy_name, RED) 
+            + " here, Shit! Can't escape, have to fight it!", YELLOW, 30);
+}
