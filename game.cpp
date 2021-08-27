@@ -51,6 +51,7 @@ Game::Game(bool newgame, string path) {
         introCutscene();
     } else {
         load();
+        loadCutscene();
     }
 }
 
