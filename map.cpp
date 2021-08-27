@@ -212,3 +212,18 @@ void Map::printAdjacentDialogs(std::pair<int,int> location) {
         dialog("You", *itr, YELLOW, 23);
     }
 }
+
+void Map::save(std::string path) {
+    string map_save_path = path + MAPSAVEFILENAME;
+    ofstream file_obj;
+    file_obj.open(map_save_path);
+    for (int i = 0 ; i < MAPSIZE ; i++) {
+        for (int j = 0 ; j < MAPSIZE ; j++) {
+            file_obj<< map[i][j]->serialize() << endl;
+        }
+    }
+}
+
+void Map::load(std::string path) {
+
+}

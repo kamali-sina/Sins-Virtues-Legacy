@@ -75,7 +75,7 @@ class Game{
     float world_timer = 0.0;
     int days_passed = 0;
     int time_of_day = DAY;
-    int state = NORMAL; 
+    int state = NORMAL;
     
     
     private:

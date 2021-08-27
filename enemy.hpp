@@ -12,6 +12,10 @@
 #define BASE_SPEED_TIME 10
 #define NUMBER_OF_ENEMIES 3
 
+#define GUY 1
+#define WOLF 2
+#define BIGBOB 3
+
 class Enemy{
     public:
     Enemy() { }
@@ -30,12 +34,15 @@ class Enemy{
     virtual void attack(Player* player);
     virtual std::string getInfo();
     virtual std::string getKillDialog();
+    virtual std::string serialize() { return to_string(id); }
+    virtual void deserialize(std::vector<std::string> args) { return; }
 
     protected:
     void reduceHP(int _damage);
     std::string name = "";
     int hp = 0;
     int bounty = 0;
+    int id = 0;
     float speed = 0;
     int damage = 0;
     float time_in_fight = 0;
