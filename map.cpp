@@ -24,6 +24,14 @@ Map::Map() {
     completeMap();
 }
 
+Map::Map(pair<int,int> player_location) {
+    srand((unsigned int)time(NULL));
+    initMap();
+    spawnHomeAtPlayerLocation(player_location);
+    spawnSpecialBlocks();
+    completeMap();
+}
+
 void Map::initMap() {
     for (int i = 0 ; i < MAPSIZE ; i++) {
         vector<Block*> row;
@@ -32,6 +40,14 @@ void Map::initMap() {
         }
         map.push_back(row);
     }
+}
+
+void Map::spawnHomeAtPlayerLocation(std::pair<int,int> player_location) {
+    std::pair<int,int> indexes = locationToIndex(player_location);
+    HomeBlock* homeblock = (HomeBlock*) getBlock(HOMEBLOCK);
+    homeblock->setContainsEnemy(false);
+    homeblock->setContainsItem(false);
+    map[indexes.first][indexes.second] = (Block*) homeblock;
 }
 
 void Map::spawnSpecialBlocks() {
@@ -195,4 +211,19 @@ void Map::printAdjacentDialogs(std::pair<int,int> location) {
     for (itr = dialog_set.begin(); itr != dialog_set.end(); itr++){
         dialog("You", *itr, YELLOW, 23);
     }
+}
+
+void Map::save(std::string path) {
+    string map_save_path = path + MAPSAVEFILENAME;
+    ofstream file_obj;
+    file_obj.open(map_save_path);
+    for (int i = 0 ; i < MAPSIZE ; i++) {
+        for (int j = 0 ; j < MAPSIZE ; j++) {
+            file_obj<< map[i][j]->serialize() << endl;
+        }
+    }
+}
+
+void Map::load(std::string path) {
+
 }

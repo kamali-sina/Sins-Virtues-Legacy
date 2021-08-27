@@ -9,6 +9,8 @@
 
 void introCutscene();
 
+void loadCutscene();
+
 void outOfBoundsDialog();
 
 void dontHaveItemsDialog();

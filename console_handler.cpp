@@ -4,8 +4,7 @@ using namespace std;
 
 string HELP_OPTIONS[] =  {"-h", "--help"};
 string TOTURIAL_OPTIONS[] =  {"-t", "--toturial"};
-string NEWGAME = "-n";
-string LOADGAME = "-l";
+struct stat info;
 
 /* Returns: a random number between 0 and 1 */
 float _random() {
@@ -46,7 +45,6 @@ void* wait_for_input(void* i) {
     return NULL;
 }
 
-//TODO: Fix color slow
 /*function which displays characters one at a time*/
 void slow(std::string text, float speed) {
     pthread_t thread;
@@ -88,7 +86,7 @@ void notification(string msg) {
     cout<<endl;
 }
 
-void toturial_if_needed(string option) {
+void toturialIfNeeded(string option) {
     if (find(begin(TOTURIAL_OPTIONS), end(TOTURIAL_OPTIONS), option) != end(TOTURIAL_OPTIONS)) {
         cprint("\n=== welcome to Sins & Virtues! ===\n", BLUE);
         cout<<"This game is completely text based. There are no maps(yet), no hints, no eagle vision, no nothing."<<endl;
@@ -118,15 +116,55 @@ void toturial_if_needed(string option) {
     }
 }
 
-void help_if_needed(string option) {
+void helpIfNeeded(string option) {
     if (find(begin(HELP_OPTIONS), end(HELP_OPTIONS), option) != end(HELP_OPTIONS)) {
-        cout<<"Usage: ./VnS.out <options>\n"<<endl;
+        cout<<"\nUsage: ./VnS.out <options>\n"<<endl;
         cprint("=== welcome to Sins & Virtues! ===\n", BLUE);
         cout<<"use the following options to play the game:\n"<<endl;
         cout<<"  "<<colored(NEWGAME,YELLOW)<<": for starting a new game. \n    can be followed by the path to save the game. saves in the current directory as default\n"<<endl;
-        // TODO: cout<<"  "<<colored(,YELLOW)<<": for resuming from a save file.\n    must be followed by the path to the save directory"<<endl;
-        cout<<"  "<<colored(LOADGAME,YELLOW)<<": does not do anything currently.\n"<<endl;
+        cout<<"  "<<colored(LOADGAME,YELLOW)<<": for resuming from a save file.\n    must be followed by the path to the save directory"<<endl;
         cout<<"  "<<colored(TOTURIAL_OPTIONS[0],YELLOW)<<": for learning the game. \n"<<endl;
         cout<<"  "<<colored(HELP_OPTIONS[0],YELLOW)<<": for seeing the page you are reading now. \n"<<endl;
+        exit(0);
     }
+}
+
+std::string handleNewGame(std::string path) {
+    if (path[path.size() - 1] != '/') {
+        path = path + "/";
+    }
+    string save_folder = path + SAVEFOLDRNAME + "/";
+    if (stat( save_folder.c_str(), &info ) != 0) {
+        cout<<"creating saves folder in " << path << endl;
+        if (mkdir(save_folder.c_str(), 0777) == -1) {
+            _error("Could not create save folder, does your path exist?");
+            exit(0);
+        }
+        return save_folder;
+    } else {
+        cout<<"save folder already exists in path... override savefile?(y,n) ";
+        string input;
+        cin>>input;
+        if (input == "y" || input == "yes") {
+            cout<<"overriding savefile..." <<endl;
+            return save_folder;
+        } else {
+            _error("aborting...");
+            exit(0);
+        }
+    }
+    return "";
+}
+
+std::string handleLoadGame(std::string path) {
+    if (path[path.size() - 1] != '/') {
+        path = path + "/";
+    }
+    string save_folder = path + SAVEFOLDRNAME + "/";
+    if (stat( save_folder.c_str(), &info ) != 0) {
+        _error("no save folder was detected in path!");
+        exit(0);
+    }
+    cout<<"loading game from: " << path << endl;
+    return save_folder;
 }

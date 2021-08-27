@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <fstream>
 
 #define STEROID_HEALTH_UPGRADE 5
 
@@ -44,7 +45,10 @@ class Player {
     std::pair<int,int> getLocation();
     int refillHP();
     int heal(int amount);
-    void addItem(Item* item);
+    void addItem(Item* item, bool silent=false);
+
+    void save(std::string path);
+    void load(std::string path);
 
     protected:
     bool doesItemExist(Item* item);
@@ -54,8 +58,8 @@ class Player {
     int coin=0;
     int vision = 1;
     int scrap=0;
-    float time_in_fight = 0;
     std::pair<int,int> location;
+    float time_in_fight = 0;
     AttackItem* equipped;
 };
 

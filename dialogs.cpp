@@ -5,12 +5,19 @@ using namespace std;
 void introCutscene() {
     cprint("\n======== Sins & Virtues ========", BLUE);
     cprint("=== A game made by PapaSinku ===\n", YELLOW);
-    dialog("Unknown", "Have you ever been to the SinkuLand?\n", RED, 8);
-    dialog("You", "No I can't recall...", YELLOW, 4);
-    dialog("Unknown", "Close your eyes, and just imagine SinkuLand...", RED, 10);
+    dialog("Unknown", "Have you ever been to the SinkuLand?\n", RED, 14);
+    dialog("You", "No I can't recall...", YELLOW, 12);
+    dialog("Unknown", "Close your eyes, and just imagine SinkuLand...", RED, 15);
     sleep(1);
-    cprint("\n> A white light fills the room\n","magenta");
-    dialog("You", "Where the hell am I? It's getting dark, better find shelter.", YELLOW, 7);
+    cprint("\n> A white light fills the room\n", MAGENTA);
+    dialog("You", "Where the hell am I? It's getting dark, better find shelter.", YELLOW, 20);
+}
+
+void loadCutscene() {
+    cprint("\n======== Sins & Virtues ========", BLUE);
+    cprint("=== A game made by PapaSinku ===\n", YELLOW);
+    dialog("You", "Where am I? Why do I feel so disconnected from myself?", YELLOW, 20);
+    dialog("You", "Oh shit, why is everything different? The whole island is changed!!!", YELLOW, 20);
 }
 
 void outOfBoundsDialog() {

@@ -1,14 +1,5 @@
 #include "enemy.hpp"
 
-Guy::Guy() {
-    name = "guy";
-    hp = 1;
-    bounty = 1;
-    speed = 4;
-    damage = 2;
-    rarity = 4;
-}
-
 int Enemy::getDamaged(int _damage) {
     reduceHP(_damage);
     return hp;
@@ -33,6 +24,16 @@ void Enemy::reduceHP(int _damage) {
     hp = std::max(0, hp);
 }
 
+Guy::Guy() {
+    name = "guy";
+    hp = 1;
+    bounty = 1;
+    speed = 4;
+    damage = 2;
+    rarity = 4;
+    id = GUY;
+}
+
 Wolf::Wolf() {
     name = "wolf";
     hp = 4;
@@ -40,6 +41,7 @@ Wolf::Wolf() {
     speed = 7;
     damage = 3;
     rarity = 3;
+    id = WOLF;
 }
 
 BigBob::BigBob() {
@@ -49,13 +51,14 @@ BigBob::BigBob() {
     speed = 5;
     damage = 6;
     rarity = 4;
+    id = BIGBOB;
 }
 
 Enemy* getEnemy(int enemy_id){
     switch (enemy_id) {
-        case 1: return new Guy();
-        case 2: return new Wolf();
-        case 3: return new BigBob();
+        case GUY: return new Guy();
+        case WOLF: return new Wolf();
+        case BIGBOB: return new BigBob();
         case 4: ;
         case 5: ;
         case 6: ;

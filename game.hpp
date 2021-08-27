@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <fstream>
 #include "console_handler.hpp"
 #include "map.hpp"
 #include "player.hpp"
@@ -34,7 +35,7 @@ class Game{
     Game();
     Block* getBlockAtPlayerLocation();
     Player* getPlayer();
-    Map getMap();
+    Map* getMap();
     void run();
 
     // command handlers
@@ -65,24 +66,26 @@ class Game{
     void printFightStatus();
     void getPlayerInput(std::string color);
     void playKillCutscene();
-    //TODO: 
     void fightEnemy(Enemy* enemy);
+    void save();
+    void load();
 
     float player_time = 0.0;
     float enemy_time = 0.0;
     float world_timer = 0.0;
     int days_passed = 0;
     int time_of_day = DAY;
-    int state = NORMAL; 
+    int state = NORMAL;
     
     
     private:
-    Map map;
+    Map *map = new Map();
     Player *player = new Player();
     Enemy* enemy_fighting;
     int idiot_counter = 0;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;
+    std::string save_path;
 
     void validate_input(std::vector<std::string> splitted_input);
     void init_handlers();

@@ -46,6 +46,8 @@ class Block {
     virtual void run_handler(bool ans) {
         _error("A block with no handler was called!");
     }
+    virtual std::string serialize() { return std::to_string(ID); }
+    virtual void deserialize(std::vector<std::string> args) { return; }
 
     protected:
     std::string name;
@@ -70,6 +72,8 @@ class NormalBlock : public Block {
     std::string getAdjacentDialog() { return "I can see a chest over there on the ground!"; }
     Item* getItemInside(){ return item_inside; }
     void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     bool contains_item;
@@ -86,6 +90,8 @@ class DigableBlock : public Block {
     std::string getString() { return name; }
     Item* getItemInside() { return item_inside; }
     void setContainsItem(bool value) { contains_item = value; }
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     bool contains_item;
@@ -108,6 +114,8 @@ class HomeBlock : public Block {
     Enemy* getEnemyInside() { return enemy_inside; }
     std::string getAdjacentDialog() { return "I can see a faint light emitting nearby..."; }
     void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     bool contains_item;
@@ -130,6 +138,8 @@ class ShopBlock : public Block {
     Item* buyItem(int item_index);
     int getItemPrice(int item_index);
     void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     std::vector<Item*> stock;
@@ -143,6 +153,8 @@ class BlacksmithBlock : public Block {
     std::string getPrompt() { return "Enter the blacksmith?(y,n)"; }
     std::string getAdjacentDialog() { return "I can hear hitting on an anvil nearby."; }
     void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 };
 
 class CastleBlock : public Block {
@@ -153,6 +165,8 @@ class CastleBlock : public Block {
     std::string getInfo() { return "A castle in the middle of nowhere?!"; }
     std::string getPrompt() { return "There is no turning back now, get ready, have healing items, and equip your weapons. Do you want to enter the castle?(y,n)"; }
     void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
 
     protected:
     int max_enemy_count = 4;
