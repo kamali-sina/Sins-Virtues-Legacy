@@ -243,6 +243,7 @@ void Game::playKillCutscene() {
 
 void Game::fightEnemy(Enemy* enemy) {
     enemy_fighting = enemy;
+    enemy_fighting->updateScaling(days_passed);
     cout<< colored("\n--Entered Battle--\n", RED) << endl;
     notification(enemy_fighting->getInfo());
     cout<< endl;
