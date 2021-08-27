@@ -1,5 +1,7 @@
 #include "enemy.hpp"
 
+/* ==================== Base Class ==================== */
+
 int Enemy::getDamaged(int _damage) {
     reduceHP(_damage);
     return hp;
@@ -23,6 +25,15 @@ void Enemy::reduceHP(int _damage) {
     hp -= _damage;
     hp = std::max(0, hp);
 }
+
+void Enemy::updateScaling(int days_passed) {
+    float new_hp_scale = (HPSCALE * days_passed) + 1;
+    float new_damage_scale = (DAMAGESCALE * days_passed) + 1;
+    damage = new_damage_scale * damage;
+    hp = new_hp_scale * hp;
+}
+
+/* ==================== Normal Enemy Classes ==================== */
 
 Guy::Guy() {
     name = "guy";

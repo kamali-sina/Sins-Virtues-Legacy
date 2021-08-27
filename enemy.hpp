@@ -12,6 +12,9 @@
 #define BASE_SPEED_TIME 10
 #define NUMBER_OF_ENEMIES 3
 
+#define HPSCALE 0.2 //percent
+#define DAMAGESCALE 0.2
+
 #define GUY 1
 #define WOLF 2
 #define BIGBOB 3
@@ -36,6 +39,7 @@ class Enemy{
     virtual std::string getKillDialog();
     virtual std::string serialize() { return std::to_string(id); }
     virtual void deserialize(std::vector<std::string> args) { return; }
+    virtual void updateScaling(int days_passed);
 
     protected:
     void reduceHP(int _damage);
