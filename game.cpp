@@ -197,6 +197,13 @@ void Game::spawnNightTimeEnemey() {
     }
 }
 
+float Game::getPlayerMoveTime() {
+    float total_weight = player->getTotalWeight();
+    float move_time = BASE_BLOCK_MOVE_TIME 
+                + max((float)0, total_weight - ITEM_WEIGHT_SOFT_THRESHHOLD) * EXTRA_TIME_PER_KG;
+    return move_time;
+}
+
 void Game::move(std::vector<std::string> splitted_input) {
     vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
     vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
@@ -213,7 +220,7 @@ void Game::move(std::vector<std::string> splitted_input) {
         return;
     }
     player->setLocation(new_location);
-    updateWorldTimer(0.30);
+    updateWorldTimer(getPlayerMoveTime());
     can_spawn_enemy = true;
     handleNewReachedBlock();
 }
