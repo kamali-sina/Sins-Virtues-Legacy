@@ -100,6 +100,7 @@ class Game{
     void updateTimeOfDay();
     void spawnNightTimeEnemey();
     bool setupPrompt(std::string prompt);
+    float getPlayerMoveTime();
 };
 
 #endif
