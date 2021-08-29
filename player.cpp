@@ -19,6 +19,14 @@ int Player::getCoins() {
     return coin;
 }
 
+float Player::getTotalWeight() {
+    float total_weight = 0;
+    for (Item* item : inventory){
+        total_weight += item->getWeight();
+    }
+    return total_weight;
+}
+
 void Player::deductCoins(int amount) {
     coin -= amount;
 }
@@ -144,6 +152,7 @@ void Player::printInventory() {
         IHaveNoItemsDialog();
         return;
     }
+    float total_weight = getTotalWeight();
     cout<<"==========Inventory=========="<<endl;
     cout<<"  name                 info  "<<endl;
     cout<<"-----------------------------"<<endl;
@@ -153,6 +162,7 @@ void Player::printInventory() {
         for (int i = 0; i < spaces ; i++) cout<<" ";
         cout<< item->getInfo() << endl;
     }
+    cout<<"==========" << total_weight <<"KG=========="<<endl;
 }
 
 void Player::printInfo() {

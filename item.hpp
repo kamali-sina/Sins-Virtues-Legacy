@@ -65,6 +65,7 @@ class Item {
     bool tagsContain(std::string tag);
     int getID() { return id; }
     int getRarity() { return rarity; }
+    float getWeight() { return weight; }
     std::vector<std::string> getTags() { return tags; }
     std::string getString() { return colored(name, color); }
     std::string getColor() { return color; }
@@ -79,6 +80,7 @@ class Item {
     int sell_price = 0;
     std::string name = "item";
     std::string color = WHITE;
+    float weight = 0.0;
     int id;
 };
 

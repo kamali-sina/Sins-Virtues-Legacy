@@ -290,6 +290,7 @@ Shovel::Shovel() {
     uses = initial_uses;
     price = 4;
     id = 1;
+    weight = 2;
     /*
         TODO:
         self.damage = 3
@@ -310,6 +311,7 @@ Compass::Compass() {
     price = 9;
     uses = initial_uses;
     id = 2;
+    weight = 0.2;
 }
 
 std::string Compass::getInfo() {
@@ -329,6 +331,7 @@ MapItem::MapItem() {
     price = 7;
     uses = initial_uses;
     id = 3;
+    weight = 0.4;
 }
 
 void MapItem::use_item(int inventory_index) {
@@ -348,6 +351,7 @@ Steroid::Steroid() {
     uses = initial_uses;
     price = 12;
     id = 4;
+    weight = 0.5;
 }
 
 void Steroid::use_item(int inventory_index) {
@@ -366,6 +370,7 @@ Fist::Fist() {
     speed = 6;
     price = 0;
     id = 5;
+    weight = 0;
 }
 
 
@@ -378,6 +383,7 @@ Knife::Knife() {
     speed = 9;
     price = 7;
     id = 6;
+    weight = 1.5;
 }
 
 
@@ -389,6 +395,7 @@ Sword::Sword() {
     speed = 5;
     price = 13;
     id = 7;
+    weight = 3.9;
 }
 
 
@@ -400,6 +407,7 @@ Axe::Axe() {
     speed = 3;
     price = 8;
     id = 8;
+    weight = 13.0;
 }
 
 /* ==================== RangedAttackItem Classes ==================== */
@@ -413,6 +421,7 @@ Peacemaker::Peacemaker() {
     price = 14;
     misschance = 0.2;
     id = 9;
+    weight = 1.1;
 }
 
 Shotgun::Shotgun() {
@@ -424,6 +433,7 @@ Shotgun::Shotgun() {
     price = 18;
     misschance = 0.3;
     id = SHOTGUN;
+    weight = 3.6;
 }
 
 /* ==================== HpItem Classes ==================== */
@@ -435,6 +445,7 @@ Apple::Apple() {
     price = 2;
     hp = 3;
     id = 10;
+    weight = 0.2;
 }
 
 
@@ -445,6 +456,7 @@ Celery::Celery() {
     hp = 11;
     price = 7;
     id = 11;
+    weight = 0.2;
 } 
 
 
@@ -455,6 +467,7 @@ Meat::Meat() {
     hp = 6;
     price = 5;
     id = 12;
+    weight = 0.3;
 } 
 
 /* ==================== CoinItem Classes ==================== */
@@ -468,6 +481,7 @@ CoinStack::CoinStack() {
     max_coins = 4;
     assignAmount();
     id = 13;
+    weight = 0.5;
 }
 
 
@@ -480,6 +494,7 @@ CoinBag::CoinBag() {
     max_coins = 8;
     assignAmount();
     id = 14;
+    weight = 1;
 }
 
 /* ==================== ScrapItem Classes ==================== */
@@ -493,6 +508,7 @@ ScrapBox::ScrapBox() {
     max_scraps = 3;
     assignAmount();
     id = 15;
+    weight = 1.5;
 }
 
 /* ==================== Item Generation ==================== */
