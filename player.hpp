@@ -8,6 +8,9 @@
 #include <utility>
 #include <fstream>
 
+#define ITEM_WEIGHT_SOFT_THRESHHOLD 2
+#define BASE_BLOCK_MOVE_TIME 0.26
+#define EXTRA_TIME_PER_KG 0.05
 #define STEROID_HEALTH_UPGRADE 5
 
 class Player {
@@ -42,6 +45,7 @@ class Player {
     void scrapItem(int item_index);
     int getSpeed();
     int healWithItem(int item_index);
+    float getTotalWeight();
     std::pair<int,int> getLocation();
     int refillHP();
     int heal(int amount);
