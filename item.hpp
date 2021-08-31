@@ -23,7 +23,7 @@ In case of adding a new item, add these to the following locations:
     3- If needed add handler for block at handlers.hpp
 */
 
-#define ITEMCOUNT 16
+#define ITEMCOUNT 17
 
 #define SHOVEL 1
 #define COMPASS 2
@@ -41,6 +41,7 @@ In case of adding a new item, add these to the following locations:
 #define COINBAG 14
 #define SCRAPBOX 15
 #define SHOTGUN 16
+#define GOLDENCARROT 17
 
 /* ==================== Base Classes ==================== */
 
@@ -210,6 +211,12 @@ class MapItem : public UtilityItem {
 class Steroid : public UtilityItem {
     public:
     Steroid();
+    void use_item(int inventory_index);
+};
+
+class GoldenCarrot : public UtilityItem {
+    public:
+    GoldenCarrot();
     void use_item(int inventory_index);
 };
 
