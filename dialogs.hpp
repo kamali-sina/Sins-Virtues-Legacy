@@ -107,4 +107,6 @@ void newTimeOfDayDialog(int time);
 
 void encounteredEnemyAtNightDialog(std::string enemy_name);
 
+void usedGoldenCarrotDialog();
+
 #endif

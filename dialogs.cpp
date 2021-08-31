@@ -94,7 +94,11 @@ void yesNormalblockPromptDialog() {
 }
 
 void usedSteroidDialog(int new_maxhp) {
-    dialog("You", "max hp is now " + colored(to_string(new_maxhp), GREEN), YELLOW, 29);
+    dialog("You", "I feel way tougher now! max hp is now " + colored(to_string(new_maxhp), GREEN), YELLOW, 29);
+}
+
+void usedGoldenCarrotDialog() {
+    dialog("You", "Wow that was delicious! I can see way better now! map vision upgraded.", YELLOW, 29);
 }
 
 void itemIsNoLongerUsableDialog(std::string item_name) {

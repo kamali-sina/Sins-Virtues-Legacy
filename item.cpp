@@ -289,7 +289,7 @@ Shovel::Shovel() {
     name = "shovel";
     uses = initial_uses;
     price = 4;
-    id = 1;
+    id = SHOVEL;
     weight = 2;
     /*
         TODO:
@@ -310,7 +310,7 @@ Compass::Compass() {
     name = "compass";
     price = 9;
     uses = initial_uses;
-    id = 2;
+    id = COMPASS;
     weight = 0.2;
 }
 
@@ -330,7 +330,7 @@ MapItem::MapItem() {
     name = "map";
     price = 7;
     uses = initial_uses;
-    id = 3;
+    id = MAP;
     weight = 0.4;
 }
 
@@ -349,14 +349,32 @@ Steroid::Steroid() {
     tags.push_back(RANDOMTAG);
     name = "steroid";
     uses = initial_uses;
-    price = 12;
-    id = 4;
+    price = 13;
+    id = STEROID;
     weight = 0.5;
 }
 
 void Steroid::use_item(int inventory_index) {
     int new_max = session.getPlayer()->useSteroid();
     usedSteroidDialog(new_max);
+    session.getPlayer()->useItem(inventory_index);
+}
+
+
+GoldenCarrot::GoldenCarrot() {
+    initial_uses = 1;
+    rarity = EPIC;
+    tags.push_back(RANDOMTAG);
+    name = "goldencarrot";
+    uses = initial_uses;
+    price = 12;
+    id = GOLDENCARROT;
+    weight = 0.6;
+}
+
+void GoldenCarrot::use_item(int inventory_index) {
+    int new_max = session.getPlayer()->useGoldenCarrot();
+    usedGoldenCarrotDialog();
     session.getPlayer()->useItem(inventory_index);
 }
 
@@ -531,6 +549,7 @@ Item *getItem(int item_id) {
     all_items.push_back(new CoinBag());
     all_items.push_back(new ScrapBox());
     all_items.push_back(new Shotgun());
+    all_items.push_back(new GoldenCarrot());
     return all_items[item_id - 1];
 }
 
