@@ -7,7 +7,7 @@ Player::Player() {
     hp = max_hp;
     equipped = new Fist();
     //TODO: remove
-    for (int i= 0 ; i < 7 ; i++)
+    for (int i= 0 ; i < 60 ; i++)
         addItem(getRandomItem(), true);
 }
 
@@ -46,6 +46,11 @@ Item* Player::getItemAtIndex(int index) {
 int Player::useSteroid() {
     max_hp += STEROID_HEALTH_UPGRADE;
     return refillHP();;
+}
+
+int Player::useGoldenCarrot() {
+    vision += GOLDEN_CARROT_VISION_UPGRADE;
+    return vision;
 }
 
 void Player::removeItem(int inventory_index) {

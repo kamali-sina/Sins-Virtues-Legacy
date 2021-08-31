@@ -12,6 +12,7 @@
 #define BASE_BLOCK_MOVE_TIME 0.26
 #define EXTRA_TIME_PER_KG 0.05
 #define STEROID_HEALTH_UPGRADE 5
+#define GOLDEN_CARROT_VISION_UPGRADE 1
 
 class Player {
     public:
@@ -22,6 +23,7 @@ class Player {
     Item* getItemAtIndex(int index);
     int getHP() { return hp; }
     int useSteroid();
+    int useGoldenCarrot();
     int getCoins();
     int attack(std::string enemy_name);
     int getScraps();
