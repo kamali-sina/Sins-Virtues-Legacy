@@ -364,7 +364,6 @@ void TeleporterBlock::run_handler(bool ans) {
         session.getPlayer()->setLocation(location);
         session.updateWorldTimer(0.5);
         session.handleNewReachedBlock();
-        //check if it has bug
     }
 }
 
