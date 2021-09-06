@@ -51,7 +51,7 @@ class Game{
     void print_map(std::vector<std::string> splitted_input);
     void equip(std::vector<std::string> splitted_input);
     void attack(std::vector<std::string> splitted_input);
-    void prompt_handler(std::vector<std::string> splitted_input);
+    void prompt_handler(bool ans);
     void stock(std::vector<std::string> splitted_input);
     void buy(std::vector<std::string> splitted_input);
     void sell(std::vector<std::string> splitted_input);
@@ -99,7 +99,7 @@ class Game{
     void updateCommandSet();
     void updateTimeOfDay();
     void spawnNightTimeEnemey();
-    bool setupPrompt(std::string prompt);
+    bool setupPrompt(std::string prompt, bool show_prompt=true);
     float getPlayerMoveTime();
 };
 
