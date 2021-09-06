@@ -319,6 +319,62 @@ void CastleBlock::deserialize(std::vector<std::string> args) {
     return;
 }
 
+/* ==================== TeleporterBlock ==================== */
+
+TeleporterBlock::TeleporterBlock() {
+    tags.push_back(RANDOMTAG);
+    tags.push_back(SPECIALTAG);
+    rarity = 150;
+    ID = TELEPORTERBLOCK;
+    name = "teleporter";
+    color = ALTERNATEBLUE;
+    has_prompt = true;
+    has_adjacent_dialog = true; 
+}
+
+pair<int,int> getPlayerInputLocation() {
+    string line;
+    int map_coordinate_size = (MAPSIZE - 1)/2;
+    pair<int,int> location;
+    while (1) {
+        cout<<"enter coordinates(" <<  -map_coordinate_size 
+            << ", " << map_coordinate_size<<"): ";
+        getline(cin, line);
+        vector<string> splitted_input = split_string(line, ' ');
+        try {
+            if (splitted_input.size() != 2) throw;
+            int x = stoi(splitted_input[0]);
+            int y = stoi(splitted_input[1]);
+            if (abs(x) > map_coordinate_size || abs(y) > map_coordinate_size) throw;
+            location = pair<int,int>(x,y);
+            return location;
+        } catch (...) {
+            _error("input was invalid!");
+        }
+    }
+    return location;
+}
+
+void TeleporterBlock::run_handler(bool ans) {
+    if (ans == false) {
+        noTeleporterBlockDialog();
+    } else {
+        yesTeleporterBlockDialog();
+        pair<int,int> location = getPlayerInputLocation();
+        session.getPlayer()->setLocation(location);
+        session.updateWorldTimer(0.5);
+        session.handleNewReachedBlock();
+    }
+}
+
+std::string TeleporterBlock::serialize() { 
+    return to_string(ID);
+}
+
+void TeleporterBlock::deserialize(std::vector<std::string> args) {
+    return;
+}
+
 /* ==================== Getters ==================== */
 
 void setBlocksTensor() {
@@ -350,6 +406,7 @@ Block* getBlock(int block_id) {
         case SHOPBLOCK: return new ShopBlock();
         case BLACKSMITHBLOCK: return new BlacksmithBlock();
         case CASTLEBLOCK: return new CastleBlock();
+        case TELEPORTERBLOCK: return new TeleporterBlock;
         default: return new Block();
     }
 }

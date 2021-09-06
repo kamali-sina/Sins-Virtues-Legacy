@@ -35,10 +35,6 @@ void Game::init_handlers() {
         handlers["upgrade"] = &Game::upgrade;
         handlers["scrap"] = &Game::scrap;
 
-        handlers["y"] = &Game::prompt_handler;
-        handlers["n"] = &Game::prompt_handler;
-        handlers["yes"] = &Game::prompt_handler;
-        handlers["no"] = &Game::prompt_handler;
     }
 }
 
@@ -231,7 +227,8 @@ void Game::handleNewReachedBlock() {
     map->printAdjacentDialogs(player->getLocation());
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
-        state = PROMPT;
+        bool ans = setupPrompt("", false);
+        prompt_handler(ans);
     }
 }
 
@@ -413,13 +410,8 @@ void Game::attack(std::vector<std::string> splitted_input) {
     enemy_fighting->getDamaged(damage);
 }
 
-void Game::prompt_handler(std::vector<std::string> splitted_input) {
-    bool ans = false;
-    if (splitted_input[0] == "yes" || splitted_input[0] == "y"){
-        ans = true;
-    }
+void Game::prompt_handler(bool ans) {
     getBlockAtPlayerLocation()->run_handler(ans);
-    state = NORMAL;
 }
 
 void Game::stock(std::vector<std::string> splitted_input) {
@@ -445,8 +437,9 @@ void Game::buy(std::vector<std::string> splitted_input) {
     player->addItem(item);
 }
 
-bool Game::setupPrompt(std::string prompt) {
-    notification(prompt + "(y, n)");
+bool Game::setupPrompt(std::string prompt, bool show_prompt) {
+    if (show_prompt)
+        notification(prompt + "(y, n)");
     string input;
     while (1){
         cout<<colored("> ", WHITE);

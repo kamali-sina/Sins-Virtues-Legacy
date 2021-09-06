@@ -109,4 +109,8 @@ void encounteredEnemyAtNightDialog(std::string enemy_name);
 
 void usedGoldenCarrotDialog();
 
+void noTeleporterBlockDialog();
+
+void yesTeleporterBlockDialog();
+
 #endif

@@ -109,6 +109,14 @@ void noBlackSmithBlockDialog() {
     dialog("You", "I'll come back when I have more weapon parts!", YELLOW, 29);
 }
 
+void noTeleporterBlockDialog() {
+    dialog("You", "Yea I better not use every weired thing in this woods!", YELLOW, 29);
+}
+
+void yesTeleporterBlockDialog() {
+    dialog("You", "Ok here goes nothing! where to?", YELLOW, 29);
+}
+
 void noShopBlockPromptDialog() {
     dialog("You", "I'll come back when I have more money.", YELLOW, 29);
 }

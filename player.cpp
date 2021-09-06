@@ -7,7 +7,7 @@ Player::Player() {
     hp = max_hp;
     equipped = new Fist();
     //TODO: remove
-    for (int i= 0 ; i < 60 ; i++)
+    for (int i= 0 ; i < 10 ; i++)
         addItem(getRandomItem(), true);
 }
 
