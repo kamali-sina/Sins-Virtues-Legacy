@@ -16,13 +16,14 @@ In case of adding a new block, add these to the following locations:
     3- Add Init Vector for block to map.hpp
 */
 
-#define NUMBER_OF_BLOCKS 6
+#define NUMBER_OF_BLOCKS 7
 #define NORMALBLOCK 1 
 #define DIGABLEBLOCK 2 
 #define HOMEBLOCK 3 
 #define SHOPBLOCK 4 
 #define BLACKSMITHBLOCK 5 
-#define CASTLEBLOCK 6 
+#define CASTLEBLOCK 6
+#define TELEPORTERBLOCK 7
 
 #define RANDOMTAG "random"
 #define SPECIALTAG "special"
@@ -173,6 +174,20 @@ class CastleBlock : public Block {
     int number_of_enemies; 
     std::vector<Enemy*> enemies;
     Enemy* boss;
+};
+
+class TeleporterBlock : public Block {
+    public:
+    TeleporterBlock();
+
+    std::string getInfo() { return "Holy shit what is this? It says here that it can teleport me to anywhere I want!"; }
+    std::string getPrompt() { return "Enter the teleporter?(y,n)"; }
+    std::string getAdjacentDialog() { return "I can hear some starnge futuristic sounds nearby..."; }
+    void run_handler(bool ans);
+    std::string serialize();
+    void deserialize(std::vector<std::string> args);
+
+    protected:
 };
 
 Block *getBlock(int block_id);
