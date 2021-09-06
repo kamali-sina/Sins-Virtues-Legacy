@@ -62,6 +62,7 @@ class Game{
 
     void digHere(int inventory_index);
     void updateWorldTimer(float value);
+    void handleNewReachedBlock();
     void resetWorldTimer();
     std::string getClockTime();
     void enterBlacksmith();
@@ -95,7 +96,6 @@ class Game{
     void validate_input(std::vector<std::string> splitted_input);
     void init_handlers();
     bool is_command_valid(std::string command, int count);
-    void handleNewReachedBlock();
     void updateCommandSet();
     void updateTimeOfDay();
     void spawnNightTimeEnemey();
