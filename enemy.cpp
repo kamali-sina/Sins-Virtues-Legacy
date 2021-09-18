@@ -89,6 +89,7 @@ int Fujila::getDamaged(int _damage) {
         damage += 2;
         speed += 2;
     }
+    return hp;
 }
 
 /* ==================== Spawners ==================== */
@@ -123,7 +124,7 @@ Boss* getBoss(int boss_id) {
     }
 }
 
-Boss* getRandomBoss(float difficulty_factor=0.0) {
+Boss* getRandomBoss(float difficulty_factor) {
     int boss_id = (rand() % NUMBER_OF_BOSSES) + 1;
     return getBoss(boss_id);
 }
