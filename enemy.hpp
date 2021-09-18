@@ -8,18 +8,22 @@
 #include "dialogs.hpp"
 #include "player.hpp"
 
+// Deprecated
+#define BASE_SPEED_TIME 1
 
-#define BASE_SPEED_TIME 10
-#define NUMBER_OF_ENEMIES 3
-
-#define HPSCALE 0.2 //percent
+// Difficulty scaling factors
+#define HPSCALE 0.2
 #define DAMAGESCALE 0.2
 
+#define NUMBER_OF_ENEMIES 3
 #define GUY 1
 #define WOLF 2
 #define BIGBOB 3
 
-class Enemy{
+#define NUMBER_OF_BOSSES 1
+#define FUJILA 1
+
+class Enemy {
     public:
     Enemy() { }
     std::string getName() { return name; }
@@ -53,13 +57,19 @@ class Enemy{
     float rarity = 1;
 };
 
-class Guy: public Enemy{
+class Boss: public Enemy {
+    public:
+    Boss() {}
+    virtual std::string getIntroDialog() { return ""; }
+};
+
+class Guy: public Enemy {
     /*you can 'talk' with to end fight*/
     public:
     Guy();
 };
 
-class Wolf: public Enemy{
+class Wolf: public Enemy {
     /*can be given a single meat to end fight*/
     public:
     Wolf();
@@ -69,12 +79,24 @@ class Wolf: public Enemy{
     }
 };
 
-class BigBob: public Enemy{
+class BigBob: public Enemy {
     public:
     BigBob();
 };
 
+class Fujila: public Boss {
+    public:
+    Fujila();
+    std::string getIntroDialog();
+    int getDamaged(int _damage);
+
+    private:
+    int boost = 1;
+};
+
 Enemy* getEnemy(int enemy_id);
 Enemy* getRandomEnemy(float difficulty_factor=0.0);
+Boss* getBoss(int boss_id);
+Boss* getRandomBoss(float difficulty_factor=0.0);
 
 #endif

@@ -167,7 +167,7 @@ void HomeBlock::run_handler(bool ans) {
     sleep(2);
     session.getPlayer()->refillHP();
     notification("Health fully restored!");
-    notification("It's morning now, Game Saved!");
+    notification("It's morning now, " + colored("Game Saved!", BOLDGREEN));
     session.resetWorldTimer();
     if (this->getContainsItem()) {
         this->setContainsItem(false);
@@ -303,12 +303,41 @@ void CastleBlock::initEnemies() {
     for (int i = 0 ; i < number_of_enemies ; i++) {
         enemies.push_back(getRandomEnemy());
     }
-    //TODO: spawn boss
-    boss = getRandomEnemy();
+    boss = getRandomBoss();
 }
 
 void CastleBlock::run_handler(bool ans) {
-    //TODO: complete castle
+    /*
+    if (ans == 0):
+            response = 'Oh thank god! This place looks scary af!'
+        else:
+            ConsoleHandler.into_the_castle_dialog(self.number_of_enemies, self.boss.name)
+            for enemy in self.enemies:
+                game.fight_enemy(enemy)
+                self.number_of_enemies -= 1
+                if (self.number_of_enemies > 0):
+                    print(f'{self.number_of_enemies} enemies remaining...')
+            ConsoleHandler.boss_dialog()
+            self.boss.intro_dialog()
+            game.fight_enemy(self.boss)
+            print()
+            ConsoleHandler.outro_dialog()
+            exit()
+        return response
+    */
+    if (ans == false) {
+        noCastleBlockDialog();
+    } else {
+        intoTheCastleDialog(number_of_enemies, boss->getName());
+        for (Enemy* enemy : enemies) {
+            fightingCastleEnemyNo(number_of_enemies--);
+            session.fightEnemy(enemy);
+        }
+        bossDialog();
+        session.fightBoss(boss);
+        outroCutscene();
+        exit(0);
+    }
 }
 
 std::string CastleBlock::serialize() { 

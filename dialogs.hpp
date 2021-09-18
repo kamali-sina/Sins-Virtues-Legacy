@@ -113,4 +113,14 @@ void noTeleporterBlockDialog();
 
 void yesTeleporterBlockDialog();
 
+void fujilaBoostDialog();
+
+void noCastleBlockDialog();
+
+void fightingCastleEnemyNo(int enemy_number);
+
+void echoBossIntroDialog(std::string boss_name, std::string boss_intro);
+
+void outroCutscene();
+
 #endif

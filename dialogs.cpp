@@ -13,6 +13,23 @@ void introCutscene() {
     dialog("You", "Where the hell am I? It's getting dark, better find shelter.", YELLOW, 20);
 }
 
+void outroCutscene() {
+    dialog("You", " *panting* holy shit it's over... what's that over there?", YELLOW, 15);
+    sleep(1);
+    dialog("You", "what the hell? is that... me? hey you ok man?", YELLOW, 15);
+    notification("*you try to wake yourself up*");
+    sleep(1);
+    cprint("\n> A white light fills the room\n", MAGENTA);
+    sleep(1);
+    dialog("Unknown", "Open your eyes, do you know where you just went?", RED, 15);
+    dialog("You", "*trying to open eyes* what? no. where am I?", YELLOW, 15);
+    dialog("Unknown", "You are back in your room. The simulation is over.", RED, 15);
+    dialog("You", "Is this real? was that real? what just happened?", YELLOW, 15);
+    dialog("Unknown", "A thought that shapes in your head has found meaning. No one knows where is SinkuLand and what are the creatures that live there, but each time you go inside, we learn a bit more! We'll be waiting for you on the other side.", RED, 15);
+    dialog("You", "*you turn off the computer*", YELLOW, 15);
+    notification("\nThe End\n");
+}
+
 void loadCutscene() {
     cprint("\n======== Sins & Virtues ========", BLUE);
     cprint("=== A game made by PapaSinku ===\n", YELLOW);
@@ -82,7 +99,7 @@ void intoTheCastleDialog(int number_of_enemies, std::string boss_name) {
 }
 
 void bossDialog() {
-    dialog("You", "Ok time to fight this big bitch!", YELLOW, 23);
+    dialog("You", "Ok... that's all the goons! Time to fight the big bad bitch!", YELLOW, 23);
 }
 
 void noNormalblockPromptDialog() {
@@ -235,4 +252,25 @@ void newTimeOfDayDialog(int time) {
 void encounteredEnemyAtNightDialog(std::string enemy_name) {
     dialog("You", "Shit there is a " + colored(enemy_name, RED) 
             + " here, Shit! Can't escape, have to fight it!", YELLOW, 30);
+}
+
+void fujilaBoostDialog() {
+    dialog("You", "Holy shit, the " + colored("Fujila", RED) 
+            + " is boosting itself! It now has increased speed and damage!!!", YELLOW, 30);
+}
+
+void noCastleBlockDialog() {
+    dialog("You", "Oh thank god! This place looks scary af!", YELLOW, 30);
+}
+
+void fightingCastleEnemyNo(int enemy_number) {
+    if (enemy_number == 1) {
+        dialog("You", "Last one, one more and I'm free!", YELLOW, 30);
+        return;
+    }
+    dialog("You", "Here we go, goon number " + to_string(enemy_number) + "!", YELLOW, 30);
+}
+
+void echoBossIntroDialog(std::string boss_name, std::string boss_intro) {
+    dialog(boss_name, boss_intro, BOLDRED, 30);
 }

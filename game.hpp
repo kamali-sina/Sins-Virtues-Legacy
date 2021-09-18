@@ -72,6 +72,7 @@ class Game{
     void getPlayerInput(std::string color);
     void playKillCutscene();
     void fightEnemy(Enemy* enemy);
+    void fightBoss(Boss* boss);
     void save();
     void load();
 

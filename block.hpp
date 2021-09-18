@@ -173,7 +173,7 @@ class CastleBlock : public Block {
     int max_enemy_count = 4;
     int number_of_enemies; 
     std::vector<Enemy*> enemies;
-    Enemy* boss;
+    Boss* boss;
 };
 
 class TeleporterBlock : public Block {

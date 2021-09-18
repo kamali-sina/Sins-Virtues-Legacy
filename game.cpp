@@ -275,6 +275,11 @@ void Game::playKillCutscene() {
     player->addCoins(enemy_fighting->getBounty());
 }
 
+void Game::fightBoss(Boss* boss) {
+    echoBossIntroDialog(boss->getName(), boss->getIntroDialog());
+    fightEnemy(boss);
+}
+
 void Game::fightEnemy(Enemy* enemy) {
     enemy_fighting = enemy;
     enemy_fighting->updateScaling(days_passed);
@@ -443,10 +448,15 @@ bool Game::setupPrompt(std::string prompt, bool show_prompt) {
     string input;
     while (1){
         cout<<colored("> ", WHITE);
-        cin>>input;
+        getline(cin, input);
+        cout<<endl;
+        input = lower(input);
+        vector<string> splitted_input = split_string(input, ' ');
+        input = splitted_input[0];
         if (input == "n" || input == "no") return false;
         else if (input == "y" || input == "yes") return true;
         _error("answer with y or n");
+        cout<<endl;
     }
 }
 
@@ -497,7 +507,7 @@ void Game::upgrade(std::vector<std::string> splitted_input) {
     bool ans = setupPrompt("upgrading the " 
                     + colored(item->getName(), RED) 
                     + " to level " 
-                    + colored(to_string(level), BOLDYELLOW) 
+                    + colored(to_string(level + 1), BOLDYELLOW) 
                     + " costs " 
                     + colored(to_string(price), YELLOW) + " scraps, upgrade?");
     if (ans) {
