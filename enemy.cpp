@@ -65,7 +65,35 @@ BigBob::BigBob() {
     id = BIGBOB;
 }
 
-Enemy* getEnemy(int enemy_id){
+/* ==================== Boss Enemy Classes ==================== */
+
+Fujila::Fujila() {
+    name = "fujila";
+    hp = 20;
+    bounty = 15;
+    speed = 4;
+    damage = 6;
+    rarity = 3;
+    id = FUJILA;
+}
+
+std::string Fujila::getIntroDialog() {
+    return "I'm Fujila but my friends call me Fuj! Time to die!!!";
+}
+
+int Fujila::getDamaged(int _damage) {
+    hp -= _damage;
+    if (hp <= 10 && boost > 0) { 
+        boost -= 1;
+        fujilaBoostDialog();
+        damage += 2;
+        speed += 2;
+    }
+}
+
+/* ==================== Spawners ==================== */
+
+Enemy* getEnemy(int enemy_id) {
     switch (enemy_id) {
         case GUY: return new Guy();
         case WOLF: return new Wolf();
@@ -77,7 +105,25 @@ Enemy* getEnemy(int enemy_id){
     }
 }
 
-Enemy* getRandomEnemy(float difficulty_factor){
+Enemy* getRandomEnemy(float difficulty_factor) {
     int enemy_id = (rand() % NUMBER_OF_ENEMIES) + 1;
     return getEnemy(enemy_id);
+}
+
+
+Boss* getBoss(int boss_id) {
+    switch (boss_id) {
+        case FUJILA: return new Fujila();
+        case 2: ;
+        case 3: ;
+        case 4: ;
+        case 5: ;
+        case 6: ;
+        default: return new Boss();
+    }
+}
+
+Boss* getRandomBoss(float difficulty_factor=0.0) {
+    int boss_id = (rand() % NUMBER_OF_BOSSES) + 1;
+    return getBoss(boss_id);
 }
