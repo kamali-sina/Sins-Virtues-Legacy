@@ -167,7 +167,7 @@ void HomeBlock::run_handler(bool ans) {
     sleep(2);
     session.getPlayer()->refillHP();
     notification("Health fully restored!");
-    notification("It's morning now, " + colored("Game Saved!", GREEN));
+    notification("It's morning now, " + colored("Game Saved!", BOLDGREEN));
     session.resetWorldTimer();
     if (this->getContainsItem()) {
         this->setContainsItem(false);
