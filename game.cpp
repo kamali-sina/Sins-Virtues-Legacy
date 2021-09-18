@@ -275,6 +275,11 @@ void Game::playKillCutscene() {
     player->addCoins(enemy_fighting->getBounty());
 }
 
+void Game::fightBoss(Boss* boss) {
+    echoBossIntroDialog(boss->getName(), boss->getIntroDialog());
+    fightEnemy(boss);
+}
+
 void Game::fightEnemy(Enemy* enemy) {
     enemy_fighting = enemy;
     enemy_fighting->updateScaling(days_passed);
