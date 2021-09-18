@@ -82,7 +82,7 @@ std::string Fujila::getIntroDialog() {
 }
 
 int Fujila::getDamaged(int _damage) {
-    hp -= _damage;
+    reduceHP(_damage);
     if (hp <= 10 && boost > 0) { 
         boost -= 1;
         fujilaBoostDialog();
