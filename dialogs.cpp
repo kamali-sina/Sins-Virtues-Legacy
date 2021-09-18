@@ -236,3 +236,8 @@ void encounteredEnemyAtNightDialog(std::string enemy_name) {
     dialog("You", "Shit there is a " + colored(enemy_name, RED) 
             + " here, Shit! Can't escape, have to fight it!", YELLOW, 30);
 }
+
+void fujilaBoostDialog() {
+    dialog("You", "Holy shit, the " + colored("Fujila", RED) 
+            + " is boosting itself! It now has increased speed and damage!!!", YELLOW, 30);
+}

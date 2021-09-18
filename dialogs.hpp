@@ -113,4 +113,6 @@ void noTeleporterBlockDialog();
 
 void yesTeleporterBlockDialog();
 
+void fujilaBoostDialog();
+
 #endif
