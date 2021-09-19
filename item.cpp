@@ -246,7 +246,7 @@ std::string MeleeAttackItem::getInfo() {
 RangedAttackItem::RangedAttackItem() {
     type = "ranged";
     tags.push_back(ATTACKITEMTAG);
-    tags.push_back("ranged");
+    tags.push_back(RANGEDATTACKITEMTAG);
     name = RANGEDATTACKITEMTAG;
     rarity = 0;
 }
