@@ -23,7 +23,7 @@ int main (int argc , char *argv[]) {
     string save_path = ""; 
     toturialIfNeeded(option);
     helpIfNeeded(option);
-    if ( option == NEWGAME) {
+    if (option == NEWGAME) {
         save_path = handleNewGame(input_path);
         newgame = true;
     } else if (option == LOADGAME) {
