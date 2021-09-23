@@ -19,14 +19,19 @@ int MAPINIT_VECTOR[NUMBER_OF_BLOCKS][4] =
 };
 
 Map::Map() {
-    srand((unsigned int)time(NULL));
+    initMap();
+    spawnSpecialBlocks();
+    completeMap();
+}
+
+Map::Map(int seed) {
+    srand(seed);
     initMap();
     spawnSpecialBlocks();
     completeMap();
 }
 
 Map::Map(pair<int,int> player_location) {
-    srand((unsigned int)time(NULL));
     initMap();
     spawnHomeAtPlayerLocation(player_location);
     spawnSpecialBlocks();
