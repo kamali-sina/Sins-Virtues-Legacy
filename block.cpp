@@ -8,6 +8,13 @@ using namespace std;
 bool is_tensor_valid = false;
 vector<float> blocks_tensor;
 
+std::string getNextNoneEmptyLine(ifstream &file_obj) {
+    string line;
+    getline(file_obj, line);
+    while (line == "") getline(file_obj, line);
+    return line;
+}
+
 /* ==================== Block ==================== */
 
 Block::Block(): tags() {
@@ -73,23 +80,30 @@ void NormalBlock::run_handler(bool ans) {
     yesNormalblockPromptDialog();
 }
 
-std::string NormalBlock::serialize() { 
-    string serialized_data = to_string(ID) + " " + to_string(contains_item);
+std::string NormalBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
     if (contains_item) {
-        serialized_data += " " + item_inside->serialize();
+        serialized_data += "\n" + item_inside->serialize();
     }
-    return serialized_data;
+    file_obj<< serialized_data;
+    file_obj.close();
 }
 
-void NormalBlock::deserialize(std::vector<std::string> args) {
-    bool does_contain_item = stoi(args[1]);
+void NormalBlock::load(std::string path) {
+    ifstream file_obj;
+    file_obj.open(path);
+    int id;
+    file_obj >> id; 
+    bool does_contain_item;
+    file_obj >> does_contain_item;
     this->setContainsItem(does_contain_item);
     this->setHasPrompt(does_contain_item);
     this->setHasAdjacentDialog(does_contain_item);
     if (does_contain_item) {
-        Item* item = getItem(stoi(args[2]));
-        args.erase(args.begin());
-        args.erase(args.begin());
+        vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
+        Item* item = getItem(stoi(args[0]));
         item->deserialize(args);
         item_inside = item;
     }
@@ -112,7 +126,7 @@ DigableBlock::DigableBlock() {
     color = MAGENTA;
 }
 
-std::string DigableBlock::serialize() { 
+std::string DigableBlock::save(std::string path) { 
     string serialized_data = to_string(ID) + " " + to_string(contains_item);
     if (contains_item) {
         serialized_data += " " + item_inside->serialize();
@@ -120,16 +134,16 @@ std::string DigableBlock::serialize() {
     return serialized_data;
 }
 
-void DigableBlock::deserialize(std::vector<std::string> args) {
-    bool does_contain_item = stoi(args[1]);
-    this->setContainsItem(does_contain_item);
-    if (does_contain_item) {
-        Item* item = getItem(stoi(args[2]));
-        args.erase(args.begin());
-        args.erase(args.begin());
-        item->deserialize(args);
-        item_inside = item;
-    }
+void DigableBlock::load(std::string path) {
+    // bool does_contain_item = stoi(args[1]);
+    // this->setContainsItem(does_contain_item);
+    // if (does_contain_item) {
+    //     Item* item = getItem(stoi(args[2]));
+    //     args.erase(args.begin());
+    //     args.erase(args.begin());
+    //     item->deserialize(args);
+    //     item_inside = item;
+    // }
 }
 
 /* ==================== HomeBlock ==================== */
@@ -177,11 +191,11 @@ void HomeBlock::run_handler(bool ans) {
     session.save();
 }
 
-std::string HomeBlock::serialize() { 
+std::string HomeBlock::save(std::string path) { 
     return to_string(ID);
 }
 
-void HomeBlock::deserialize(std::vector<std::string> args) {
+void HomeBlock::load(std::string path) {
     return;
 }
 
@@ -248,11 +262,11 @@ void ShopBlock::run_handler(bool ans) {
     }
 }
 
-std::string ShopBlock::serialize() { 
+std::string ShopBlock::save(std::string path) { 
     return to_string(ID);
 }
 
-void ShopBlock::deserialize(std::vector<std::string> args) {
+void ShopBlock::load(std::string path) {
     return;
 }
 
@@ -277,11 +291,11 @@ void BlacksmithBlock::run_handler(bool ans) {
     }
 }
 
-std::string BlacksmithBlock::serialize() { 
+std::string BlacksmithBlock::save(std::string path) { 
     return to_string(ID);
 }
 
-void BlacksmithBlock::deserialize(std::vector<std::string> args) {
+void BlacksmithBlock::load(std::string path) {
     return;
 }
 
@@ -340,11 +354,11 @@ void CastleBlock::run_handler(bool ans) {
     }
 }
 
-std::string CastleBlock::serialize() { 
+std::string CastleBlock::save(std::string path) { 
     return to_string(ID);
 }
 
-void CastleBlock::deserialize(std::vector<std::string> args) {
+void CastleBlock::load(std::string path) {
     return;
 }
 
@@ -396,11 +410,11 @@ void TeleporterBlock::run_handler(bool ans) {
     }
 }
 
-std::string TeleporterBlock::serialize() { 
+std::string TeleporterBlock::save(std::string path) { 
     return to_string(ID);
 }
 
-void TeleporterBlock::deserialize(std::vector<std::string> args) {
+void TeleporterBlock::load(std::string path) {
     return;
 }
 
