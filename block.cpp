@@ -127,23 +127,30 @@ DigableBlock::DigableBlock() {
 }
 
 std::string DigableBlock::save(std::string path) { 
-    string serialized_data = to_string(ID) + " " + to_string(contains_item);
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
     if (contains_item) {
-        serialized_data += " " + item_inside->serialize();
+        serialized_data += "\n" + item_inside->serialize();
     }
-    return serialized_data;
+    file_obj<< serialized_data;
+    file_obj.close();
 }
 
 void DigableBlock::load(std::string path) {
-    // bool does_contain_item = stoi(args[1]);
-    // this->setContainsItem(does_contain_item);
-    // if (does_contain_item) {
-    //     Item* item = getItem(stoi(args[2]));
-    //     args.erase(args.begin());
-    //     args.erase(args.begin());
-    //     item->deserialize(args);
-    //     item_inside = item;
-    // }
+    ifstream file_obj;
+    file_obj.open(path);
+    int id;
+    file_obj >> id;
+    bool does_contain_item;
+    file_obj >> does_contain_item;
+    this->setContainsItem(does_contain_item);
+    if (does_contain_item) {
+        vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
+        Item* item = getItem(stoi(args[0]));
+        item->deserialize(args);
+        item_inside = item;
+    }
 }
 
 /* ==================== HomeBlock ==================== */
