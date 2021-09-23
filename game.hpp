@@ -86,10 +86,11 @@ class Game{
     
     
     private:
-    Map *map = new Map();
-    Player *player = new Player();
+    Map *map;
+    Player *player;
     Enemy* enemy_fighting;
     int idiot_counter = 0;
+    int seed;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;
     std::string save_path;
@@ -100,6 +101,7 @@ class Game{
     void updateCommandSet();
     void updateTimeOfDay();
     void spawnNightTimeEnemey();
+    void initSeed();
     bool setupPrompt(std::string prompt, bool show_prompt=true);
     float getPlayerMoveTime();
 };
