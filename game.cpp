@@ -554,6 +554,7 @@ void Game::save() {
     file_obj.open(save_file_path);
     file_obj << days_passed << endl;
     player->save(save_path);
+    map->save(save_path);
     file_obj.close();
 }
 
