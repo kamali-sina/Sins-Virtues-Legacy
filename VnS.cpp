@@ -34,5 +34,11 @@ int main (int argc , char *argv[]) {
     }
     session = Game(newgame, save_path);
     session.run();
+    // Block* norm = new DigableBlock();
+    // norm->load("./VnSave/map_3_3.vnsave");
+    // cout << norm->getID() <<endl;
+    // cout << ((DigableBlock*) norm)->getContainsItem()<< endl;
+    // cout << ((DigableBlock*) norm)->getItemInside()->getID()<< endl;
+    // cout << ((DigableBlock*) norm)->getItemInside()->getName()<< endl;
     return 1;
 }
