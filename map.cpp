@@ -33,6 +33,11 @@ Map::Map(pair<int,int> player_location) {
     completeMap();
 }
 
+Map::Map(std::string save_path) {
+    initMap();
+    load(save_path);
+}
+
 void Map::initMap() {
     for (int i = 0 ; i < MAPSIZE ; i++) {
         vector<Block*> row;
@@ -215,12 +220,13 @@ void Map::printAdjacentDialogs(std::pair<int,int> location) {
 }
 
 void Map::save(std::string path) {
+    // TODO: change this
     string map_save_path = path + MAPSAVEFILENAME;
-    ofstream file_obj;
-    file_obj.open(map_save_path);
     for (int i = 0 ; i < MAPSIZE ; i++) {
         for (int j = 0 ; j < MAPSIZE ; j++) {
-            file_obj<< map[i][j]->serialize() << endl;
+            string map_save_path = path + MAPSAVEFILENAME 
+                    + to_string(i) + "_" + to_string(j) + SAVEFILEPOSTFIX;
+            map[i][j]->save(map_save_path);
         }
     }
 }

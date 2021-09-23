@@ -19,6 +19,7 @@ class Map {
   public:
     Map();
     Map(std::pair<int,int> player_location);
+    Map(std::string save_path);
     void printFullMap();
     void printPartialMap(int vision, std::pair<int,int> location);
     bool isLocationValid(std::pair<int,int> location);
