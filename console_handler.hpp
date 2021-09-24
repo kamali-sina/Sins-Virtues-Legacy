@@ -34,7 +34,8 @@ extern std::string TOTURIAL_OPTIONS[];
 #define SAVEFOLDRNAME "VnSave"
 #define SAVEFILENAME  "game.vnsave"
 #define PLAYERSAVEFILENAME  "player.vnsave"
-#define MAPSAVEFILENAME  "map.vnsave"
+#define MAPSAVEFILENAME  "map_"
+#define SAVEFILEPOSTFIX  ".vnsave"
 
 float _random();
 std::string lower(std::string input);

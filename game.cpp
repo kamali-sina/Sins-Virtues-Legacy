@@ -554,6 +554,7 @@ void Game::save() {
     file_obj.open(save_file_path);
     file_obj << days_passed << endl;
     player->save(save_path);
+    map->save(save_path);
     file_obj.close();
 }
 
@@ -562,9 +563,11 @@ void Game::load() {
     ifstream file_obj;
     file_obj.open(save_file_path, ios::in);
     file_obj >> days_passed;
+    file_obj.close();
+    Map* loaded_map = new Map();
+    loaded_map->load(save_path);
+    map = loaded_map;
     Player* loaded_player = new Player();
     loaded_player->load(save_path);
     player = loaded_player;
-    file_obj.close();
-    map = new Map(player->getLocation());
 }
