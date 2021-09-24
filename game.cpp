@@ -38,11 +38,16 @@ void Game::init_handlers() {
     }
 }
 
-Game::Game(bool newgame, string path) {
+Game::Game(bool newgame, string path, int _seed) {
     srand((unsigned int)time(NULL));
     init_handlers();
     save_path = path;
     if (newgame) {
+        seed = _seed;
+        if (seed == NOTFOUND)
+            initSeed();
+        map = new Map(seed);
+        player = new Player();
         save();
         introCutscene();
     } else {
@@ -53,6 +58,12 @@ Game::Game(bool newgame, string path) {
 
 Game::Game() {
     return;
+}
+
+void Game::initSeed() {
+    for (int i = 0 ; i < 69 ; i++) 
+        seed = rand();
+    srand(seed);
 }
 
 void Game::updateCommandSet() {
@@ -553,6 +564,7 @@ void Game::save() {
     ofstream file_obj;
     file_obj.open(save_file_path);
     file_obj << days_passed << endl;
+    file_obj << seed << endl;
     player->save(save_path);
     map->save(save_path);
     file_obj.close();
@@ -563,6 +575,7 @@ void Game::load() {
     ifstream file_obj;
     file_obj.open(save_file_path, ios::in);
     file_obj >> days_passed;
+    file_obj >> seed;
     file_obj.close();
     Map* loaded_map = new Map();
     loaded_map->load(save_path);

@@ -168,3 +168,40 @@ std::string handleLoadGame(std::string path) {
     cout<<"loading game from: " << path << endl;
     return save_folder;
 }
+
+void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, int &seed) {
+    string input_path = DEFAULTSAVEPATH;
+    for (int i = 1 ; i < argc ; i++) {
+        string option = argv[i];
+        toturialIfNeeded(option);
+        helpIfNeeded(option);
+        if (option == NEWGAME) {
+            if (i + 1 < argc && argv[i+1][0] != '-') {
+                input_path = argv[++i];
+            }
+            save_path = handleNewGame(input_path);
+            newgame = true;
+        } else if (option == LOADGAME) {
+            if (i + 1 < argc && argv[i+1][0] != '-') {
+                input_path = argv[++i];
+            }
+            save_path = handleLoadGame(input_path);
+            newgame = false;
+        } else if (option == SETSEED) {
+            if (i + 1 >= argc || argv[i+1][0] == '-') {
+                _error("options -s was used but no seed was given!");
+                exit(1);
+            }
+            seed = stoi(argv[++i]);
+            cprint("seed was set to " + to_string(seed), GREEN);
+        } else {
+            _error("Invalid option was provided, use --help for more info!");
+            exit(1);
+        }
+    }
+    if (save_path == "") {
+        cprint("Starting new game...", BLUE);
+        save_path = handleNewGame(input_path);
+        newgame = true;
+    }
+}
