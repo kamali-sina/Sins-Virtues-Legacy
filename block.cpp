@@ -80,7 +80,7 @@ void NormalBlock::run_handler(bool ans) {
     yesNormalblockPromptDialog();
 }
 
-std::string NormalBlock::save(std::string path) { 
+void NormalBlock::save(std::string path) { 
     ofstream file_obj;
     file_obj.open(path);
     string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
@@ -107,6 +107,7 @@ void NormalBlock::load(std::string path) {
         item->deserialize(args);
         item_inside = item;
     }
+    file_obj.close();
 }
 
 /* ==================== DigableBlock ==================== */
@@ -126,7 +127,7 @@ DigableBlock::DigableBlock() {
     color = MAGENTA;
 }
 
-std::string DigableBlock::save(std::string path) { 
+void DigableBlock::save(std::string path) { 
     ofstream file_obj;
     file_obj.open(path);
     string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
@@ -151,6 +152,7 @@ void DigableBlock::load(std::string path) {
         item->deserialize(args);
         item_inside = item;
     }
+    file_obj.close();
 }
 
 /* ==================== HomeBlock ==================== */
@@ -198,12 +200,45 @@ void HomeBlock::run_handler(bool ans) {
     session.save();
 }
 
-std::string HomeBlock::save(std::string path) { 
-    return to_string(ID);
+void HomeBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
+    serialized_data += "\n" + to_string(contains_enemy);
+    if (contains_item) {
+        serialized_data += "\n" + item_inside->serialize();
+    }
+    if (contains_enemy) {
+        serialized_data += "\n" + enemy_inside->serialize();
+  	 }
+    file_obj<< serialized_data;
+    file_obj.close();
 }
 
 void HomeBlock::load(std::string path) {
-    return;
+    ifstream file_obj;
+    file_obj.open(path);
+    int id;
+    file_obj >> id;
+    bool does_contain_item;
+    file_obj >> does_contain_item;
+    bool does_contain_enemy;
+    file_obj >> does_contain_enemy;
+    this->setContainsItem(does_contain_item);
+    this->setContainsEnemy(does_contain_enemy);
+    if (does_contain_item) {
+        vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
+        Item* item = getItem(stoi(args[0]));
+        item->deserialize(args);
+        item_inside = item;
+    }
+    if (does_contain_enemy) {
+        vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
+        Enemy* enemy = getEnemy(stoi(args[0]));
+        enemy->deserialize(args);
+        enemy_inside = enemy;
+    }
+    file_obj.close();
 }
 
 /* ==================== ShopBlock ==================== */
@@ -269,12 +304,33 @@ void ShopBlock::run_handler(bool ans) {
     }
 }
 
-std::string ShopBlock::save(std::string path) { 
-    return to_string(ID);
+void ShopBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID);
+    for (auto item : stock) {
+        serialized_data += "\n" + item->serialize();
+    }
+    file_obj << serialized_data;
+    file_obj.close();
 }
 
 void ShopBlock::load(std::string path) {
-    return;
+    ifstream file_obj;
+    file_obj.open(path);
+    int id;
+    file_obj >> id;
+    stock.clear();
+    string line;
+    while(getline(file_obj, line)) {
+        if (line == "") continue;
+        vector<string> args = split_string(line, ' ');
+        Item* item = getItem(stoi(args[0]));
+        item->deserialize(args);
+        item->rerollPrice();
+        stock.push_back(item);
+    }
+    file_obj.close();
 }
 
 /* ==================== BlacksmithBlock ==================== */
@@ -298,8 +354,12 @@ void BlacksmithBlock::run_handler(bool ans) {
     }
 }
 
-std::string BlacksmithBlock::save(std::string path) { 
-    return to_string(ID);
+void BlacksmithBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID);
+    file_obj << serialized_data;
+    file_obj.close();
 }
 
 void BlacksmithBlock::load(std::string path) {
@@ -328,24 +388,6 @@ void CastleBlock::initEnemies() {
 }
 
 void CastleBlock::run_handler(bool ans) {
-    /*
-    if (ans == 0):
-            response = 'Oh thank god! This place looks scary af!'
-        else:
-            ConsoleHandler.into_the_castle_dialog(self.number_of_enemies, self.boss.name)
-            for enemy in self.enemies:
-                game.fight_enemy(enemy)
-                self.number_of_enemies -= 1
-                if (self.number_of_enemies > 0):
-                    print(f'{self.number_of_enemies} enemies remaining...')
-            ConsoleHandler.boss_dialog()
-            self.boss.intro_dialog()
-            game.fight_enemy(self.boss)
-            print()
-            ConsoleHandler.outro_dialog()
-            exit()
-        return response
-    */
     if (ans == false) {
         noCastleBlockDialog();
     } else {
@@ -361,8 +403,12 @@ void CastleBlock::run_handler(bool ans) {
     }
 }
 
-std::string CastleBlock::save(std::string path) { 
-    return to_string(ID);
+void CastleBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID);
+    file_obj << serialized_data;
+    file_obj.close();
 }
 
 void CastleBlock::load(std::string path) {
@@ -417,8 +463,12 @@ void TeleporterBlock::run_handler(bool ans) {
     }
 }
 
-std::string TeleporterBlock::save(std::string path) { 
-    return to_string(ID);
+void TeleporterBlock::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID);
+    file_obj << serialized_data;
+    file_obj.close();
 }
 
 void TeleporterBlock::load(std::string path) {
