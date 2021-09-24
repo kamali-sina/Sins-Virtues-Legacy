@@ -34,7 +34,7 @@ void loadCutscene() {
     cprint("\n======== Sins & Virtues ========", BLUE);
     cprint("=== A game made by PapaSinku ===\n", YELLOW);
     dialog("You", "Where am I? Why do I feel so disconnected from myself?", YELLOW, 20);
-    dialog("You", "Oh shit, why is everything different? The whole island is changed!!!", YELLOW, 20);
+    dialog("You", "Oh shit, It's morning already? I have to get going!", YELLOW, 20);
 }
 
 void outOfBoundsDialog() {
