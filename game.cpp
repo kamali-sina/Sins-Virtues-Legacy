@@ -564,6 +564,7 @@ void Game::save() {
     file_obj << days_passed << endl;
     file_obj << seed << endl;
     player->save(save_path);
+    map->save(save_path);
     file_obj.close();
 }
 
@@ -573,10 +574,11 @@ void Game::load() {
     file_obj.open(save_file_path, ios::in);
     file_obj >> days_passed;
     file_obj >> seed;
-    srand(seed);
-    map = new Map(seed);
+    file_obj.close();
+    Map* loaded_map = new Map();
+    loaded_map->load(save_path);
+    map = loaded_map;
     Player* loaded_player = new Player();
     loaded_player->load(save_path);
     player = loaded_player;
-    file_obj.close();
 }
