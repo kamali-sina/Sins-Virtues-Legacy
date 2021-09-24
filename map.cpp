@@ -220,8 +220,6 @@ void Map::printAdjacentDialogs(std::pair<int,int> location) {
 }
 
 void Map::save(std::string path) {
-    // TODO: change this
-    string map_save_path = path + MAPSAVEFILENAME;
     for (int i = 0 ; i < MAPSIZE ; i++) {
         for (int j = 0 ; j < MAPSIZE ; j++) {
             string map_save_path = path + MAPSAVEFILENAME 
@@ -232,5 +230,18 @@ void Map::save(std::string path) {
 }
 
 void Map::load(std::string path) {
-
+    for (int i = 0 ; i < MAPSIZE ; i++) {
+        for (int j = 0 ; j < MAPSIZE ; j++) {
+            string map_save_path = path + MAPSAVEFILENAME 
+                    + to_string(i) + "_" + to_string(j) + SAVEFILEPOSTFIX;
+            ifstream file_obj;
+            file_obj.open(map_save_path);
+            int id;
+            file_obj >> id;
+            file_obj.close();
+            Block* block = getBlock(id);
+            block->load(map_save_path);
+            map[i][j] = block;
+        }
+    }
 }
