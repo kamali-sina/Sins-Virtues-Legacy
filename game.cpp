@@ -38,12 +38,14 @@ void Game::init_handlers() {
     }
 }
 
-Game::Game(bool newgame, string path) {
+Game::Game(bool newgame, string path, int _seed) {
     srand((unsigned int)time(NULL));
     init_handlers();
     save_path = path;
     if (newgame) {
-        initSeed();
+        seed = _seed;
+        if (seed == NOTFOUND)
+            initSeed();
         map = new Map(seed);
         player = new Player();
         save();
