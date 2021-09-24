@@ -35,7 +35,7 @@ extern std::vector<std::string> SHOP_COMMANDS;
 
 class Game{
     public:
-    Game(bool newgame, std::string path);
+    Game(bool newgame, std::string path, int _seed);
     Game();
     Block* getBlockAtPlayerLocation();
     Player* getPlayer();
