@@ -17,11 +17,11 @@ In case of adding a new block, add these to the following locations:
 */
 
 #define NUMBER_OF_BLOCKS 7
-#define NORMALBLOCK 1 
-#define DIGABLEBLOCK 2 
-#define HOMEBLOCK 3 
-#define SHOPBLOCK 4 
-#define BLACKSMITHBLOCK 5 
+#define NORMALBLOCK 1
+#define DIGABLEBLOCK 2
+#define HOMEBLOCK 3
+#define SHOPBLOCK 4
+#define BLACKSMITHBLOCK 5
 #define CASTLEBLOCK 6
 #define TELEPORTERBLOCK 7
 
