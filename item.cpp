@@ -378,6 +378,26 @@ void GoldenCarrot::use_item(int inventory_index) {
     session.getPlayer()->useItem(inventory_index);
 }
 
+
+Notepad::Notepad() {
+    initial_uses = 9999;
+    rarity = 0;
+    tags.push_back(NOTSELLABLETAG);
+    name = "notepad";
+    uses = initial_uses;
+    price = 0;
+    id = NOTEPAD;
+    weight = 0.1;
+}
+
+void Notepad::use_item(int inventory_index) {
+    // TODO: complete this shit
+}
+
+std::string Notepad::getInfo() {
+    return "infinite uses";
+}
+
 /* ==================== MeleeAttackItem Classes ==================== */
 
 Fist::Fist() {
@@ -550,6 +570,7 @@ Item *getItem(int item_id) {
     all_items.push_back(new ScrapBox());
     all_items.push_back(new Shotgun());
     all_items.push_back(new GoldenCarrot());
+    all_items.push_back(new Notepad());
     return all_items[item_id - 1];
 }
 
