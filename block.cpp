@@ -32,6 +32,14 @@ bool Block::tagsContain(std::string tag) {
     return false;
 }
 
+void Block::save(std::string path) {
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID);
+    file_obj << serialized_data;
+    file_obj.close();
+}
+
 /* ==================== NormalBlock ==================== */
 
 NormalBlock::NormalBlock(bool no_chest) {
@@ -354,18 +362,6 @@ void BlacksmithBlock::run_handler(bool ans) {
     }
 }
 
-void BlacksmithBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void BlacksmithBlock::load(std::string path) {
-    return;
-}
-
 /* ==================== CastleBlock ==================== */
 
 CastleBlock::CastleBlock() {
@@ -401,18 +397,6 @@ void CastleBlock::run_handler(bool ans) {
         outroCutscene();
         exit(0);
     }
-}
-
-void CastleBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void CastleBlock::load(std::string path) {
-    return;
 }
 
 /* ==================== TeleporterBlock ==================== */
@@ -461,18 +445,6 @@ void TeleporterBlock::run_handler(bool ans) {
         session.updateWorldTimer(0.5);
         session.handleNewReachedBlock();
     }
-}
-
-void TeleporterBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void TeleporterBlock::load(std::string path) {
-    return;
 }
 
 /* ==================== Getters ==================== */
