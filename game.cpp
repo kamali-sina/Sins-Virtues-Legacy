@@ -477,6 +477,9 @@ void Game::sell(std::vector<std::string> splitted_input) {
     if (item_index == NOTFOUND) {
         dontHaveItemsDialog();
         return;
+    } else if (player->getItemAtIndex(item_index)->tagsContain(NOTSELLABLETAG)) {
+        cantSellThatItemDialog();
+        return;
     }
     int sell_price = player->getPlayerSellPrice(item_index);
     bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + colored(to_string(sell_price), YELLOW) + " coins?");
