@@ -38,6 +38,7 @@ extern std::string TOTURIAL_OPTIONS[];
 #define NOTEPADSAVEFILENAME  "notepad.vnsave"
 #define MAPSAVEFILENAME  "map_"
 #define SAVEFILEPOSTFIX  ".vnsave"
+#define OUTPARAM
 
 float _random();
 std::string lower(std::string input);

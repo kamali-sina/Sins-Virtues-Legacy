@@ -11,7 +11,7 @@ int main (int argc , char *argv[]) {
     bool newgame = true;
     string save_path = ""; 
     int seed = NOTFOUND;
-    handleArgv(argc, argv, newgame, save_path, seed);
+    handleArgv(argc, argv, OUTPARAM newgame, OUTPARAM save_path, OUTPARAM seed);
     session = Game(newgame, save_path, seed);
     session.run();
     return 0;
