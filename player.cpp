@@ -6,6 +6,7 @@ Player::Player() {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
+    addItem((Item*)new Notepad(), true);
     //TODO: remove
     for (int i= 0 ; i < 10 ; i++)
         addItem(getRandomItem(), true);
@@ -188,6 +189,14 @@ int Player::indexItem(std::string item_name) {
     return -1;
 }
 
+int Player::indexItem(int item_id) {
+    for (int i = 0 ; i < inventory.size() ; i++ ) {
+        if (inventory[i]->getID() == item_id)
+            return i;
+    }
+    return -1;
+}
+
 int Player::getSpeed() {
     return equipped->getSpeed();
 }
@@ -235,6 +244,7 @@ int Player::attack(std::string enemy_name) {
 
 void Player::save(string path) {
     string player_items_path = path + PLAYERSAVEFILENAME;
+    string notepad_path = path + NOTEPADSAVEFILENAME;
     ofstream file_obj;
     file_obj.open(player_items_path);
     file_obj << max_hp << endl;
@@ -249,10 +259,12 @@ void Player::save(string path) {
         file_obj<< item->serialize() << endl;
     }
     file_obj.close();
+    ((Notepad*)getItemAtIndex(indexItem(NOTEPAD)))->save(notepad_path);
 }
 
 void Player::load(string path) {
     string player_items_path = path + PLAYERSAVEFILENAME;
+    string notepad_path = path + NOTEPADSAVEFILENAME;
     ifstream file_obj;
     file_obj.open(player_items_path);
     inventory.clear();
@@ -280,4 +292,5 @@ void Player::load(string path) {
         equipped = (AttackItem*)inventory[equipped_index];
     }
     file_obj.close();
+    ((Notepad*)getItemAtIndex(indexItem(NOTEPAD)))->load(notepad_path);
 }

@@ -43,6 +43,7 @@ class Player {
     void printInventory();
     void printInfo();
     int indexItem(std::string item_name);
+    int indexItem(int item_id);
     void equipItem(Item* item);
     void scrapItem(int item_index);
     int getSpeed();
