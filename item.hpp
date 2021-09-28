@@ -23,7 +23,7 @@ In case of adding a new item, add these to the following locations:
     3- If needed add handler for block at handlers.hpp
 */
 
-#define ITEMCOUNT 17
+#define ITEMCOUNT 18
 
 #define SHOVEL 1
 #define COMPASS 2
@@ -42,11 +42,13 @@ In case of adding a new item, add these to the following locations:
 #define SCRAPBOX 15
 #define SHOTGUN 16
 #define GOLDENCARROT 17
+#define NOTEPAD 18
 
 /* ==================== Base Classes ==================== */
 
 #define RANDOMTAG "random"
 #define NOTBUYABLETAG "notbuyable"
+#define NOTSELLABLETAG "notsellable"
 #define ATTACKITEMTAG "attack"
 #define RANGEDATTACKITEMTAG "rangedattackItem"
 #define COINITEMTAG "coin"
@@ -218,6 +220,22 @@ class GoldenCarrot : public UtilityItem {
     public:
     GoldenCarrot();
     void use_item(int inventory_index);
+};
+
+class Notepad : public UtilityItem {
+    public:
+    Notepad();
+    void use_item(int inventory_index);
+    std::string getInfo();
+    void addEntry(std::string blockname, std::string blockcolor, std::pair<int,int> location);
+    void save(std::string path);
+    void load(std::string path);
+
+    private:
+    bool entryIsDuplicate(std::string blockname, std::pair<int,int> location);
+    std::vector<std::string> names;
+    std::vector<std::string> colors;
+    std::vector<std::pair<int,int>> locations;
 };
 
 /* ==================== MeleeAttackItem Classes ==================== */

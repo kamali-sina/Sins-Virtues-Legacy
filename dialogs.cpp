@@ -45,6 +45,10 @@ void dontHaveItemsDialog() {
     dialog("You", "I do not have that item!", YELLOW, 18);
 }
 
+void cantSellThatItemDialog() {
+    dialog("You", "I can not sell that item! I might need it later.", YELLOW, 25);
+}
+
 void itemNotInStockDialog() {
     dialog("Shopkeeper", "I do not have that item in stock!", GREEN, 18);
 }

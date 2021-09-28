@@ -123,4 +123,6 @@ void echoBossIntroDialog(std::string boss_name, std::string boss_intro);
 
 void outroCutscene();
 
+void cantSellThatItemDialog();
+
 #endif

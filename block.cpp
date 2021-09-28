@@ -32,6 +32,25 @@ bool Block::tagsContain(std::string tag) {
     return false;
 }
 
+void Block::save(std::string path) {
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = to_string(ID) + "\n" + to_string(has_adjacent_dialog);
+    file_obj << serialized_data;
+    file_obj.close();
+}
+
+void Block::load(std::string path) {
+    ifstream file_obj;
+    file_obj.open(path);
+    int id;
+    file_obj >> id; 
+    bool does_have_adjacent_dialog;
+    file_obj >> does_have_adjacent_dialog;
+    setHasAdjacentDialog(does_have_adjacent_dialog);
+    file_obj.close();
+}
+
 /* ==================== NormalBlock ==================== */
 
 NormalBlock::NormalBlock(bool no_chest) {
@@ -83,7 +102,7 @@ void NormalBlock::run_handler(bool ans) {
 void NormalBlock::save(std::string path) { 
     ofstream file_obj;
     file_obj.open(path);
-    string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
+    string serialized_data = to_string(ID) + "\n" + to_string(has_adjacent_dialog) + "\n" + to_string(contains_item);
     if (contains_item) {
         serialized_data += "\n" + item_inside->serialize();
     }
@@ -95,12 +114,14 @@ void NormalBlock::load(std::string path) {
     ifstream file_obj;
     file_obj.open(path);
     int id;
-    file_obj >> id; 
+    file_obj >> id;
+    bool does_have_adjacent_dialog;
+    file_obj >> does_have_adjacent_dialog;
     bool does_contain_item;
     file_obj >> does_contain_item;
     this->setContainsItem(does_contain_item);
     this->setHasPrompt(does_contain_item);
-    this->setHasAdjacentDialog(does_contain_item);
+    this->setHasAdjacentDialog(does_have_adjacent_dialog);
     if (does_contain_item) {
         vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
         Item* item = getItem(stoi(args[0]));
@@ -203,7 +224,7 @@ void HomeBlock::run_handler(bool ans) {
 void HomeBlock::save(std::string path) { 
     ofstream file_obj;
     file_obj.open(path);
-    string serialized_data = to_string(ID) + "\n" + to_string(contains_item);
+    string serialized_data = to_string(ID) + "\n" + to_string(has_adjacent_dialog) + "\n" + to_string(contains_item);
     serialized_data += "\n" + to_string(contains_enemy);
     if (contains_item) {
         serialized_data += "\n" + item_inside->serialize();
@@ -220,12 +241,15 @@ void HomeBlock::load(std::string path) {
     file_obj.open(path);
     int id;
     file_obj >> id;
+    bool does_have_adjacent_dialog;
+    file_obj >> does_have_adjacent_dialog;
     bool does_contain_item;
     file_obj >> does_contain_item;
     bool does_contain_enemy;
     file_obj >> does_contain_enemy;
     this->setContainsItem(does_contain_item);
     this->setContainsEnemy(does_contain_enemy);
+    setHasAdjacentDialog(does_have_adjacent_dialog);
     if (does_contain_item) {
         vector<string> args = split_string(getNextNoneEmptyLine(file_obj), ' ');
         Item* item = getItem(stoi(args[0]));
@@ -307,7 +331,7 @@ void ShopBlock::run_handler(bool ans) {
 void ShopBlock::save(std::string path) { 
     ofstream file_obj;
     file_obj.open(path);
-    string serialized_data = to_string(ID);
+    string serialized_data = to_string(ID) + "\n" + to_string(has_adjacent_dialog);
     for (auto item : stock) {
         serialized_data += "\n" + item->serialize();
     }
@@ -320,6 +344,9 @@ void ShopBlock::load(std::string path) {
     file_obj.open(path);
     int id;
     file_obj >> id;
+    bool does_have_adjacent_dialog;
+    file_obj >> does_have_adjacent_dialog;
+    setHasAdjacentDialog(does_have_adjacent_dialog);
     stock.clear();
     string line;
     while(getline(file_obj, line)) {
@@ -352,18 +379,6 @@ void BlacksmithBlock::run_handler(bool ans) {
     } else {
         session.enterBlacksmith();
     }
-}
-
-void BlacksmithBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void BlacksmithBlock::load(std::string path) {
-    return;
 }
 
 /* ==================== CastleBlock ==================== */
@@ -401,18 +416,6 @@ void CastleBlock::run_handler(bool ans) {
         outroCutscene();
         exit(0);
     }
-}
-
-void CastleBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void CastleBlock::load(std::string path) {
-    return;
 }
 
 /* ==================== TeleporterBlock ==================== */
@@ -461,18 +464,6 @@ void TeleporterBlock::run_handler(bool ans) {
         session.updateWorldTimer(0.5);
         session.handleNewReachedBlock();
     }
-}
-
-void TeleporterBlock::save(std::string path) { 
-    ofstream file_obj;
-    file_obj.open(path);
-    string serialized_data = to_string(ID);
-    file_obj << serialized_data;
-    file_obj.close();
-}
-
-void TeleporterBlock::load(std::string path) {
-    return;
 }
 
 /* ==================== Getters ==================== */

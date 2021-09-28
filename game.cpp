@@ -236,6 +236,11 @@ void Game::handleNewReachedBlock() {
     Block* current_block = getBlockAtPlayerLocation();
     newBlockReachedDialog(current_block->getName(), current_block->getColor(), current_block->getInfo());
     map->printAdjacentDialogs(player->getLocation());
+    if (current_block->tagsContain(SPECIALTAG)) {
+        current_block->setHasAdjacentDialog(false);
+        Notepad* notepad = (Notepad*)player->getItemAtIndex(player->indexItem(NOTEPAD));
+        notepad->addEntry(current_block->getName(), current_block->getColor(), player->getLocation());
+    }
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
         bool ans = setupPrompt("", false);
@@ -476,6 +481,9 @@ void Game::sell(std::vector<std::string> splitted_input) {
     int item_index = player->indexItem(splitted_input[1]);
     if (item_index == NOTFOUND) {
         dontHaveItemsDialog();
+        return;
+    } else if (player->getItemAtIndex(item_index)->tagsContain(NOTSELLABLETAG)) {
+        cantSellThatItemDialog();
         return;
     }
     int sell_price = player->getPlayerSellPrice(item_index);
