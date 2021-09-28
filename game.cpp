@@ -236,6 +236,11 @@ void Game::handleNewReachedBlock() {
     Block* current_block = getBlockAtPlayerLocation();
     newBlockReachedDialog(current_block->getName(), current_block->getColor(), current_block->getInfo());
     map->printAdjacentDialogs(player->getLocation());
+    if (current_block->tagsContain(SPECIALTAG)) {
+        current_block->setHasAdjacentDialog(false);
+        Notepad* notepad = (Notepad*)player->getItemAtIndex(player->indexItem(NOTEPAD));
+        notepad->addEntry(current_block->getName(), current_block->getColor(), player->getLocation());
+    }
     if (current_block->getHasPrompt()){
         showPrompt(current_block->getPrompt(), current_block->getName(), current_block->getColor());
         bool ans = setupPrompt("", false);
