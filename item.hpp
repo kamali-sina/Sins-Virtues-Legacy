@@ -227,6 +227,15 @@ class Notepad : public UtilityItem {
     Notepad();
     void use_item(int inventory_index);
     std::string getInfo();
+    void addEntry(std::string blockname, std::string blockcolor, std::pair<int,int> location);
+    void save(std::string path);
+    void load(std::string path);
+
+    private:
+    bool entryIsDuplicate(std::string blockname, std::pair<int,int> location);
+    std::vector<std::string> names;
+    std::vector<std::string> colors;
+    std::vector<std::pair<int,int>> locations;
 };
 
 /* ==================== MeleeAttackItem Classes ==================== */

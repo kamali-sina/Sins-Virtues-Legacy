@@ -391,11 +391,65 @@ Notepad::Notepad() {
 }
 
 void Notepad::use_item(int inventory_index) {
-    // TODO: complete this shit
+    cout<<"===========Notepad==========="<<endl;
+    cout<<"   name             location "<<endl;
+    cout<<"-----------------------------"<<endl;
+    for (int i = 0 ; i < names.size() ; i++) {
+        cout<<" " << colored(names[i], colors[i]);
+        int spaces = 20 - names[i].length();
+        for (int i = 0; i < spaces ; i++) cout<<" ";
+        cout<< "[" << locations[i].first << "," << locations[i].second << "]" << endl;
+    }
 }
 
 std::string Notepad::getInfo() {
     return "infinite uses";
+}
+
+bool Notepad::entryIsDuplicate(std::string blockname, std::pair<int,int> location) {
+    for (int i = 0 ; i < names.size() ; i++) {
+        if (names[i] == blockname 
+            && location.first == locations[i].first 
+            && location.second == locations[i].second) return true;
+    }
+    return false;
+}
+//TODO: handle duplicates
+void Notepad::addEntry(std::string blockname, std::string blockcolor, std::pair<int,int> location) {
+    if (entryIsDuplicate(blockname, location)) return;
+    names.push_back(blockname);
+    colors.push_back(blockcolor);
+    locations.push_back(location);
+}
+
+void Notepad::save(std::string path) { 
+    ofstream file_obj;
+    file_obj.open(path);
+    string serialized_data = "";
+    for (int i = 0 ; i < names.size() ; i++) {
+        serialized_data += names[i] + " " + colors[i] + " ";
+        serialized_data += to_string(locations[i].first) + " " + to_string(locations[i].second) + "\n";
+    }
+    file_obj << serialized_data;
+    file_obj.close();
+}
+
+void Notepad::load(std::string path) {
+    ifstream file_obj;
+    file_obj.open(path);
+    string line;
+    while (!file_obj.eof()) {
+        std::string name;
+        std::string color;
+        int first, second;
+        file_obj>>name;
+        if (name.length() == 0) break;
+        file_obj>>color;
+        file_obj>>first;
+        file_obj>>second;
+        addEntry(name, color, pair<int,int>(first, second));
+    }
+    file_obj.close();
 }
 
 /* ==================== MeleeAttackItem Classes ==================== */
