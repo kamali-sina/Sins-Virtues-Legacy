@@ -35,6 +35,7 @@ extern std::string TOTURIAL_OPTIONS[];
 #define SAVEFOLDRNAME "VnSave"
 #define SAVEFILENAME  "game.vnsave"
 #define PLAYERSAVEFILENAME  "player.vnsave"
+#define NOTEPADSAVEFILENAME  "notepad.vnsave"
 #define MAPSAVEFILENAME  "map_"
 #define SAVEFILEPOSTFIX  ".vnsave"
 
