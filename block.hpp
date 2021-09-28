@@ -48,7 +48,7 @@ class Block {
         _error("A block with no handler was called!");
     }
     virtual void save(std::string path);
-    virtual void load(std::string path) { return; }
+    virtual void load(std::string path);
 
     protected:
     std::string name;
