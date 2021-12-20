@@ -392,7 +392,7 @@ void Game::info(std::vector<std::string> splitted_input) {
     if (state == NORMAL){ 
         cout << "current block is " << colored(getBlockAtPlayerLocation()->getName(), MAGENTA) << endl;
     } else if (state == FIGHT) {
-        // TODO: print(f'enemy has {colored(self.enemy.hp,"red")} hp left')
+        cout<< "enemy has " << colored(to_string(enemy_fighting->getHP()), RED) << "hp left" << endl;
     } 
 }
 
