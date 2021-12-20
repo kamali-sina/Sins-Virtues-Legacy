@@ -122,7 +122,6 @@ class UtilityItem : public Item {
     std::string getInfo();
     int rerollPrice();
     int getUsesRemaining() { return uses; }
-    //TODO: choose better names
     virtual void use_item(int inventory_index) = 0;
     int use();
     std::string serialize();
