@@ -31,6 +31,7 @@ extern std::string TOTURIAL_OPTIONS[];
 #define NEWGAME "-n"
 #define LOADGAME "-l"
 #define SETSEED "-s"
+#define DEVMODE "-d"
 #define DEFAULTSAVEPATH "./"
 #define SAVEFOLDRNAME "VnSave"
 #define SAVEFILENAME  "game.vnsave"
@@ -51,6 +52,6 @@ void helpIfNeeded(std::string option);
 std::string handleNewGame(std::string path);
 std::string handleLoadGame(std::string path);
 void notification(std::string msg);
-void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, int &seed);
+void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, int &seed, bool &dev_mode);
 
 #endif

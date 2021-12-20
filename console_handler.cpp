@@ -169,7 +169,7 @@ std::string handleLoadGame(std::string path) {
     return save_folder;
 }
 
-void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, int &seed) {
+void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, int &seed, bool &dev_mode) {
     string input_path = DEFAULTSAVEPATH;
     for (int i = 1 ; i < argc ; i++) {
         string option = argv[i];
@@ -194,6 +194,8 @@ void handleArgv(int argc , char *argv[], bool &newgame, std::string &save_path, 
             }
             seed = stoi(argv[++i]);
             cprint("seed was set to " + to_string(seed), GREEN);
+        } else if (option == DEVMODE) {
+            dev_mode = true;
         } else {
             _error("Invalid option was provided, use --help for more info!");
             exit(1);
