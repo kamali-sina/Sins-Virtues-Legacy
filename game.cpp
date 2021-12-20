@@ -386,14 +386,14 @@ void Game::use(std::vector<std::string> splitted_input) {
 
 void Game::info(std::vector<std::string> splitted_input) {
     cout<<"========== Day " + to_string(days_passed) + " ==========" <<endl<<endl;
-    updateWorldTimer(0.1);   
+    updateWorldTimer(0.1);
     player->printInfo();
     cout << "time: " << getClockTime() << endl;
-    if (state == NORMAL){ 
+    if (state == NORMAL){
         cout << "current block is " << colored(getBlockAtPlayerLocation()->getName(), MAGENTA) << endl;
     } else if (state == FIGHT) {
         cout<< "enemy has " << colored(to_string(enemy_fighting->getHP()), RED) << "hp left" << endl;
-    } 
+    }
 }
 
 void Game::commands(std::vector<std::string> splitted_input) {
