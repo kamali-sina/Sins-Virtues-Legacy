@@ -6,7 +6,7 @@ typedef void (Game::*handler)(std::vector<std::string>);
 
 std::map<std::string, handler> handlers;
 
-vector<string> NORMAL_COMMANDS({"move", "inventory", "use", "info", "commands", "print_map", "equip", "dev_map"});
+vector<string> NORMAL_COMMANDS({"move", "inventory", "use", "info", "commands", "dev_print_map", "equip", "dev_map"});
 vector<int> NORMAL_COMMANDS_COUNT({2, 1, 2, 1, 1, 1, 2, 1});
 vector<string> FIGHT_COMMANDS({"inventory", "info", "use", "attack", "commands", "equip"});
 vector<int> FIGHT_COMMANDS_COUNT({1, 1, 2, 1, 1, 2});
@@ -24,7 +24,7 @@ void Game::init_handlers() {
         handlers["use"] = &Game::use;
         handlers["info"] = &Game::info;
         handlers["commands"] = &Game::commands;
-        handlers["print_map"] = &Game::print_map;
+        handlers["dev_print_map"] = &Game::dev_print_map;
         handlers["equip"] = &Game::equip;
         handlers["attack"] = &Game::attack;
         handlers["stock"] = &Game::stock;
@@ -34,20 +34,20 @@ void Game::init_handlers() {
         handlers["dev_map"] = &Game::dev_map;
         handlers["upgrade"] = &Game::upgrade;
         handlers["scrap"] = &Game::scrap;
-
     }
 }
 
-Game::Game(bool newgame, string path, int _seed) {
+Game::Game(bool newgame, string path, int _seed, bool _dev_mode) {
     srand((unsigned int)time(NULL));
     init_handlers();
     save_path = path;
+    dev_mode = _dev_mode;
     if (newgame) {
         seed = _seed;
         if (seed == NOTFOUND)
             initSeed();
         map = new Map(seed);
-        player = new Player();
+        player = new Player(dev_mode);
         save();
         introCutscene();
     } else {
@@ -161,13 +161,12 @@ void Game::digHere(int inventory_index) {
     map->setBlockAtLocation(player->getLocation(), new NormalBlock(true));
 }
 
-bool mini_valid(vector<string> command_set, vector<int> command_count, string command, int count) {
-    int index = find(command_set.begin(), command_set.end(), command) - command_set.begin();
-    if (index != command_set.size()) {
-        if (command_count[index] == count)
-            return true;
+bool is_dev_command(string command) {
+    int pos = command.find(DEV_PREFIX);
+    if (pos < 0) {
+        return false;
     }
-    return false;
+    return true;
 }
 
 template <typename T>
@@ -179,7 +178,16 @@ int index_item(std::vector<T> list, T to_be_found) {
 }
 
 bool Game::is_command_valid(string command, int count) {
-    return mini_valid(active_commandset, active_commandset_count, command, count);
+    int index = find(active_commandset.begin(), active_commandset.end(), command) - active_commandset.begin();
+    bool dev_command = is_dev_command(command);
+    if (index != active_commandset.size() && active_commandset_count[index] == count) {
+        if (dev_command && !dev_mode) {
+            _error("that is a developer-only command!");
+            return false;
+        }
+        return true;
+    }
+    return false;
 }
 
 void Game::validate_input(vector<string> splitted_input) {
@@ -403,7 +411,7 @@ void Game::commands(std::vector<std::string> splitted_input) {
     }
 }
 
-void Game::print_map(std::vector<std::string> splitted_input) {
+void Game::dev_print_map(std::vector<std::string> splitted_input) {
     map->printPartialMap(2, player->getLocation());
 }
 

@@ -17,6 +17,7 @@
 #define PROMPT 2
 #define SHOP 3
 #define BLACKSMITH 4
+#define DEV_PREFIX "dev"
 
 #define NUMTIMESOFDAY 3
 
@@ -35,7 +36,7 @@ extern std::vector<std::string> SHOP_COMMANDS;
 
 class Game{
     public:
-    Game(bool newgame, std::string path, int _seed);
+    Game(bool newgame, std::string path, int _seed, bool _dev_mode);
     Game();
     Block* getBlockAtPlayerLocation();
     Player* getPlayer();
@@ -48,7 +49,7 @@ class Game{
     void use(std::vector<std::string> splitted_input);
     void info(std::vector<std::string> splitted_input);
     void commands(std::vector<std::string> splitted_input);
-    void print_map(std::vector<std::string> splitted_input);
+    void dev_print_map(std::vector<std::string> splitted_input);
     void equip(std::vector<std::string> splitted_input);
     void attack(std::vector<std::string> splitted_input);
     void prompt_handler(bool ans);
@@ -91,6 +92,7 @@ class Game{
     Enemy* enemy_fighting;
     int idiot_counter = 0;
     int seed;
+    bool dev_mode;
     std::vector<std::string> active_commandset;
     std::vector<int> active_commandset_count;
     std::string save_path;
