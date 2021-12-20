@@ -2,14 +2,18 @@
 
 using namespace std;
 
-Player::Player() {
+Player::Player(bool dev_mode) {
     location = pair<int,int>(0,0);
     hp = max_hp;
     equipped = new Fist();
     addItem((Item*)new Notepad(), true);
-    //TODO: remove
-    for (int i= 0 ; i < 10 ; i++)
-        addItem(getRandomItem(), true);
+    if (dev_mode) {
+        cout << "how many items should be added? " << endl;
+        int count;
+        cin >> count;
+        for (int i= 0 ; i < count ; i++)
+            addItem(getRandomItem(), true);
+    }
 }
 
 std::pair<int,int> Player::getLocation() {
@@ -172,12 +176,12 @@ void Player::printInventory() {
 }
 
 void Player::printInfo() {
-    cout<< colored("hp",GREEN) + ": " + to_string(hp) <<endl;
-    cout<< colored("coins",YELLOW) + ": " + to_string(coin) <<endl;
-    cout<< colored("scraps",BLACK) + ": " + to_string(scrap) <<endl;
-    cout<< colored("location",BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
-    cout<< colored("equipped item",WHITE) + ": " + equipped->getString() <<endl;
-    cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory",CYAN) <<endl;
+    cout<< colored("hp", GREEN) + ": " + to_string(hp) <<endl;
+    cout<< colored("coins", YELLOW) + ": " + to_string(coin) <<endl;
+    cout<< colored("scraps", BLACK) + ": " + to_string(scrap) <<endl;
+    cout<< colored("location", BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
+    cout<< colored("equipped item", WHITE) + ": " + equipped->getString() <<endl;
+    cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory", CYAN) <<endl;
     // TODO: print_affected_effects()
 }
 
