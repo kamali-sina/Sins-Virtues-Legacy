@@ -414,7 +414,7 @@ bool Notepad::entryIsDuplicate(std::string blockname, std::pair<int,int> locatio
     }
     return false;
 }
-//TODO: handle duplicates
+
 void Notepad::addEntry(std::string blockname, std::string blockcolor, std::pair<int,int> location) {
     if (entryIsDuplicate(blockname, location)) return;
     names.push_back(blockname);

@@ -16,7 +16,7 @@
 
 class Player {
     public:
-    Player();
+    Player(bool dev_mode = false);
     int getDamaged(int damage);
     int getVision() { return vision; }
     int getMaxHp() { return max_hp; }
