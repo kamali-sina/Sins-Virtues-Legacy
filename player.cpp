@@ -144,8 +144,9 @@ int Player::refillHP() {
     hp = max_hp; 
     return hp;
 }
+
 int Player::heal(int amount) {
-    hp += amount; 
+    hp += amount;
     if (hp > max_hp){
         hp = max_hp;
     }
