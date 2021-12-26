@@ -7,6 +7,10 @@
 #include "termcolor.hpp"
 #include "dialogs.hpp"
 
+#define DPSTAG "dps"
+#define DAMAGECHANGETAG "damage_c"
+#define REPEATABLETAG "reapeatable"  // effect can be applied more than once at a time
+
 class StatusEffect {
     public:
     StatusEffect();
@@ -16,9 +20,11 @@ class StatusEffect {
     virtual std::string getDescription();
     virtual std::string getString();
     int getTurnsRemaining() { return turns_remaining; }
+    bool tagsContain(std::string tag);
     std::string getName() { return name; }
 
     protected:
+    std::vector<std::string> tags;
     int INITIAL_TURNS = 0;
     std::string name = "";
     std::string color = WHITE;

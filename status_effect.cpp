@@ -25,6 +25,13 @@ void StatusEffect::reset() {
     turns_remaining = INITIAL_TURNS;
 }
 
+bool StatusEffect::tagsContain(std::string tag) {
+    for (int i = 0 ; i < tags.size() ; i++) {
+        if (tags[i] == tag) return true;
+    }
+    return false;
+}
+
 void StatusEffect::apply() {
     _error("base apply was called!");
 }
@@ -35,6 +42,7 @@ DPSEffect::DPSEffect() {
     INITIAL_TURNS = 0;
     hp_change = 0;
     name = "dps";
+    tags.push_back(DPSTAG);
     color = WHITE;
     description = "";
     applyDialog = "";
@@ -57,7 +65,7 @@ std::string DPSEffect::getApplyDialog() {
     } else {
         mode = "damage";
     }
-    return this->getString() + " will " + mode + " you for the next " + to_string(turns_remaining) + " turn(s)!";
+    return this->getString() + " will " + mode + " you for the next " + to_string(INITIAL_TURNS) + " turn(s)!";
 }
 
 /* ==================== Poison ==================== */
