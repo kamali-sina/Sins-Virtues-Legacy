@@ -54,14 +54,20 @@ class Player {
     int refillHP();
     int heal(int amount);
     void addItem(Item* item, bool silent=false);
+    void addStatusEffect(StatusEffect* status, bool silent=false);
+    void applyStatusEffects();
+    void resetStatusEffects();
+    int indexStatusEffect(std::string status_name);
+    void resetStatusEffect(int status_index);
 
     void save(std::string path);
     void load(std::string path);
 
     protected:
+    void printAffectedEffects();
     bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
-    std::vector<StatusEffect> status_effects;
+    std::vector<StatusEffect*> status_effects;
     int max_hp=10;
     int hp;
     int coin=0;

@@ -194,6 +194,14 @@ int Player::indexItem(std::string item_name) {
     return -1;
 }
 
+int Player::indexStatusEffect(std::string status_name) {
+    for (int i = 0 ; i < status_effects.size() ; i++ ) {
+        if (status_effects[i]->getName() == status_name)
+            return i;
+    }
+    return -1;
+}
+
 int Player::indexItem(int item_id) {
     for (int i = 0 ; i < inventory.size() ; i++ ) {
         if (inventory[i]->getID() == item_id)
@@ -245,6 +253,40 @@ int Player::attack(std::string enemy_name) {
         missedShotDialog();
     }
     return damage;
+}
+
+void Player::resetStatusEffect(int status_index) {
+    if (status_index >= status_effects.size()) {
+        _error("A problem has accured! problem: reseting unexisting status effect");
+        return;
+    }
+    status_effects[status_index]->reset();
+    statusEffectResetDialog(status_effects[status_index]->getName());
+}
+
+void Player::addStatusEffect(StatusEffect* status, bool silent) {
+    if (!status->tagsContain(REPEATABLETAG)) {
+        int index = indexStatusEffect(status->getName());
+        if (index != -1) {
+            resetStatusEffect(index);
+            return;
+        }
+    }
+    status_effects.push_back(status);
+    if (!silent)
+        notification(status->getApplyDialog());
+}
+
+void Player::applyStatusEffects() {
+
+}
+
+void Player::resetStatusEffects() {
+
+}
+
+void Player::printAffectedEffects() {
+    
 }
 
 void Player::save(string path) {
