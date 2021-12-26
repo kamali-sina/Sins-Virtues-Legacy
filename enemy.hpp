@@ -79,6 +79,8 @@ class Wolf: public Enemy {
     }
 };
 
+// TODO: make an enemy who can apply poison
+
 class BigBob: public Enemy {
     public:
     BigBob();
