@@ -3,6 +3,7 @@
 
 #include "item.hpp"
 #include "dialogs.hpp"
+#include "status_effect.hpp"
 #include <vector>
 #include <string>
 #include <utility>
@@ -60,6 +61,7 @@ class Player {
     protected:
     bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
+    std::vector<StatusEffect> status_effects;
     int max_hp=10;
     int hp;
     int coin=0;
@@ -69,5 +71,37 @@ class Player {
     float time_in_fight = 0;
     AttackItem* equipped;
 };
+
+/* functions to add:
+def add_status_effect:...
+
+def update_status_effects(self):
+    for i in range(len(self.status_effects) - 1, -1, -1):
+        effect = self.status_effects[i]
+        effect.apply(self)
+        if effect.turns <= 0:
+            self.status_effects.pop(i)
+            print(f"status effect {effect} ended!")
+
+def reset_status_effects(self):
+    self.status_effects = []
+
+# add to info
+def print_affected_effects(self):
+    for effect in self.status_effects:
+        ConsoleHandler.notification(effect.description(), speed=20)
+
+*/
+
+// type check:
+/*
+
+template <class DstType, class SrcType>
+bool IsType(const SrcType* src)
+{
+  return dynamic_cast<const DstType*>(src) != nullptr;
+}
+
+*/
 
 #endif
