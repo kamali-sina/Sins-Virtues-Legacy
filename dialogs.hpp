@@ -125,4 +125,6 @@ void outroCutscene();
 
 void cantSellThatItemDialog();
 
+void statusEffectResetDialog(std::string status_name);
+
 #endif

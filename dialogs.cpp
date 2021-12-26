@@ -278,3 +278,7 @@ void fightingCastleEnemyNo(int enemy_number) {
 void echoBossIntroDialog(std::string boss_name, std::string boss_intro) {
     dialog(boss_name, boss_intro, BOLDRED, 30);
 }
+
+void statusEffectResetDialog(std::string status_name) {
+    notification(status_name + " has been reaplied and is reseted!");
+}
