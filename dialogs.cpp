@@ -282,3 +282,7 @@ void echoBossIntroDialog(std::string boss_name, std::string boss_intro) {
 void statusEffectResetDialog(std::string status_name) {
     notification(status_name + " has been reaplied and is reseted!");
 }
+
+void statusHasEndedDialog(std::string status_name) {
+    notification(status_name + " has has ended and will not affect you anymore!");
+}

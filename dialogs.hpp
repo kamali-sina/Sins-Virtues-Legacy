@@ -127,4 +127,6 @@ void cantSellThatItemDialog();
 
 void statusEffectResetDialog(std::string status_name);
 
+void statusHasEndedDialog(std::string status_name);
+
 #endif
