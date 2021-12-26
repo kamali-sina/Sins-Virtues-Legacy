@@ -56,7 +56,7 @@ class Player {
     void addItem(Item* item, bool silent=false);
     void addStatusEffect(StatusEffect* status, bool silent=false);
     void applyStatusEffects();
-    void resetStatusEffects();
+    void resetStatusEffectsList();
     int indexStatusEffect(std::string status_name);
     void resetStatusEffect(int status_index);
 
@@ -64,7 +64,7 @@ class Player {
     void load(std::string path);
 
     protected:
-    void printAffectedEffects();
+    void printAffectedEffectsDescriptions();
     bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
     std::vector<StatusEffect*> status_effects;

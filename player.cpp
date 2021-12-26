@@ -183,7 +183,7 @@ void Player::printInfo() {
     cout<< colored("location", BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
     cout<< colored("equipped item", WHITE) + ": " + equipped->getString() <<endl;
     cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory", CYAN) <<endl;
-    // TODO: print_affected_effects()
+    printAffectedEffectsDescriptions();
 }
 
 int Player::indexItem(std::string item_name) {
@@ -278,15 +278,32 @@ void Player::addStatusEffect(StatusEffect* status, bool silent) {
 }
 
 void Player::applyStatusEffects() {
-
+    for (int i = status_effects.size() - 1 ; i >= 0 ; i--) {
+        StatusEffect* status = status_effects[i];
+        status->apply();
+        if (status->getTurnsRemaining() <= 0) {
+            statusHasEndedDialog(status->getName());
+            status_effects.erase(status_effects.begin() + i);
+        }
+    }
 }
 
-void Player::resetStatusEffects() {
-
+void Player::resetStatusEffectsList() {
+    for (StatusEffect *status : status_effects) {
+        delete status;
+    }
+    status_effects.clear();
 }
 
-void Player::printAffectedEffects() {
-    
+void Player::printAffectedEffectsDescriptions() {
+    if (status_effects.size() == 0) {
+        cout <<"Not affected by any effects" << endl;
+        return;
+    }
+    cout << "Affected status effects:" << endl;
+    for (StatusEffect* status : status_effects) {
+        cout << "-    " << status->getString() << ": " << status->getDescription() << endl;
+    }
 }
 
 void Player::save(string path) {
