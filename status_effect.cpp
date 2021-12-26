@@ -51,11 +51,13 @@ DPSEffect::DPSEffect() {
 
 void DPSEffect::apply() {
     if (hp_change > 0) {
+        notification(name + "is " + colored("healing", GREEN) + " you...");
         session.getPlayer()->heal(hp_change);
     } else {
+        notification(name + "is " + colored("damaging", RED) + " you...");
         session.getPlayer()->getDamaged(-1 * hp_change);
     }
-    turns_remaining -= 0;
+    turns_remaining -= 1;
 }
 
 std::string DPSEffect::getApplyDialog() {
@@ -75,7 +77,7 @@ Poison::Poison() {
     hp_change = -2;
     name = "poison";
     color = GREEN;
-    description = "A slow poison that will damage you each turn";
+    description = "A slow poison that will damage you for " + to_string(hp_change) + "hp each turn";
     applyDialog = "";
     reset();
 }
