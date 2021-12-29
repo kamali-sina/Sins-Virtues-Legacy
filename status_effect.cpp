@@ -50,13 +50,17 @@ DPSEffect::DPSEffect() {
 }
 
 void DPSEffect::apply() {
+    string color, action;
     if (hp_change > 0) {
-        notification(name + "is " + colored("healing", GREEN) + " you...");
+        color = GREEN;
+        action = "healing";
         session.getPlayer()->heal(hp_change);
     } else {
-        notification(name + "is " + colored("damaging", RED) + " you...");
+        color = RED;
+        action = "damaging";
         session.getPlayer()->getDamaged(-1 * hp_change);
     }
+    notification(getString() + " is " + colored(action, color) + " you for " + to_string(hp_change) + " hp");
     turns_remaining -= 1;
 }
 
