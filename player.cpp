@@ -183,7 +183,6 @@ void Player::printInfo() {
     cout<< colored("location", BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
     cout<< colored("equipped item", WHITE) + ": " + equipped->getString() <<endl;
     cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory", CYAN) <<endl;
-    printAffectedEffectsDescriptions();
 }
 
 int Player::indexItem(std::string item_name) {
@@ -261,7 +260,7 @@ void Player::resetStatusEffect(int status_index) {
         return;
     }
     status_effects[status_index]->reset();
-    statusEffectResetDialog(status_effects[status_index]->getName());
+    statusEffectResetDialog(status_effects[status_index]->getString());
 }
 
 void Player::addStatusEffect(StatusEffect* status, bool silent) {

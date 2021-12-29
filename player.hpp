@@ -59,12 +59,13 @@ class Player {
     void resetStatusEffectsList();
     int indexStatusEffect(std::string status_name);
     void resetStatusEffect(int status_index);
+    int getStatusEffectCount() { return status_effects.size(); }
+    void printAffectedEffectsDescriptions();
 
     void save(std::string path);
     void load(std::string path);
 
     protected:
-    void printAffectedEffectsDescriptions();
     bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
     std::vector<StatusEffect*> status_effects;
