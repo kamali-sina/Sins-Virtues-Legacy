@@ -65,6 +65,26 @@ BigBob::BigBob() {
     id = BIGBOB;
 }
 
+Rotter::Rotter() {
+    APPLY_CHANCE = 0.7;
+    name = "rotter";
+    hp = 9;
+    bounty = 3;
+    speed = 6;
+    damage = 1;
+    rarity = 5;
+    id = ROTTER;
+}
+
+void Rotter::attack(Player* player) {
+    player->getDamaged(damage);
+    enemyAttacksYouDialog(name, damage);
+    if (_random() < APPLY_CHANCE) {
+        player->addStatusEffect(new Poison());
+    }
+    updateTimeInFight(player->getSpeed());
+}
+
 /* ==================== Boss Enemy Classes ==================== */
 
 Fujila::Fujila() {
@@ -99,7 +119,7 @@ Enemy* getEnemy(int enemy_id) {
         case GUY: return new Guy();
         case WOLF: return new Wolf();
         case BIGBOB: return new BigBob();
-        case 4: ;
+        case ROTTER: return new Rotter();
         case 5: ;
         case 6: ;
         default: return new Enemy();
