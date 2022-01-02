@@ -2,11 +2,12 @@ CC := g++ -pthread
 
 BUILD_DIR=build
 SRC_DIR=src
+OUTPUT_NAME=sins_virtues
 
-all: sins_virtues.out
+all: ${OUTPUT_NAME}
 
-sins_virtues.out: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o
-	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o -o ./sins_virtues.out
+${OUTPUT_NAME}: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o
+	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o -o ./${OUTPUT_NAME}
 
 ${BUILD_DIR}/VnS.o: ${SRC_DIR}/VnS.cpp
 	$(CC) -c ${SRC_DIR}/VnS.cpp -o ${BUILD_DIR}/VnS.o
@@ -51,9 +52,9 @@ mk:
 	mkdir ./${BUILD_DIR}
 
 rm:
-	rm -rf ${BUILD_DIR}/ ./sins_virtues.out
+	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
 
 .PHONY: clean
 
 clean:
-	rm -rf ${BUILD_DIR}/ ./sins_virtues.out
+	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
