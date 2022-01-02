@@ -3,6 +3,12 @@ The famous text based game Sins &amp; Virtues comes to cpp for better and faster
 
 This version is **faster**, consumes **less** space on your device, has more features and is far more updated than the python version. From this day forward, this is the main version of the game!
 
+## How to complie the game
+
+To compile the game make sure you have c++17 installed and run the default make command:
+    
+    make
+
 ## How to run the game
 
 To run the game download the latest release based on your OS and run the game by using a console or Powershell with:
