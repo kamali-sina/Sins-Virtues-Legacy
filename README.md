@@ -1,4 +1,17 @@
 # Sins-Virtues-Legacy
 The famous text based game Sins &amp; Virtues comes to cpp for better and faster performance!
 
-This version is faster, consumes less space on your device, has a better future in front of it and is far more updated than the python version.
+This version is **faster**, consumes **less** space on your device, has more features and is far more updated than the python version. From this day forward, this is the main version of the game!
+
+## How to run the game
+
+To run the game download the latest release based on your OS and run the game by using a console or Powershell with:
+    
+    ./sins_virtues <options> <args>
+
+You can find out more about the options by using '-h'. The game creates a save folder automatically in your game folder when you play and can load it from there too. For other paths you can give it as in the *args* section.
+
+
+## How to play
+
+For more info on how to play the game, Read **Tutorial.md**.
