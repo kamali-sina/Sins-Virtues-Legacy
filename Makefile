@@ -4,8 +4,8 @@ BUILD_DIR=build
 
 all: sins_virtues.out
 
-sins_virtues.out: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o
-	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o -o ./sins_virtues.out
+sins_virtues.out: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o
+	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o -o ./sins_virtues.out
 
 ${BUILD_DIR}/VnS.o: VnS.cpp
 	$(CC) -c VnS.cpp -o ${BUILD_DIR}/VnS.o
@@ -42,6 +42,9 @@ ${BUILD_DIR}/player.o: player.cpp
 
 ${BUILD_DIR}/dialogs.o: dialogs.cpp
 	$(CC) -c dialogs.cpp -o ${BUILD_DIR}/dialogs.o
+
+${BUILD_DIR}/status_effect.o: status_effect.cpp
+	$(CC) -c status_effect.cpp -o ${BUILD_DIR}/status_effect.o
 
 mk:
 	mkdir ./${BUILD_DIR}

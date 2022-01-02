@@ -15,10 +15,11 @@
 #define HPSCALE 0.2
 #define DAMAGESCALE 0.2
 
-#define NUMBER_OF_ENEMIES 3
+#define NUMBER_OF_ENEMIES 4
 #define GUY 1
 #define WOLF 2
 #define BIGBOB 3
+#define ROTTER 4
 
 #define NUMBER_OF_BOSSES 1
 #define FUJILA 1
@@ -77,6 +78,15 @@ class Wolf: public Enemy {
     std::string getKillDialog() {
         return "Found " + colored(std::to_string(bounty),YELLOW) + " coin(s) on the wolf, how does a wolf have money?";
     }
+};
+
+class Rotter: public Enemy {
+    public:
+    Rotter();
+    
+    void attack(Player* player);
+    private:
+    float APPLY_CHANCE;
 };
 
 class BigBob: public Enemy {

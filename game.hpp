@@ -91,6 +91,7 @@ class Game{
     Player *player;
     Enemy* enemy_fighting;
     int idiot_counter = 0;
+    bool attacked = false;
     int seed;
     bool dev_mode;
     std::vector<std::string> active_commandset;

@@ -144,8 +144,9 @@ int Player::refillHP() {
     hp = max_hp; 
     return hp;
 }
+
 int Player::heal(int amount) {
-    hp += amount; 
+    hp += amount;
     if (hp > max_hp){
         hp = max_hp;
     }
@@ -182,12 +183,19 @@ void Player::printInfo() {
     cout<< colored("location", BLUE) + ": [" + to_string(location.first) + "," + to_string(location.second) + "]" <<endl;
     cout<< colored("equipped item", WHITE) + ": " + equipped->getString() <<endl;
     cout<< to_string(inventory.size()) + " item(s) in " + colored("inventory", CYAN) <<endl;
-    // TODO: print_affected_effects()
 }
 
 int Player::indexItem(std::string item_name) {
     for (int i = 0 ; i < inventory.size() ; i++ ) {
         if (inventory[i]->getName() == item_name)
+            return i;
+    }
+    return -1;
+}
+
+int Player::indexStatusEffect(std::string status_name) {
+    for (int i = 0 ; i < status_effects.size() ; i++ ) {
+        if (status_effects[i]->getName() == status_name)
             return i;
     }
     return -1;
@@ -244,6 +252,57 @@ int Player::attack(std::string enemy_name) {
         missedShotDialog();
     }
     return damage;
+}
+
+void Player::resetStatusEffect(int status_index) {
+    if (status_index >= status_effects.size()) {
+        _error("A problem has accured! problem: reseting unexisting status effect");
+        return;
+    }
+    status_effects[status_index]->reset();
+    statusEffectResetDialog(status_effects[status_index]->getString());
+}
+
+void Player::addStatusEffect(StatusEffect* status, bool silent) {
+    if (!status->tagsContain(REPEATABLETAG)) {
+        int index = indexStatusEffect(status->getName());
+        if (index != -1) {
+            resetStatusEffect(index);
+            return;
+        }
+    }
+    status_effects.push_back(status);
+    if (!silent)
+        notification(status->getApplyDialog());
+}
+
+void Player::applyStatusEffects() {
+    for (int i = status_effects.size() - 1 ; i >= 0 ; i--) {
+        StatusEffect* status = status_effects[i];
+        status->apply();
+        if (status->getTurnsRemaining() <= 0) {
+            statusHasEndedDialog(status->getName());
+            status_effects.erase(status_effects.begin() + i);
+        }
+    }
+}
+
+void Player::resetStatusEffectsList() {
+    for (StatusEffect *status : status_effects) {
+        delete status;
+    }
+    status_effects.clear();
+}
+
+void Player::printAffectedEffectsDescriptions() {
+    if (status_effects.size() == 0) {
+        cout <<"Not affected by any effects" << endl;
+        return;
+    }
+    cout << "Affected status effects:" << endl;
+    for (StatusEffect* status : status_effects) {
+        cout << "-    " << status->getString() << ": " << status->getDescription() << endl;
+    }
 }
 
 void Player::save(string path) {

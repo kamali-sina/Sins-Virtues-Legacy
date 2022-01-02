@@ -3,6 +3,7 @@
 
 #include "item.hpp"
 #include "dialogs.hpp"
+#include "status_effect.hpp"
 #include <vector>
 #include <string>
 #include <utility>
@@ -53,6 +54,13 @@ class Player {
     int refillHP();
     int heal(int amount);
     void addItem(Item* item, bool silent=false);
+    void addStatusEffect(StatusEffect* status, bool silent=false);
+    void applyStatusEffects();
+    void resetStatusEffectsList();
+    int indexStatusEffect(std::string status_name);
+    void resetStatusEffect(int status_index);
+    int getStatusEffectCount() { return status_effects.size(); }
+    void printAffectedEffectsDescriptions();
 
     void save(std::string path);
     void load(std::string path);
@@ -60,6 +68,7 @@ class Player {
     protected:
     bool doesItemExist(Item* item);
     std::vector<Item*> inventory;
+    std::vector<StatusEffect*> status_effects;
     int max_hp=10;
     int hp;
     int coin=0;

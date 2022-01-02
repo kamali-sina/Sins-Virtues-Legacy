@@ -291,6 +291,10 @@ void Game::enterShop() {
 void Game::printFightStatus() {
     cout<< colored("Your hp",GREEN)  << ": " << player->getHP() << endl;
     cout<< colored("Enemy's hp",RED) << ": " << enemy_fighting->getHP() << endl << endl;
+    if (player->getStatusEffectCount() > 0) {
+        string _count = colored(to_string(player->getStatusEffectCount()), BOLDMAGENTA);
+        cout<< "you are affected by " << _count << " status effects!" << endl;
+    }
 }
 
 void Game::playKillCutscene() {
@@ -314,17 +318,16 @@ void Game::fightEnemy(Enemy* enemy) {
     state = FIGHT;
     player->resetTimeInFight(enemy_fighting->getSpeed());
     enemy_fighting->resetTimeInFight(player->getSpeed());
-    bool attacked = false;
+    attacked = false;
     while (true) {
         if (enemy_fighting->getTimeInFight() < player->getTimeInFight()) {
             enemy_fighting->attack(player);
         } else {
             if (attacked) {
                 attacked = false;
-                //TODO: update status effects
+                player->applyStatusEffects();
             }
             printFightStatus();
-            // self.player.print_affected_effects()
             getPlayerInput(RED);
         }
 
@@ -333,7 +336,7 @@ void Game::fightEnemy(Enemy* enemy) {
             break;
         }
     }
-    // self.player.reset_status_effects()
+    player->resetStatusEffectsList();
     state = save_state;
 }
 
@@ -402,6 +405,7 @@ void Game::info(std::vector<std::string> splitted_input) {
     } else if (state == FIGHT) {
         cout<< "enemy has " << colored(to_string(enemy_fighting->getHP()), RED) << "hp left" << endl;
     }
+    player->printAffectedEffectsDescriptions();
 }
 
 void Game::commands(std::vector<std::string> splitted_input) {
@@ -432,7 +436,7 @@ void Game::equip(std::vector<std::string> splitted_input) {
 }
 
 void Game::attack(std::vector<std::string> splitted_input) {
-    // TODO: update this if needed : self.attacked = True
+    attacked = true;
     player->updateTimeInFight(enemy_fighting->getSpeed());
     updateWorldTimer(0.05);
     int damage = player->attack(enemy_fighting->getName());
