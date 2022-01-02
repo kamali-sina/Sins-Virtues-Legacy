@@ -1,7 +1,9 @@
-CC := g++ -pthread
+CC := g++ -w -pthread -lSDL2
 
 BUILD_DIR=build
 SRC_DIR=src
+COMPILER_FLAGS = -w
+LINKER_FLAGS = -lSDL2
 OUTPUT_NAME=sins_virtues
 
 all: ${OUTPUT_NAME}
@@ -53,6 +55,10 @@ mk:
 
 rm:
 	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
+
+install:
+	sudo apt update
+	sudo apt install libsdl2-dev
 
 .PHONY: clean
 
