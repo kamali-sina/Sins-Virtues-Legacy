@@ -11,6 +11,10 @@ Each of the commands that you can use do use some time, this becomes important s
 
 We suggest testing and exploring the commnads by yourself, but if you want more info on some commands you can view the Commands.md file.
 
+## Player Dialogs
+
+Your character will talk about his surrounding and everything he sees. The range of his vision is always a 1 block radius. This means that when your character says he sees "*A chest nearby*", it means that a block containing a chest is available in one of the 8 blocks around you. 
+
 ## Saving
 
 The game is saved automatically whenever the prompt *Game Saved!* showes up on the screen. If you die you can reload from your last save and try another path!
