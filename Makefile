@@ -1,4 +1,4 @@
-CC := g++ -w -pthread -lSDL2
+CC := g++ -pthread
 
 BUILD_DIR=build
 SRC_DIR=src
