@@ -1,4 +1,4 @@
-## **welcome to Sins & Virtues Toturial**
+## **Welcome to Sins & Virtues Toturial**
 
 This game is completely text based. There are **no** full maps, **no** hints, **no** eagle vision, **no** nothing.
 But that does not mean that you are completely blind! The protagonist constantly talks about his surroundings, everything he says is there for a reason, so don't skip all the dialogs!
@@ -31,7 +31,7 @@ As the days pass, the game gets harder and harder. So we recommend using the day
 
 ## Items
 
-There are a lot of items in this game! Some of them are for fighting, some are for eating and some just help you progress. You can find out more about your items by using the *inventory* command. You can also use an item by using *use <itemname>*.
+There are a lot of items in this game! Some of them are for fighting, some are for eating and some just help you progress. You can find out more about your items by using the ***inventory*** command. You can also use an item by using "***use*** <itemname>" command.
 
 ## The equip load system!
 
@@ -45,19 +45,19 @@ Not all shopkeepers are the same, some have higher prices, some buy your items a
 
 ## Blacksmiths
 
-There are blacksmiths in the game that can help you upgrade your weapons. The currency for upgrading your weapons is called *Scarps* with can be obtained by either scarpping an unwanted weapon or finding some in the world.
+There are blacksmiths in the game that can help you upgrade your weapons. The currency for upgrading your weapons is called *Scarp* wich can be obtained by either scarpping an unwanted weapon or finding some in the world.
 
-Each weapon has it's own upgrade path based on it's type. So we recommend upgrading every type of weapon and seeing the results by your self.
+Each weapon has it's own upgrade path based on it's type. So we recommend upgrading every type of weapon and seeing the results by yourself.
 
 ## Homes
 
-Homes are the safe heavens of this game. your progress gets saved here, your hp restores and skip the time to 5:00A.M of the next day. They also usually contain an item inside.
+Homes are the safe heavens of this game. your progress gets saved here, your hp restores and the time skips to 5:00A.M of the next day. They also usually contain an item inside.
 
 Not all homes are empty. Enter with **caution**. That small wolf might be the differance between life and death when you are wounded!
 
 ## Teleporters
 
-No one knows how these teleporters work, but the legends say that they can move you to where ever you want in the world!
+No one knows how these teleporters work, but the legends say that they can move you to wherever you want in the world!
 
 ## Fights
 
