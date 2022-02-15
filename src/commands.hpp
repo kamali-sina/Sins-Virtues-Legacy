@@ -10,19 +10,23 @@ enum Scopes {
     FIGHT,
     PROMPT,
     SHOP,
-    BLACKSMITH
+    BLACKSMITH,
+    // TODO: HANDLE ALL
+    ALL
 };
 
 class Command {
     public:
     Command();
     virtual void commence(std::vector<std::string> splitted_input);
+    virtual float getCommandTime() { return command_time; }
 
     protected:
     std::string command;
     std::vector<std::string> args;
     std::vector<int> scope;
     std::string description;
+    float command_time = 0;
     bool dev_command = false;
 
 };
@@ -31,6 +35,7 @@ class C_move : public Command {
     public:
     C_move();
     void commence(std::vector<std::string> splitted_input);
+    float getCommandTime();
 };
 
 class C_inventory : public Command {
