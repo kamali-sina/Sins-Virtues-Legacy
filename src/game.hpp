@@ -11,12 +11,13 @@
 #include "console_handler.hpp"
 #include "map.hpp"
 #include "player.hpp"
+#include "commands.hpp"
 
-#define NORMAL 0
-#define FIGHT 1
-#define PROMPT 2
-#define SHOP 3
-#define BLACKSMITH 4
+// #define NORMAL 0
+// #define FIGHT 1
+// #define PROMPT 2
+// #define SHOP 3
+// #define BLACKSMITH 4
 #define DEV_PREFIX "dev"
 
 #define NUMTIMESOFDAY 3
@@ -86,7 +87,6 @@ class Game{
     bool can_spawn_enemy = false;
     
     
-    private:
     Map *map;
     Player *player;
     Enemy* enemy_fighting;

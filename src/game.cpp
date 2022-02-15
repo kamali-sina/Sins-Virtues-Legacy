@@ -220,24 +220,26 @@ float Game::getPlayerMoveTime() {
 }
 
 void Game::move(std::vector<std::string> splitted_input) {
-    vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
-    vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
-         pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
-    int index = index_item<string>(moveset, splitted_input[1]);
-    if (index == NOTFOUND){
-        _error("command is invalid!");
-        return;
-    }
-    pair<int,int> new_location(player->getLocation().first + moveset_handler[index].first,
-        player->getLocation().second + moveset_handler[index].second);
-    if (!map->isLocationValid(new_location)){
-        outOfBoundsDialog();
-        return;
-    }
-    player->setLocation(new_location);
-    updateWorldTimer(getPlayerMoveTime());
-    can_spawn_enemy = true;
-    handleNewReachedBlock();
+    // vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
+    // vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
+    //      pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
+    // int index = index_item<string>(moveset, splitted_input[1]);
+    // if (index == NOTFOUND){
+    //     _error("command is invalid!");
+    //     return;
+    // }
+    // pair<int,int> new_location(player->getLocation().first + moveset_handler[index].first,
+    //     player->getLocation().second + moveset_handler[index].second);
+    // if (!map->isLocationValid(new_location)){
+    //     outOfBoundsDialog();
+    //     return;
+    // }
+    // player->setLocation(new_location);
+    // updateWorldTimer(getPlayerMoveTime());
+    // can_spawn_enemy = true;
+    // handleNewReachedBlock();
+    Command *moveC = new C_move();
+    moveC->commence(splitted_input);
 }
 
 void Game::handleNewReachedBlock() {
