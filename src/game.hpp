@@ -10,7 +10,7 @@
 #include <fstream>
 #include "console_handler.hpp"
 #include "map.hpp"
-#include "player.hpp"
+#include "player.hpp" 
 
 #define NORMAL 0
 #define FIGHT 1
