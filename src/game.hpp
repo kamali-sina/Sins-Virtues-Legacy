@@ -95,6 +95,7 @@ class Game{
     int seed;
     bool dev_mode;
     std::vector<std::string> active_commandset;
+    std::vector<Command> all_commands;
     std::vector<int> active_commandset_count;
     std::string save_path;
 
@@ -107,6 +108,7 @@ class Game{
     void initSeed();
     bool setupPrompt(std::string prompt, bool show_prompt=true);
     float getPlayerMoveTime();
+    bool isCommandAvailable(Command command);
 };
 
 #endif

@@ -35,6 +35,10 @@ void Game::init_handlers() {
         handlers["upgrade"] = &Game::upgrade;
         handlers["scrap"] = &Game::scrap;
     }
+    all_commands.push_back(C_move());
+    all_commands.push_back(C_inventory());
+    all_commands.push_back(C_use());
+    all_commands.push_back(C_info());
 }
 
 Game::Game(bool newgame, string path, int _seed, bool _dev_mode) {
@@ -182,6 +186,17 @@ bool Game::is_command_valid(string command, int count) {
     bool dev_command = is_dev_command(command);
     if (index != active_commandset.size() && active_commandset_count[index] == count) {
         if (dev_command && !dev_mode) {
+            _error("that is a developer-only command!");
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Game::isCommandAvailable(Command command) {
+    if (command.isInScope(state)) {
+        if (command.isDevOnly() && !dev_mode) {
             _error("that is a developer-only command!");
             return false;
         }
