@@ -18,13 +18,16 @@ enum Scopes {
 class Command {
     public:
     Command();
+    bool isInScope(int givenScope);
+    bool isDevOnly();
     virtual void commence(std::vector<std::string> splitted_input);
     virtual float getCommandTime() { return command_time; }
+    virtual string getCommand() {return command; }
 
     protected:
     std::string command;
     std::vector<std::string> args;
-    std::vector<int> scope;
+    std::vector<int> scopes;
     std::string description;
     float command_time = 0;
     bool dev_command = false;

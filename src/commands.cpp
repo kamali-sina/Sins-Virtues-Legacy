@@ -16,10 +16,22 @@ int index_item(std::vector<T> list, T to_be_found) {
 Command::Command() {
     command = "";
     args = vector<string>({"arg1", "arg2"});
-    scope.push_back(NORMAL);
+    scopes.push_back(NORMAL);
     description = "base command that is going to be devrived!";
     dev_command = false;
     command_time = 0.0;
+}
+
+bool Command::isInScope(int givenScope) {
+    for (auto scope : scopes) {
+        if (scope == ALL) return true;
+        if (scope == givenScope) return true;
+    }
+    return false;
+}
+
+bool Command::isDevOnly() {
+    return dev_command;
 }
 
 void Command::commence(std::vector<std::string> splitted_input) {
@@ -31,14 +43,14 @@ void Command::commence(std::vector<std::string> splitted_input) {
 C_move::C_move() {
     command = "move";
     args = vector<string>({"direction"});
-    scope.push_back(NORMAL);
+    scopes.push_back(NORMAL);
     description = "move around the map";
     dev_command = false;
 }
 
 void C_move::commence(std::vector<std::string> splitted_input) {
     vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
-    vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
+    vector<pair<int,int> > moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
          pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
     int index = index_item<string>(moveset, splitted_input[1]);
     if (index == NOTFOUND){
@@ -52,7 +64,7 @@ void C_move::commence(std::vector<std::string> splitted_input) {
         return;
     }
     session.player->setLocation(new_location);
-    // TODO: HANDLE IN GAME::: session.updateWorldTimer();
+    // TODO: HANDLE IN GAME::: session.updateWorldTimer() should be called after commands
     session.can_spawn_enemy = true;
     session.handleNewReachedBlock();
 }
@@ -66,7 +78,7 @@ float C_move::getCommandTime() {
 C_inventory::C_inventory() {
     command = "inventory";
     args = vector<string>();
-    scope.push_back(ALL);
+    scopes.push_back(ALL);
     description = "view the contents of your inventory";
     dev_command = false;
     command_time = 0.15;
@@ -83,7 +95,7 @@ void C_inventory::commence(std::vector<std::string> splitted_input) {
 C_use::C_use() {
     command = "use";
     args = vector<string>({"item_name"});
-    scope.push_back(ALL);
+    scopes.push_back(ALL);
     description = "use an item";
     dev_command = false;
     command_time = 0.2;
@@ -114,7 +126,7 @@ void C_use::commence(std::vector<std::string> splitted_input) {
 C_info::C_info() {
     command = "use";
     args = vector<string>();
-    scope.push_back(ALL);
+    scopes.push_back(ALL);
     description = "get the general info of the game";
     dev_command = false;
     command_time = 0.1;
@@ -134,30 +146,35 @@ void C_info::commence(std::vector<std::string> splitted_input) {
 
 /* ==================TODO:=================== */
 
-C_use::C_use() {
+C_commands::C_commands() {
     command = "use";
     args = vector<string>({"item_name"});
-    scope.push_back(ALL);
+    scopes.push_back(ALL);
     description = "use an item";
     dev_command = false;
     command_time = 0.15;
 }
 
-void C_use::commence(std::vector<std::string> splitted_input) {
+void C_commands::commence(std::vector<std::string> splitted_input) {
+    cout<< "Available commands:" << endl;
+    for (auto& command : session.all_commands) {
+        if (session.isCommandAvailable(command)) {
+            cout<< "                  " << colored("-", CYAN) << command.getCommand() << endl;
+        }
+    }
+}
+
+// /* ===================================== */
+
+// C_use::C_use() {
+//     command = "use";
+//     args = vector<string>({"item_name"});
+//     scopes.push_back(ALL);
+//     description = "use an item";
+//     dev_command = false;
+//     command_time = 0.15;
+// }
+
+// void C_use::commence(std::vector<std::string> splitted_input) {
     
-}
-
-/* ===================================== */
-
-C_use::C_use() {
-    command = "use";
-    args = vector<string>({"item_name"});
-    scope.push_back(ALL);
-    description = "use an item";
-    dev_command = false;
-    command_time = 0.15;
-}
-
-void C_use::commence(std::vector<std::string> splitted_input) {
-    
-}
+// }
