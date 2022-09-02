@@ -234,7 +234,7 @@ class Notepad : public UtilityItem {
     bool entryIsDuplicate(std::string blockname, std::pair<int,int> location);
     std::vector<std::string> names;
     std::vector<std::string> colors;
-    std::vector<std::pair<int,int>> locations;
+    std::vector<std::pair<int,int> > locations;
 };
 
 /* ==================== MeleeAttackItem Classes ==================== */

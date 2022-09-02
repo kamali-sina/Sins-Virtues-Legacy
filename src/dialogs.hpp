@@ -1,4 +1,4 @@
-#ifndef _DIALOGS_HP
+#ifndef _DIALOGS_HPP
 #define _DIALOGS_HPP
 
 #include <iostream>

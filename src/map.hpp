@@ -33,7 +33,7 @@ class Map {
     void load(std::string path);
 
   private:
-    std::vector<std::vector<Block *>> map;
+    std::vector<std::vector<Block *> > map;
     void initMap(); //all map is Block
     void spawnSpecialBlocks(); //Special ones are created
     void spawnOneSpecialBlock(int init_vector[]); //it needs inputs!

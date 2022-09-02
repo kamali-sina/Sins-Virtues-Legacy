@@ -15,7 +15,7 @@ vector<int> PROMPT_COMMANDS_COUNT({1, 1, 1, 1});
 vector<string> SHOP_COMMANDS({"inventory", "info", "commands", "stock", "buy", "sell", "exit"});
 vector<int> SHOP_COMMANDS_COUNT({1, 1, 1, 1, 2, 2, 1});
 vector<string> BLACKSMITH_COMMANDS({"inventory", "info", "commands", "upgrade", "scrap", "exit"});
-vector<int> BLACKSMITH_COMMANDS_COUNT({1, 1, 1, 2, 2, 1});
+vector<int> BLACKSMITH_COMMANDS_COUNT = {1, 1, 1, 2, 2, 1};
 
 void Game::init_handlers() {
     if (handlers["move"] == NULL) {
@@ -221,7 +221,7 @@ float Game::getPlayerMoveTime() {
 
 void Game::move(std::vector<std::string> splitted_input) {
     // vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
-    // vector<pair<int,int>> moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
+    // vector<pair<int,int> > moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
     //      pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
     // int index = index_item<string>(moveset, splitted_input[1]);
     // if (index == NOTFOUND){
