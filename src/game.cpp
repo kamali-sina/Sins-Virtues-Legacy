@@ -25,20 +25,28 @@ void Game::init_handlers() {
         handlers["info"] = &Game::info;
         handlers["commands"] = &Game::commands;
         handlers["dev_print_map"] = &Game::dev_print_map;
+        handlers["dev_map"] = &Game::dev_map;
         handlers["equip"] = &Game::equip;
         handlers["attack"] = &Game::attack;
         handlers["stock"] = &Game::stock;
         handlers["buy"] = &Game::buy;
         handlers["sell"] = &Game::sell;
         handlers["exit"] = &Game::exit_to_world;
-        handlers["dev_map"] = &Game::dev_map;
         handlers["upgrade"] = &Game::upgrade;
         handlers["scrap"] = &Game::scrap;
     }
+    // TODO: Complete
     all_commands.push_back(C_move());
     all_commands.push_back(C_inventory());
     all_commands.push_back(C_use());
     all_commands.push_back(C_info());
+    all_commands.push_back(C_commands());
+    all_commands.push_back(C_dev_print_map());
+    all_commands.push_back(C_dev_map());
+    all_commands.push_back(C_equip());
+    all_commands.push_back(C_attack());
+    all_commands.push_back(C_stock());
+    all_commands.push_back(C_buy());
 }
 
 Game::Game(bool newgame, string path, int _seed, bool _dev_mode) {
@@ -195,6 +203,7 @@ bool Game::is_command_valid(string command, int count) {
 }
 
 bool Game::isCommandAvailable(Command command) {
+    // FIXME: Double check
     if (command.isInScope(state)) {
         if (command.isDevOnly() && !dev_mode) {
             _error("that is a developer-only command!");
