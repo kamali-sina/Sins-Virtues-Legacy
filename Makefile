@@ -60,7 +60,7 @@ rm:
 	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
 
 rename:
-	$(eval CC = /usr/local/bin/g++-11 -pthread)
+	$(eval CC = clang++ -std=c++11 -pthread)
 
 mac: rename ${OUTPUT_NAME}
 
