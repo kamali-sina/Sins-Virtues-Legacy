@@ -1,4 +1,4 @@
-CC := g++ -pthread
+CC=g++ -pthread
 
 BUILD_DIR=build
 SRC_DIR=src
@@ -58,6 +58,11 @@ mk:
 
 rm:
 	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
+
+rename:
+	$(eval CC = /usr/local/bin/g++-11 -pthread)
+
+mac: rename ${OUTPUT_NAME}
 
 install:
 	sudo apt update
