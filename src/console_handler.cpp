@@ -18,9 +18,9 @@ void _sleep(float time) {
 }
 
 string lower(string input) {
-    std::for_each(input.begin(), input.end(), [](char & c) {
-        c = ::tolower(c);
-    });
+    for(auto& c : input) {
+        c = tolower(c);
+    }
     return input;
 }
 
