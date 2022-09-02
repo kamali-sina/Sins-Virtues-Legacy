@@ -94,7 +94,7 @@ void C_inventory::commence(std::vector<std::string> splitted_input) {
 
 C_use::C_use() {
     command = "use";
-    args = vector<string>({"item_name"});
+    args = vector<string>({"item name"});
     scopes.push_back(ALL);
     description = "use an item";
     dev_command = false;
@@ -124,7 +124,7 @@ void C_use::commence(std::vector<std::string> splitted_input) {
 /* ===================================== */
 
 C_info::C_info() {
-    command = "use";
+    command = "info";
     args = vector<string>();
     scopes.push_back(ALL);
     description = "get the general info of the game";
@@ -144,24 +144,144 @@ void C_info::commence(std::vector<std::string> splitted_input) {
     session.player->printAffectedEffectsDescriptions();
 }
 
-/* ==================TODO:=================== */
+/* ===================================== */
 
 C_commands::C_commands() {
-    command = "use";
-    args = vector<string>({"item_name"});
+    command = "commands";
+    args = vector<string>();
     scopes.push_back(ALL);
-    description = "use an item";
+    description = "you are currently using this";
     dev_command = false;
-    command_time = 0.15;
+    command_time = 0.0;
 }
 
 void C_commands::commence(std::vector<std::string> splitted_input) {
     cout<< "Available commands:" << endl;
     for (auto& command : session.all_commands) {
         if (session.isCommandAvailable(command)) {
-            cout<< "                  " << colored("-", CYAN) << command.getCommand() << endl;
+            cout<< "              " << colored("-", CYAN) << command.getCommand() << ": " << command.getDescription() << endl;
         }
     }
+}
+
+/* ===================================== */
+
+C_dev_print_map::C_dev_print_map() {
+    command = "print_map";
+    args = vector<string>();
+    scopes.push_back(NORMAL);
+    description = "dev-only | print partial map";
+    dev_command = true;
+    command_time = 0.0;
+}
+
+void C_dev_print_map::commence(std::vector<std::string> splitted_input) {
+    session.map->printPartialMap(2, session.player->getLocation());
+}
+
+// /* ===================================== */
+
+C_dev_map::C_dev_map() {
+    command = "map";
+    args = vector<string>();
+    scopes.push_back(NORMAL);
+    description = "dev-only | print full map";
+    dev_command = true;
+    command_time = 0.0;
+}
+
+void C_dev_map::commence(std::vector<std::string> splitted_input) {
+    session.map->printFullMap();
+}
+
+/* ===================================== */
+
+C_equip::C_equip() {
+    command = "equip";
+    args = vector<string>({"item name"});
+    scopes.push_back(NORMAL);
+    scopes.push_back(FIGHT);
+    description = "equip an item";
+    dev_command = false;
+    command_time = 0.13;
+}
+
+void C_equip::commence(std::vector<std::string> splitted_input) {
+    int item_index = session.player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = session.player->getItemAtIndex(item_index);
+    if (item->tagsContain(ATTACKITEMTAG)) {
+        session.player->updateTimeInFight(1.5);
+        session.player->equipItem(item);
+    } else {
+        cantAttackWithItemDialog();
+    }
+}
+
+/* ===================================== */
+
+C_attack::C_attack() {
+    command = "attack";
+    args = vector<string>();
+    scopes.push_back(FIGHT);
+    description = "attack with equipped weapon";
+    dev_command = false;
+    command_time = 0.05;
+}
+
+void C_attack::commence(std::vector<std::string> splitted_input) {
+    session.attacked = true;
+    session.player->updateTimeInFight(session.enemy_fighting->getSpeed());
+    session.updateWorldTimer(0.05);
+    int damage = session.player->attack(session.enemy_fighting->getName());
+    session.enemy_fighting->getDamaged(damage);
+}
+
+/* ===================================== */
+
+C_stock::C_stock() {
+    command = "stock";
+    args = vector<string>();
+    scopes.push_back(SHOP);
+    description = "check out store's stock";
+    dev_command = false;
+    command_time = 0.18;
+}
+
+void C_stock::commence(std::vector<std::string> splitted_input) {
+    ShopBlock* shopblock = (ShopBlock*)session.getBlockAtPlayerLocation();
+    shopblock->printStock();
+}
+
+// /* ===================================== */
+
+C_buy::C_buy() {
+    command = "buy";
+    args = vector<string>({"item name"});
+    scopes.push_back(SHOP);
+    description = "buy an item";
+    dev_command = false;
+    command_time = 0.19;
+}
+
+void C_buy::commence(std::vector<std::string> splitted_input) {
+    ShopBlock* shopblock = (ShopBlock*)session.getBlockAtPlayerLocation();
+    int index = shopblock->indexItem(splitted_input[1]);
+    if (index == NOTFOUND) {
+        itemNotInStockDialog();
+        return;
+    }
+    int price = shopblock->getItemPrice(index);
+    if (price > session.player->getCoins()){
+        notEnoughCoinsDialog();
+        return;
+    }
+    session.player->deductCoins(price);
+    Item* item = shopblock->buyItem(index);
+    session.player->addItem(item);
 }
 
 // /* ===================================== */

@@ -23,6 +23,7 @@ class Command {
     virtual void commence(std::vector<std::string> splitted_input);
     virtual float getCommandTime() { return command_time; }
     virtual string getCommand() {return command; }
+    string getDescription() { return description; }
 
     protected:
     std::string command;
@@ -71,6 +72,12 @@ class C_dev_print_map : public Command {
     void commence(std::vector<std::string> splitted_input);
 };
 
+class C_dev_map : public Command {
+    public:
+    C_dev_map();
+    void commence(std::vector<std::string> splitted_input);
+};
+
 class C_equip : public Command {
     public:
     C_equip();
@@ -104,12 +111,6 @@ class C_sell : public Command {
 class C_exit : public Command {
     public:
     C_exit();
-    void commence(std::vector<std::string> splitted_input);
-};
-
-class C_dev_map : public Command {
-    public:
-    C_dev_map();
     void commence(std::vector<std::string> splitted_input);
 };
 
