@@ -95,20 +95,19 @@ class Game{
     int seed;
     bool dev_mode;
     std::vector<std::string> active_commandset;
-    std::vector<Command> all_commands;
+    std::vector<Command*> all_commands;
     std::vector<int> active_commandset_count;
     std::string save_path;
 
-    void validate_input(std::vector<std::string> splitted_input);
-    void init_handlers();
-    bool is_command_valid(std::string command, int count);
-    void updateCommandSet();
+    void validateInput(std::vector<std::string> splitted_input);
+    void initHandlers();
+    Command* findCommand(std::string command_name);
     void updateTimeOfDay();
     void spawnNightTimeEnemey();
     void initSeed();
     bool setupPrompt(std::string prompt, bool show_prompt=true);
     float getPlayerMoveTime();
-    bool isCommandAvailable(Command command);
+    bool isCommandAvailable(Command* command);
 };
 
 #endif

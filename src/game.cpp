@@ -4,54 +4,27 @@ using namespace std;
 
 typedef void (Game::*handler)(std::vector<std::string>);
 
-std::map<std::string, handler> handlers;
-
-vector<string> NORMAL_COMMANDS({"move", "inventory", "use", "info", "commands", "dev_print_map", "equip", "dev_map"});
-vector<int> NORMAL_COMMANDS_COUNT({2, 1, 2, 1, 1, 1, 2, 1});
-vector<string> FIGHT_COMMANDS({"inventory", "info", "use", "attack", "commands", "equip"});
-vector<int> FIGHT_COMMANDS_COUNT({1, 1, 2, 1, 1, 2});
-vector<string> PROMPT_COMMANDS({"yes", "no", "y", "n"});
-vector<int> PROMPT_COMMANDS_COUNT({1, 1, 1, 1});
-vector<string> SHOP_COMMANDS({"inventory", "info", "commands", "stock", "buy", "sell", "exit"});
-vector<int> SHOP_COMMANDS_COUNT({1, 1, 1, 1, 2, 2, 1});
-vector<string> BLACKSMITH_COMMANDS({"inventory", "info", "commands", "upgrade", "scrap", "exit"});
-vector<int> BLACKSMITH_COMMANDS_COUNT = {1, 1, 1, 2, 2, 1};
-
-void Game::init_handlers() {
-    if (handlers["move"] == NULL) {
-        handlers["move"] = &Game::move;
-        handlers["inventory"] = &Game::inventory;
-        handlers["use"] = &Game::use;
-        handlers["info"] = &Game::info;
-        handlers["commands"] = &Game::commands;
-        handlers["dev_print_map"] = &Game::dev_print_map;
-        handlers["dev_map"] = &Game::dev_map;
-        handlers["equip"] = &Game::equip;
-        handlers["attack"] = &Game::attack;
-        handlers["stock"] = &Game::stock;
-        handlers["buy"] = &Game::buy;
-        handlers["sell"] = &Game::sell;
-        handlers["exit"] = &Game::exit_to_world;
-        handlers["upgrade"] = &Game::upgrade;
-        handlers["scrap"] = &Game::scrap;
-    }
-    // TODO: Complete
-    all_commands.push_back(C_move());
-    all_commands.push_back(C_inventory());
-    all_commands.push_back(C_use());
-    all_commands.push_back(C_info());
-    all_commands.push_back(C_commands());
-    all_commands.push_back(C_dev_print_map());
-    all_commands.push_back(C_dev_map());
-    all_commands.push_back(C_equip());
-    all_commands.push_back(C_attack());
-    all_commands.push_back(C_stock());
-    all_commands.push_back(C_buy());
+void Game::initHandlers() {
+    all_commands.push_back(new C_move());
+    all_commands.push_back(new C_inventory());
+    all_commands.push_back(new C_use());
+    all_commands.push_back(new C_info());
+    all_commands.push_back(new C_commands());
+    all_commands.push_back(new C_dev_print_map());
+    all_commands.push_back(new C_dev_map());
+    all_commands.push_back(new C_equip());
+    all_commands.push_back(new C_attack());
+    all_commands.push_back(new C_stock());
+    all_commands.push_back(new C_buy());
+    all_commands.push_back(new C_sell());
+    all_commands.push_back(new C_exit());
+    all_commands.push_back(new C_upgrade());
+    all_commands.push_back(new C_scrap());
 }
 
 Game::Game(bool newgame, string path, int _seed, bool _dev_mode) {
     srand((unsigned int)time(NULL));
-    init_handlers();
+    initHandlers();
     save_path = path;
     dev_mode = _dev_mode;
     if (newgame) {
@@ -78,34 +51,6 @@ void Game::initSeed() {
     srand(seed);
 }
 
-void Game::updateCommandSet() {
-    switch(state) {
-        case NORMAL:
-            active_commandset = NORMAL_COMMANDS;
-            active_commandset_count = NORMAL_COMMANDS_COUNT;
-            return;
-        case FIGHT:
-            active_commandset = FIGHT_COMMANDS;
-            active_commandset_count = FIGHT_COMMANDS_COUNT;
-            return;
-        case PROMPT:
-            active_commandset = PROMPT_COMMANDS;
-            active_commandset_count = PROMPT_COMMANDS_COUNT;
-            return;
-        case SHOP:
-            active_commandset = SHOP_COMMANDS;
-            active_commandset_count = SHOP_COMMANDS_COUNT;
-            return;
-        case BLACKSMITH:
-            active_commandset = BLACKSMITH_COMMANDS;
-            active_commandset_count = BLACKSMITH_COMMANDS_COUNT;
-            return;
-        default:
-            _error("unknown error happened!");
-            exit(0);
-    }
-}
-
 void Game::updateTimeOfDay() {
     int time;
     if (world_timer < 14) {
@@ -122,7 +67,6 @@ void Game::updateTimeOfDay() {
 }
 
 void Game::getPlayerInput(std::string color) {
-    updateCommandSet();
     updateTimeOfDay();
     string input;
     cout<<endl;
@@ -131,13 +75,12 @@ void Game::getPlayerInput(std::string color) {
     cout<<endl;
     input = lower(input);
     vector<string> splitted_input = split_string(input, ' ');
-    validate_input(splitted_input);
+    validateInput(splitted_input);
     spawnNightTimeEnemey();
     can_spawn_enemy = false;
 }
 
 void Game::run() {
-    updateCommandSet();
     while (true) {
         getPlayerInput(NOCOLOR);
     }
@@ -189,12 +132,9 @@ int index_item(std::vector<T> list, T to_be_found) {
    return NOTFOUND;
 }
 
-bool Game::is_command_valid(string command, int count) {
-    int index = find(active_commandset.begin(), active_commandset.end(), command) - active_commandset.begin();
-    bool dev_command = is_dev_command(command);
-    if (index != active_commandset.size() && active_commandset_count[index] == count) {
-        if (dev_command && !dev_mode) {
-            _error("that is a developer-only command!");
+bool Game::isCommandAvailable(Command* command) {
+    if (command->isInScope(state)) {
+        if (command->isDevOnly() && !dev_mode) {
             return false;
         }
         return true;
@@ -202,26 +142,35 @@ bool Game::is_command_valid(string command, int count) {
     return false;
 }
 
-bool Game::isCommandAvailable(Command command) {
-    // FIXME: Double check
-    if (command.isInScope(state)) {
-        if (command.isDevOnly() && !dev_mode) {
-            _error("that is a developer-only command!");
-            return false;
-        }
-        return true;
-    }
-    return false;
+bool isCommandInputCorrect(Command* command, int input_size) {
+    return command->getArgs().size() == input_size - 1;
 }
 
-void Game::validate_input(vector<string> splitted_input) {
+Command* Game::findCommand(string command_name) {
+    for (auto& command : all_commands) {
+        if (command->getCommand() == command_name) return command;
+    }
+    return NULL;
+}
+
+void Game::validateInput(vector<string> splitted_input) {
     if (splitted_input.size() == 0) {
         return;
     }
-    if (is_command_valid(splitted_input[0], splitted_input.size()) && handlers[splitted_input[0]] != NULL) {
-        (*this.*handlers[splitted_input[0]])(splitted_input);
-    }else{
+    Command* command = findCommand(splitted_input[0]);
+    if (command == NULL) {
         _error("command is invalid!");
+        return;
+    }
+    if (!isCommandInputCorrect(command, splitted_input.size())) {
+        _error("command is invalid!");
+        return;
+    }
+    if (isCommandAvailable(command)) {
+        command->commence(splitted_input);
+        updateWorldTimer(command->getCommandTime());
+    }else{
+        _error("command is unavailable!");
     }
 }
 
@@ -241,29 +190,6 @@ float Game::getPlayerMoveTime() {
     float move_time = BASE_BLOCK_MOVE_TIME 
                 + max((float)0, total_weight - ITEM_WEIGHT_SOFT_THRESHHOLD) * EXTRA_TIME_PER_KG;
     return move_time;
-}
-
-void Game::move(std::vector<std::string> splitted_input) {
-    // vector<string> moveset({"north", "south", "east", "west", "up", "down", "left", "right"});
-    // vector<pair<int,int> > moveset_handler({pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,1), pair<int,int>(0,-1),
-    //      pair<int,int>(1,0), pair<int,int>(-1,0), pair<int,int>(0,-1), pair<int,int>(0,1)});
-    // int index = index_item<string>(moveset, splitted_input[1]);
-    // if (index == NOTFOUND){
-    //     _error("command is invalid!");
-    //     return;
-    // }
-    // pair<int,int> new_location(player->getLocation().first + moveset_handler[index].first,
-    //     player->getLocation().second + moveset_handler[index].second);
-    // if (!map->isLocationValid(new_location)){
-    //     outOfBoundsDialog();
-    //     return;
-    // }
-    // player->setLocation(new_location);
-    // updateWorldTimer(getPlayerMoveTime());
-    // can_spawn_enemy = true;
-    // handleNewReachedBlock();
-    Command *moveC = new C_move();
-    moveC->commence(splitted_input);
 }
 
 void Game::handleNewReachedBlock() {
@@ -295,11 +221,9 @@ void Game::enterBlacksmith() {
     cout<< colored("--Entered Blacksmith--\n", BLUE) << endl;
     welcomeToBlacksmithDialog();
     state = BLACKSMITH;
-    updateCommandSet();
     while (state == BLACKSMITH){
         getPlayerInput(BLUE);
     }
-    updateCommandSet();
 }
 
 void Game::enterShop() {
@@ -307,11 +231,9 @@ void Game::enterShop() {
     cout<< colored("--Entered Shop--\n",YELLOW) << endl;
     welcomeToShopDialog();
     state = SHOP;
-    updateCommandSet();
     while (state == SHOP){
         getPlayerInput(YELLOW);
     }
-    updateCommandSet();
 }
 
 void Game::printFightStatus() {
@@ -393,107 +315,8 @@ std::string Game::getClockTime() {
     return hour + ":" + minutes;
 }
 
-void Game::inventory(std::vector<std::string> splitted_input) {
-    player->updateTimeInFight(0.5);
-    updateWorldTimer(0.15);
-    player->printInventory();
-    can_spawn_enemy = true;
-}
-
-void Game::use(std::vector<std::string> splitted_input) {
-    int item_index = player->indexItem(splitted_input[1]);
-    if (item_index == NOTFOUND) {
-        dontHaveItemsDialog();
-        return;
-    }
-    Item* item = player->getItemAtIndex(item_index);
-    updateWorldTimer(0.1);
-    if (item->tagsContain(UTILITYITEMTAG)) {
-        UtilityItem* utility_item = (UtilityItem*) item;
-        utility_item->use_item(item_index);
-    } else if (item->tagsContain(HPITEMTAG)) {
-        player->healWithItem(item_index);
-    } else {
-        cantUseItemDialog();
-        return;
-    }
-    updateWorldTimer(0.2);
-    player->updateTimeInFight(1.0);
-}
-
-void Game::info(std::vector<std::string> splitted_input) {
-    cout<<"========== Day " + to_string(days_passed) + " ==========" <<endl<<endl;
-    updateWorldTimer(0.1);
-    player->printInfo();
-    cout << "time: " << getClockTime() << endl;
-    if (state == NORMAL){
-        cout << "current block is " << colored(getBlockAtPlayerLocation()->getName(), MAGENTA) << endl;
-    } else if (state == FIGHT) {
-        cout<< "enemy has " << colored(to_string(enemy_fighting->getHP()), RED) << "hp left" << endl;
-    }
-    player->printAffectedEffectsDescriptions();
-}
-
-void Game::commands(std::vector<std::string> splitted_input) {
-    cout<< "Available commands:" << endl;
-    for (auto& command : active_commandset) {
-        cout<< "                  " << colored("-", CYAN) << command << endl;
-    }
-}
-
-void Game::dev_print_map(std::vector<std::string> splitted_input) {
-    map->printPartialMap(2, player->getLocation());
-}
-
-void Game::equip(std::vector<std::string> splitted_input) {
-    int item_index = player->indexItem(splitted_input[1]);
-    if (item_index == NOTFOUND) {
-        dontHaveItemsDialog();
-        return;
-    }
-    updateWorldTimer(0.13);
-    Item* item = player->getItemAtIndex(item_index);
-    if (item->tagsContain(ATTACKITEMTAG)) {
-        player->updateTimeInFight(1.5);
-        player->equipItem(item);
-    } else {
-        cantAttackWithItemDialog();
-    }
-}
-
-void Game::attack(std::vector<std::string> splitted_input) {
-    attacked = true;
-    player->updateTimeInFight(enemy_fighting->getSpeed());
-    updateWorldTimer(0.05);
-    int damage = player->attack(enemy_fighting->getName());
-    enemy_fighting->getDamaged(damage);
-}
-
 void Game::prompt_handler(bool ans) {
     getBlockAtPlayerLocation()->run_handler(ans);
-}
-
-void Game::stock(std::vector<std::string> splitted_input) {
-    ShopBlock* shopblock = (ShopBlock*)getBlockAtPlayerLocation();
-    shopblock->printStock();
-    updateWorldTimer(0.18);
-}
-
-void Game::buy(std::vector<std::string> splitted_input) {
-    ShopBlock* shopblock = (ShopBlock*)getBlockAtPlayerLocation();
-    int index = shopblock->indexItem(splitted_input[1]);
-    if (index == NOTFOUND) {
-        itemNotInStockDialog();
-        return;
-    }
-    int price = shopblock->getItemPrice(index);
-    if (price > player->getCoins()){
-        notEnoughCoinsDialog();
-        return;
-    }
-    player->deductCoins(price);
-    Item* item = shopblock->buyItem(index);
-    player->addItem(item);
 }
 
 bool Game::setupPrompt(std::string prompt, bool show_prompt) {
@@ -511,97 +334,6 @@ bool Game::setupPrompt(std::string prompt, bool show_prompt) {
         else if (input == "y" || input == "yes") return true;
         _error("answer with y or n");
         cout<<endl;
-    }
-}
-
-void Game::sell(std::vector<std::string> splitted_input) {
-    ShopBlock* shopBlock = (ShopBlock*)getBlockAtPlayerLocation();
-    int item_index = player->indexItem(splitted_input[1]);
-    if (item_index == NOTFOUND) {
-        dontHaveItemsDialog();
-        return;
-    } else if (player->getItemAtIndex(item_index)->tagsContain(NOTSELLABLETAG)) {
-        cantSellThatItemDialog();
-        return;
-    }
-    int sell_price = player->getPlayerSellPrice(item_index);
-    bool ans = setupPrompt("Sell " + splitted_input[1] + " for " + colored(to_string(sell_price), YELLOW) + " coins?");
-    if (ans) {
-        player->sellItem(item_index);
-    } else {
-        understandableHaveAGoodDialog();
-    }
-}
-
-void Game::exit_to_world(std::vector<std::string> splitted_input) {
-    cout<< "exiting..." << endl;
-    updateWorldTimer(0.03);
-    state = NORMAL;
-}
-
-void Game::dev_map(std::vector<std::string> splitted_input) {
-    map->printFullMap();
-}
-
-void Game::upgrade(std::vector<std::string> splitted_input) {
-    int item_index = player->indexItem(splitted_input[1]);
-    if (item_index == NOTFOUND) {
-        dontHaveItemsDialog();
-        return;
-    }
-    Item* item = player->getItemAtIndex(item_index);
-    if (!item->tagsContain(ATTACKITEMTAG)) {
-        itemNotUpgradbleDialog();
-        return;
-    }
-    AttackItem* attackitem = (AttackItem*)item;
-    int price = attackitem->getUpgradePrice();
-    int level = attackitem->getLvl();
-    if (level >= ATTACKITEMMAXLEVEL) {
-        cantUpgradeMaxitemDialog();
-        return;
-    }
-    bool ans = setupPrompt("upgrading the " 
-                    + colored(item->getName(), RED) 
-                    + " to level " 
-                    + colored(to_string(level + 1), BOLDYELLOW) 
-                    + " costs " 
-                    + colored(to_string(price), YELLOW) + " scraps, upgrade?");
-    if (ans) {
-        if (player->getScraps() < price) {
-            notEnoughScrapsDialog();
-            return;
-        }
-        string response = attackitem->upgrade();
-        player->deductScraps(price);
-        updateWorldTimer(0.5);
-        postUpgradeDialog(splitted_input[1], price, response);
-    } else {
-        dontWasteMyTimeDialog();
-        return;
-    }
-}
-
-void Game::scrap(std::vector<std::string> splitted_input) {
-    int item_index = player->indexItem(splitted_input[1]);
-    if (item_index == NOTFOUND) {
-        dontHaveItemsDialog();
-        return;
-    }
-    Item* item = player->getItemAtIndex(item_index);
-    if (!item->tagsContain(ATTACKITEMTAG)) {
-        itemNotScrappableDialog();
-        return;
-    }
-    AttackItem* attackitem = (AttackItem*)item;
-    updateWorldTimer(0.1);
-    int price = attackitem->getScrapParts();
-    bool ans = setupPrompt("scrap " + colored(attackitem->getName(), RED) 
-                            + " for " + colored(to_string(price), BLACK) + " scraps?");
-    if (ans) {
-        player->scrapItem(item_index);
-        postScrapDialog(attackitem->getName(), price);
-        updateWorldTimer(0.6);
     }
 }
 
