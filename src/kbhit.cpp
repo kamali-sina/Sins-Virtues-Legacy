@@ -19,6 +19,14 @@ void initTermios(int echo)
     tcsetattr(0, TCSANOW, &current); /* use these new terminal i/o settings now */
 }
 
+void restoreTermios() {
+    tcgetattr(0, &old); /* grab old terminal i/o settings */
+    current = old; /* make new settings same as old settings */
+    current.c_lflag |= ICANON; /* enable buffered i/o */
+    current.c_lflag |= ECHO; /* set echo mode */
+    tcsetattr(0, TCSANOW, &current); /* use these new terminal i/o settings now */
+}
+
 /* Restore old terminal i/o settings */
 void resetTermios(void) 
 {
