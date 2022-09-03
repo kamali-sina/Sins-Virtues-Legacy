@@ -24,4 +24,4 @@ You can find out more about the options by using '-h'. The game creates a save f
 
 ## How to play
 
-For more info on how to play the game, Read **Tutorial.md**.
+For more info on how to play the game, Read [Toturial.md](https://github.com/kamali-sina/Sins-Virtues-Legacy/blob/main/Tutorial.md).
