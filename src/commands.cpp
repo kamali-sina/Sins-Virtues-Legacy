@@ -16,7 +16,6 @@ int index_item(std::vector<T> list, T to_be_found) {
 Command::Command() {
     command = "";
     args = vector<string>({"arg1", "arg2"});
-    scopes.push_back(NORMAL);
     description = "base command that is going to be devrived!";
     dev_command = false;
     command_time = 0.0;
@@ -64,7 +63,6 @@ void C_move::commence(std::vector<std::string> splitted_input) {
         return;
     }
     session.player->setLocation(new_location);
-    // TODO: HANDLE IN GAME::: session.updateWorldTimer() should be called after commands
     session.can_spawn_enemy = true;
     session.handleNewReachedBlock();
 }
@@ -159,7 +157,7 @@ void C_commands::commence(std::vector<std::string> splitted_input) {
     cout<< "Available commands:" << endl;
     for (auto& command : session.all_commands) {
         if (session.isCommandAvailable(command)) {
-            cout<< "              " << colored("-", CYAN) << command.getCommand() << ": " << command.getDescription() << endl;
+            cout<< "              " << colored("-", CYAN) << command->getCommand() << ": " << command->getDescription() << endl;
         }
     }
 }
@@ -264,7 +262,7 @@ C_buy::C_buy() {
     scopes.push_back(SHOP);
     description = "buy an item";
     dev_command = false;
-    command_time = 0.19;
+    command_time = 0.14;
 }
 
 void C_buy::commence(std::vector<std::string> splitted_input) {
@@ -284,17 +282,137 @@ void C_buy::commence(std::vector<std::string> splitted_input) {
     session.player->addItem(item);
 }
 
-// /* ===================================== */
+/* ===================================== */
 
-// C_use::C_use() {
-//     command = "use";
-//     args = vector<string>({"item_name"});
-//     scopes.push_back(ALL);
-//     description = "use an item";
-//     dev_command = false;
-//     command_time = 0.15;
-// }
+C_sell::C_sell() {
+    command = "sell";
+    args = vector<string>({"item name"});
+    scopes.push_back(SHOP);
+    description = "sell an item";
+    dev_command = false;
+    command_time = 0.13;
+}
 
-// void C_use::commence(std::vector<std::string> splitted_input) {
-    
-// }
+void C_sell::commence(std::vector<std::string> splitted_input) {
+    ShopBlock* shopBlock = (ShopBlock*)session.getBlockAtPlayerLocation();
+    int item_index = session.player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    } else if (session.player->getItemAtIndex(item_index)->tagsContain(NOTSELLABLETAG)) {
+        cantSellThatItemDialog();
+        return;
+    }
+    int sell_price = session.player->getPlayerSellPrice(item_index);
+    bool ans = session.setupPrompt("Sell " + splitted_input[1] + " for " + colored(to_string(sell_price), YELLOW) + " coins?");
+    if (ans) {
+        session.player->sellItem(item_index);
+    } else {
+        understandableHaveAGoodDialog();
+    }
+}
+
+/* ===================================== */
+
+C_exit::C_exit() {
+    command = "exit";
+    args = vector<string>();
+    scopes.push_back(SHOP);
+    scopes.push_back(BLACKSMITH);
+    description = "exit to the overworld";
+    dev_command = false;
+    command_time = 0.1;
+}
+
+void C_exit::commence(std::vector<std::string> splitted_input) {
+    cout<< "exiting..." << endl;
+    session.state = NORMAL;
+}
+
+/* ===================================== */
+
+C_upgrade::C_upgrade() {
+    command = "upgrade";
+    args = vector<string>();
+    scopes.push_back(BLACKSMITH);
+    description = "upgrade a weapon";
+    dev_command = false;
+    command_time = 0.5;
+}
+
+void C_upgrade::commence(std::vector<std::string> splitted_input) {
+    int item_index = session.player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = session.player->getItemAtIndex(item_index);
+    if (!item->tagsContain(ATTACKITEMTAG)) {
+        itemNotUpgradbleDialog();
+        return;
+    }
+    AttackItem* attackitem = (AttackItem*)item;
+    int price = attackitem->getUpgradePrice();
+    int level = attackitem->getLvl();
+    if (level >= ATTACKITEMMAXLEVEL) {
+        cantUpgradeMaxitemDialog();
+        return;
+    }
+    bool ans = session.setupPrompt("upgrading the " 
+                    + colored(item->getName(), RED) 
+                    + " to level " 
+                    + colored(to_string(level + 1), BOLDYELLOW) 
+                    + " costs " 
+                    + colored(to_string(price), YELLOW) + " scraps, upgrade?");
+    if (ans) {
+        if (session.player->getScraps() < price) {
+            notEnoughScrapsDialog();
+            command_time = 0.2;
+            return;
+        }
+        string response = attackitem->upgrade();
+        session.player->deductScraps(price);
+        command_time = 0.5;
+        postUpgradeDialog(splitted_input[1], price, response);
+    } else {
+        dontWasteMyTimeDialog();
+        command_time = 0.1;
+        return;
+    }
+}
+
+/* ===================================== */
+
+C_scrap::C_scrap() {
+    command = "scrap";
+    args = vector<string>({"item name"});
+    scopes.push_back(BLACKSMITH);
+    description = "recycle a weapon to get scraps";
+    dev_command = false;
+    command_time = 0.15;
+}
+
+void C_scrap::commence(std::vector<std::string> splitted_input) {
+    int item_index = session.player->indexItem(splitted_input[1]);
+    if (item_index == NOTFOUND) {
+        dontHaveItemsDialog();
+        return;
+    }
+    Item* item = session.player->getItemAtIndex(item_index);
+    if (!item->tagsContain(ATTACKITEMTAG)) {
+        itemNotScrappableDialog();
+        return;
+    }
+    AttackItem* attackitem = (AttackItem*)item;
+    int price = attackitem->getScrapParts();
+    bool ans = session.setupPrompt("scrap " + colored(attackitem->getName(), RED) 
+                            + " for " + colored(to_string(price), BLACK) + " scraps?");
+    if (ans) {
+        session.player->scrapItem(item_index);
+        postScrapDialog(attackitem->getName(), price);
+        command_time = 0.7;
+    } else {
+        dontWasteMyTimeDialog();
+        command_time = 0.1;
+    }
+}

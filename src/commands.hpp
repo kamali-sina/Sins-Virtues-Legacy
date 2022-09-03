@@ -11,7 +11,6 @@ enum Scopes {
     PROMPT,
     SHOP,
     BLACKSMITH,
-    // TODO: HANDLE ALL
     ALL
 };
 
@@ -22,8 +21,9 @@ class Command {
     bool isDevOnly();
     virtual void commence(std::vector<std::string> splitted_input);
     virtual float getCommandTime() { return command_time; }
-    virtual string getCommand() {return command; }
-    string getDescription() { return description; }
+    virtual std::string getCommand() {return command; }
+    std::string getDescription() { return description; }
+    std::vector<std::string> getArgs() { return args; }
 
     protected:
     std::string command;
