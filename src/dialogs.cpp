@@ -213,7 +213,7 @@ void notEnoughScrapsDialog() {
 }
 
 void dontWasteMyTimeDialog() {
-    dialog("Blacksmith", "Don't waste my time. either upgrade or get out!", BLUE, 30);
+    dialog("Blacksmith", "Don't waste my time. either do something or get out!", BLUE, 30);
 }
 
 void postUpgradeDialog(std::string item_name, int price, std::string result) {

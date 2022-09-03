@@ -18,9 +18,9 @@ void _sleep(float time) {
 }
 
 string lower(string input) {
-    std::for_each(input.begin(), input.end(), [](char & c) {
-        c = ::tolower(c);
-    });
+    for(auto& c : input) {
+        c = tolower(c);
+    }
     return input;
 }
 
@@ -48,6 +48,7 @@ void* wait_for_input(void* i) {
 /*function which displays characters one at a time*/
 void slow(std::string text, float speed) {
     pthread_t thread;
+    initTermios(0);
     signalFlag = 0;
     pthread_create(&thread, NULL, wait_for_input, NULL);
     for (int i = 0; i < text.length(); i++) {
@@ -61,6 +62,7 @@ void slow(std::string text, float speed) {
         std::cout.setf( std::ios_base::unitbuf ); //flushes cout
         if (signalFlag) {
             for (int j = i+1; j < text.length(); j++) {cout<<text[j];}
+            restoreTermios();
             return;
         }
         int r = rand();
@@ -69,7 +71,7 @@ void slow(std::string text, float speed) {
         std::this_thread::sleep_for(std::chrono::milliseconds(milli));
     }
     pthread_cancel(thread);
-    resetTermios();
+    restoreTermios();
     return;
 }
 

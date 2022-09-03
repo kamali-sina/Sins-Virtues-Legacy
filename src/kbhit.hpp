@@ -10,5 +10,7 @@
 int kbhit();
 char getch(void);
 void resetTermios(void);
+void initTermios(int echo);
+void restoreTermios();
 
 #endif

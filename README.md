@@ -9,6 +9,10 @@ To compile the game make sure you have c++17 installed and run the default make 
     
     make
 
+To compile for MacOs systems, you can run:
+
+    make mac
+
 ## How to run the game
 
 To run the game download the latest release based on your OS and run the game by using a console or Powershell with:

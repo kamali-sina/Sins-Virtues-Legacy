@@ -8,8 +8,8 @@ OUTPUT_NAME=sins_virtues
 
 all: ${OUTPUT_NAME}
 
-${OUTPUT_NAME}: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o
-	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o -o ./${OUTPUT_NAME}
+${OUTPUT_NAME}: rm mk ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/item.o ${BUILD_DIR}/map.o ${BUILD_DIR}/enemy.o  ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o ${BUILD_DIR}/commands.o
+	$(CC) ${BUILD_DIR}/VnS.o ${BUILD_DIR}/console_handler.o ${BUILD_DIR}/termcolor.o ${BUILD_DIR}/item.o ${BUILD_DIR}/enemy.o ${BUILD_DIR}/kbhit.o ${BUILD_DIR}/game.o ${BUILD_DIR}/block.o ${BUILD_DIR}/map.o ${BUILD_DIR}/utilities.o ${BUILD_DIR}/player.o ${BUILD_DIR}/dialogs.o ${BUILD_DIR}/status_effect.o ${BUILD_DIR}/commands.o -o ./${OUTPUT_NAME}
 
 ${BUILD_DIR}/VnS.o: ${SRC_DIR}/VnS.cpp
 	$(CC) -c ${SRC_DIR}/VnS.cpp -o ${BUILD_DIR}/VnS.o
@@ -50,6 +50,9 @@ ${BUILD_DIR}/dialogs.o: ${SRC_DIR}/dialogs.cpp
 ${BUILD_DIR}/status_effect.o: ${SRC_DIR}/status_effect.cpp
 	$(CC) -c ${SRC_DIR}/status_effect.cpp -o ${BUILD_DIR}/status_effect.o
 
+${BUILD_DIR}/commands.o: ${SRC_DIR}/commands.cpp
+	$(CC) -c ${SRC_DIR}/commands.cpp -o ${BUILD_DIR}/commands.o
+
 mk:
 	mkdir ./${BUILD_DIR}
 
@@ -57,7 +60,7 @@ rm:
 	rm -rf ${BUILD_DIR}/ ./${OUTPUT_NAME}
 
 rename:
-	$(eval CC = /usr/local/bin/g++-11 -pthread)
+	$(eval CC = clang++ -std=c++11 -pthread)
 
 mac: rename ${OUTPUT_NAME}
 
