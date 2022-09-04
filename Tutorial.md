@@ -9,7 +9,7 @@ Everytime you see a little **>** on the screen it's your turn to play the game. 
 
 Each of the commands that you can use do use some time, this becomes important specially in the fights where losing time could mean death.
 
-We suggest testing and exploring the commnads by yourself, but if you want more info on some commands you can view the Commands.md file.
+We suggest testing and exploring the commnads by yourself, but if you want more info on some commands you can view the [Commands.md](https://github.com/kamali-sina/Sins-Virtues-Legacy/blob/main/Commands.md) file.
 
 ## Player Dialogs
 
@@ -80,4 +80,4 @@ To finish the game, you need to find the castle and explore it completely to the
 
 
 
-Happy Exploring, goodnight!
+Happy Exploring, goodluck!
