@@ -20,7 +20,7 @@ To run the game download the latest release based on your OS and run the game by
 
     ./sins_virtues <options> <args>
 
-You can find out more about the options by using '-h'. The game creates a save folder automatically in your game folder when you play and can load it from there too. For other paths you can give it as in the *args* section.
+You can find out more about the options by using '-h'. The game creates a save folder automatically in your game folder when you play and can load it from there too. For alternative paths you can specify them in the <*args*> section.
 
 ## How to play
 
