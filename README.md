@@ -1,4 +1,6 @@
-# Sins-Virtues-Legacy
+Sins and Virtues Legacy
+<img align="right" width="70" height="70" src="docs/images/logo.png">
+===========
 
 The famous text based game Sins &amp; Virtues comes to cpp for better and faster performance!
 
