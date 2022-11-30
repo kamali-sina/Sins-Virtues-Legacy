@@ -80,11 +80,15 @@ void dialog(std::string name , std::string text, std::string color, float speed)
     cout<<colored(name, color)<<": ";
     std::cout.setf( std::ios_base::unitbuf ); //flushes cout
     slow(text, speed=speed);
+    resetTermios();
+    restoreTermios();
     cout<<endl;
 }
 
 void notification(string msg) {
     slow(msg, 30);
+    resetTermios();
+    restoreTermios();
     cout<<endl;
 }
 
