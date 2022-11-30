@@ -1,4 +1,4 @@
-## **Welcome to Sins & Virtues Toturial**
+# Welcome to the Sins & Virtues Tutorial
 
 This game is completely text-based. There are **no** full maps, **no** hints, **no** eagle vision, **no** nothing.
 But that does not mean that you are completely blind! The protagonist constantly talks about his surroundings, everything he says is there for a reason, so don't skip all the dialogs!
@@ -13,7 +13,7 @@ We suggest testing and exploring the commands by yourself, but if you want more 
 
 ## Player Dialogs
 
-Your character will talk about his surroundings and everything he sees. The range of his vision is always a 1-block radius. This means that when your character says he sees "*A chest nearby*", it means that a block containing a chest is available in one of the 8 blocks around you. 
+Your character will talk about his surroundings and everything he sees. The range of his vision is always a 1-block radius. This means that when your character says he sees "*A chest nearby*", it means that a block containing a chest is available in one of the 8 blocks around you.
 
 ## Saving
 
@@ -33,7 +33,7 @@ As the days pass, the game gets harder and harder. So we recommend using the day
 
 There are a lot of items in this game! Some of them are for fighting, some are for eating, and some just help you progress. You can find out more about your items by using the ***inventory*** command. You can also use an item by using "***use*** <itemname>" command.
 
-## The equip load system!
+## The equip load system
 
 The more items you carry, the heavier you are. The game doesn't limit you on how much you can carry, but the more you carry, the slower you are which means travel times would be much more than normal and time will pass faster!
 
@@ -72,12 +72,12 @@ Each move you or your enemy make in a fight uses some amount of time, the turns 
 These are effects that can be applied to your character. They vary in range from killing you to giving you a huge edge in battles. explore and find what you can do with these.
 
 ## **Castle**
+
 To finish the game, you need to find the castle and explore it completely to the end. You have 2 options to find the castle:
-*    explore blindly until you come across the castle block
-*    find a compass. by using a compass the compass directs you to the castle location.
+
+* explore blindly until you come across the castle block
+* find a compass. by using a compass the compass directs you to the castle location.
 
 **Always go into the castle prepared. The enemies there will kill you easily if you are not well prepared.**
-
-
 
 Happy Exploring, good luck!
